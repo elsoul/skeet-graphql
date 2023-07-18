@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "skeeter-app"
+  },
+  "targets": {
+    "skeeter-app": {
+      "hosting": {
+        "skeeter-app": [
+          "skeeter-app"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

@@ -1,0 +1,41 @@
+{
+  "api": {
+    "appName": "skeet-example",
+    "projectId": "skeet-example",
+    "region": "europe-west4",
+    "hasLoadBalancer": true,
+    "cloudRun": {
+      "name": "skeet-skeet-example-api",
+      "url": "https://api-example.skeet.dev",
+      "cpu": 1,
+      "maxConcurrency": 80,
+      "maxInstances": 100,
+      "minInstances": 0,
+      "memory": "4Gi"
+    },
+    "db": {
+      "databaseVersion": "POSTGRES_14",
+      "cpu": 1,
+      "memory": "3840MiB",
+      "storageSize": 10,
+      "whiteList": "24.132.70.177,77.164.253.253"
+    }
+  },
+  "workers": [
+    {
+      "workerName": "solana-transfer",
+      "cloudRun": {
+        "name": "skeet-skeet-example-worker-solana-transfer",
+        "url": "https://skeet-skeet-example-worker-solana-transfer-m2z5h6qefq-ez.a.run.app",
+        "cpu": 1,
+        "maxConcurrency": 80,
+        "maxInstances": 100,
+        "minInstances": 0,
+        "memory": "4Gi"
+      }
+    }
+  ],
+  "cloudArmor": [
+
+  ]
+}
