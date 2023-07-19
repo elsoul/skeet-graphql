@@ -11,5 +11,7 @@ export const UserObject = objectType({
     t.field(User.email)
     t.field(User.iconUrl)
     t.field(User.iv)
+    t.field(User.createdAt)
+    t.field(User.updatedAt)
   },
 })

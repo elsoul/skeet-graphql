@@ -1,3 +1,5 @@
+import { Prisma } from '@prisma/client'
+import { generateIv } from '@skeet-framework/firestore'
 import { fromGlobalId } from 'graphql-relay'
 import { objectType, stringArg, nonNull } from 'nexus'
 import { User } from 'nexus-prisma'
@@ -8,16 +10,23 @@ export const UserMutation = objectType({
     t.field('createUser', {
       type: User.$name,
       args: {
-        uid: stringArg(),
+        uid: nonNull(stringArg()),
         username: stringArg(),
-        email: stringArg(),
+        email: nonNull(stringArg()),
         iconUrl: stringArg(),
       },
       async resolve(_, args, ctx) {
         try {
-          console.log(args)
+          const { uid, username, email, iconUrl } = args
+          const userParams: Prisma.UserCreateInput = {
+            uid: uid!,
+            username,
+            email: email!,
+            iconUrl,
+            iv: generateIv(),
+          }
           return await ctx.prisma.user.create({
-            data: args,
+            data: userParams,
           })
         } catch (error) {
           console.log(error)

@@ -3,6 +3,6 @@
   "projectId": "skeeter-app",
   "region": "europe-west6",
   "appDomain": "skeeter.app",
-  "functionsDomain": "lb.skeeter.app",
+  "lbDomain": "lb.skeeter.app",
   "nsDomain": "skeeter.app"
 }

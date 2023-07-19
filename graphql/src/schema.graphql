@@ -8,7 +8,7 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Mutation {
-  createUser(email: String, iconUrl: String, uid: String, username: String): User
+  createUser(email: String!, iconUrl: String, uid: String!, username: String): User
   deleteUser(id: String!): User
   updateUser(email: String, iconUrl: String, id: String!, name: String, uid: String): User
 }
@@ -92,11 +92,13 @@ type QueryUserConnection_Connection {
 }
 
 type User {
+  createdAt: DateTime!
   email: String!
   iconUrl: String
   id: ID
   iv: String
   uid: String!
+  updatedAt: DateTime!
   username: String
 }
 

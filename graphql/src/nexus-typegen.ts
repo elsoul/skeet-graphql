@@ -72,10 +72,12 @@ export interface NexusGenObjects {
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
   User: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     email: string; // String!
     iconUrl?: string | null; // String
     iv?: string | null; // String
     uid: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
     username?: string | null; // String
   }
   UserEdge: { // root type
@@ -122,11 +124,13 @@ export interface NexusGenFieldTypes {
     totalCount: number | null; // Int
   }
   User: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     email: string; // String!
     iconUrl: string | null; // String
     id: string | null; // ID
     iv: string | null; // String
     uid: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
     username: string | null; // String
   }
   UserEdge: { // field return type
@@ -165,11 +169,13 @@ export interface NexusGenFieldTypeNames {
     totalCount: 'Int'
   }
   User: { // field return type name
+    createdAt: 'DateTime'
     email: 'String'
     iconUrl: 'String'
     id: 'ID'
     iv: 'String'
     uid: 'String'
+    updatedAt: 'DateTime'
     username: 'String'
   }
   UserEdge: { // field return type name
@@ -184,9 +190,9 @@ export interface NexusGenFieldTypeNames {
 export interface NexusGenArgTypes {
   Mutation: {
     createUser: { // args
-      email?: string | null; // String
+      email: string; // String!
       iconUrl?: string | null; // String
-      uid?: string | null; // String
+      uid: string; // String!
       username?: string | null; // String
     }
     deleteUser: { // args
