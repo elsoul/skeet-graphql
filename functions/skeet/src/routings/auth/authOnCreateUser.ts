@@ -1,9 +1,12 @@
 import * as functions from 'firebase-functions/v1'
 import { authPublicOption } from '@/routings'
-import { gravatarIconUrl, sendDiscord } from '@skeet-framework/utils'
+import {
+  createCloudTask,
+  gravatarIconUrl,
+  sendDiscord,
+} from '@skeet-framework/utils'
 import skeetConfig from '../../../skeetOptions.json'
 import { User } from '@/models'
-import { createCloudTask } from '@/lib/createHttpTaskWithToken'
 
 const region = skeetConfig.region
 const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL || ''

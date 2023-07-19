@@ -18,10 +18,8 @@
   },
   "main": "dist/index.js",
   "dependencies": {
-    "@google-cloud/pubsub": "3.7.1",
-    "@google-cloud/tasks": "^3.1.2",
     "@skeet-framework/pubsub": "0.1.2",
-    "@skeet-framework/utils": "0.1.5",
+    "@skeet-framework/utils": "0.1.7",
     "date-fns": "2.29.3",
     "date-fns-tz": "2.0.0",
     "dotenv": "16.0.3",

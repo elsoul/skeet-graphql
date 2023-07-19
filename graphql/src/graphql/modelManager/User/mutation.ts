@@ -1,6 +1,5 @@
 import { Prisma } from '@prisma/client'
-import { generateIv } from '@skeet-framework/firestore'
-import { fromGlobalId } from 'graphql-relay'
+import { generateIv, toPrismaId } from '@skeet-framework/utils'
 import { objectType, stringArg, nonNull } from 'nexus'
 import { User } from 'nexus-prisma'
 
@@ -47,7 +46,7 @@ export const UserMutation = objectType({
         try {
           return await ctx.prisma.user.update({
             where: {
-              id: Number(fromGlobalId(id).id),
+              id: toPrismaId(id),
             },
             data: {
               name,
@@ -68,7 +67,7 @@ export const UserMutation = objectType({
         try {
           return await ctx.prisma.user.delete({
             where: {
-              id: Number(fromGlobalId(id).id),
+              id: toPrismaId(id),
             },
           })
         } catch (error) {
