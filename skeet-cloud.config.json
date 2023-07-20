@@ -23,12 +23,12 @@
     "cpu": 1,
     "memory": "3840MiB",
     "storageSize": 10,
-    "whiteList": "24.132.70.177,77.164.253.253"
+    "whiteList": ""
   },
   "taskQueues": [
     {
       "queueName": "authOnCreateUser",
-      "location": "europe-west6",
+      "location": "asia-northeast1",
       "maxAttempts": 3,
       "maxConcurrent": 1,
       "maxRate": 1,

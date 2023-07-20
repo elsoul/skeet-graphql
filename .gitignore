@@ -43,5 +43,5 @@ keyfile.json
 firebase-debug.log
 firestore.json
 
-apps/api/.env*
+graphql/.env*
 *.log
