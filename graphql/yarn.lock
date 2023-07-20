@@ -1697,17 +1697,18 @@
     jest "29.6.1"
     node-fetch "2.6.9"
 
-"@skeet-framework/utils@0.1.7":
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/@skeet-framework/utils/-/utils-0.1.7.tgz#e0ccf16d3d3475e2fed9ef46178492ae060e65f4"
-  integrity sha512-uh7HnaIQU3CJJgBSn2vR818LHhTIebitn+QMxtY1X+D91CqH/BRa81/YMkUVNUi1AULuBlJ4e2QTtIvA26J0UA==
+"@skeet-framework/utils@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@skeet-framework/utils/-/utils-0.2.0.tgz#8a21e3239387e4e6a954f1e24e6ceb1ebc05031e"
+  integrity sha512-h44CUWXoWMxpJszUfemWwVRWmYhESMaOZagq1cWi5/6KtwSxkHaphXarzJVijyfZDZEc+ezTnu/A4s/fMgEFvg==
   dependencies:
     "@google-cloud/tasks" "3.1.2"
     crypto "1.0.1"
     date-fns "2.30.0"
     date-fns-tz "2.0.0"
     dotenv "16.3.1"
-    graphql-relay "^0.10.0"
+    graphql "16.7.1"
+    graphql-relay "0.10.0"
     node-fetch "2.6.9"
 
 "@szmarczak/http-timer@^5.0.1":
@@ -4259,7 +4260,7 @@ graphql-query-complexity@0.12.0:
   dependencies:
     lodash.get "^4.4.2"
 
-graphql-relay@0.10.0, graphql-relay@^0.10.0:
+graphql-relay@0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/graphql-relay/-/graphql-relay-0.10.0.tgz#3b661432edf1cb414cd4a132cf595350e524db2b"
   integrity sha512-44yBuw2/DLNEiMypbNZBt1yMDbBmyVPVesPywnteGGALiBmdyy1JP8jSg8ClLePg8ZZxk0O4BLhd1a6U/1jDOQ==

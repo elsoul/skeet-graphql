@@ -8,7 +8,6 @@ export const MeQuery = extendType({
       type: User.$name,
       args: {},
       async resolve(_, __, ctx) {
-        console.log(ctx.user)
         if (!ctx.user.id || ctx.user.id == '') {
           return {
             uid: '',

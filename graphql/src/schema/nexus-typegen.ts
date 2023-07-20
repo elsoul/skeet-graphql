@@ -46,6 +46,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
+  Role: "ADMIN" | "MASTER" | "USER"
 }
 
 export interface NexusGenScalars {
@@ -58,6 +59,26 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  ChatRoom: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    name?: string | null; // String
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  ChatRoomEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['ChatRoom'] | null; // ChatRoom
+  }
+  ChatRoomMessage: { // root type
+    chatRoomId: number; // Int!
+    content: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    userId: number; // Int!
+  }
+  ChatRoomMessageEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['ChatRoomMessage'] | null; // ChatRoomMessage
+  }
   Mutation: {};
   PageInfo: { // root type
     endCursor?: string | null; // String
@@ -66,6 +87,21 @@ export interface NexusGenObjects {
     startCursor?: string | null; // String
   }
   Query: {};
+  QueryChatRoomConnection_Connection: { // root type
+    edges?: Array<NexusGenRootTypes['ChatRoomEdge'] | null> | null; // [ChatRoomEdge]
+    nodes?: Array<NexusGenRootTypes['ChatRoom'] | null> | null; // [ChatRoom]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  QueryChatRoomMessageConnection_Connection: { // root type
+    edges?: Array<NexusGenRootTypes['ChatRoomMessageEdge'] | null> | null; // [ChatRoomMessageEdge]
+    nodes?: Array<NexusGenRootTypes['ChatRoomMessage'] | null> | null; // [ChatRoomMessage]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  QueryUserChatRoomConnection_Connection: { // root type
+    edges?: Array<NexusGenRootTypes['UserChatRoomEdge'] | null> | null; // [UserChatRoomEdge]
+    nodes?: Array<NexusGenRootTypes['UserChatRoom'] | null> | null; // [UserChatRoom]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
   QueryUserConnection_Connection: { // root type
     edges?: Array<NexusGenRootTypes['UserEdge'] | null> | null; // [UserEdge]
     nodes?: Array<NexusGenRootTypes['User'] | null> | null; // [User]
@@ -76,9 +112,20 @@ export interface NexusGenObjects {
     email: string; // String!
     iconUrl?: string | null; // String
     iv?: string | null; // String
+    role?: NexusGenEnums['Role'] | null; // Role
     uid: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     username?: string | null; // String
+  }
+  UserChatRoom: { // root type
+    chatRoomId: number; // Int!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    userId: number; // Int!
+  }
+  UserChatRoomEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['UserChatRoom'] | null; // UserChatRoom
   }
   UserEdge: { // root type
     cursor: string; // String!
@@ -95,13 +142,46 @@ export interface NexusGenUnions {
 
 export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
+export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  ChatRoom: { // field return type
+    chatRoomMessages: NexusGenRootTypes['ChatRoomMessage'][]; // [ChatRoomMessage!]!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string | null; // ID
+    name: string | null; // String
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    userChatRooms: NexusGenRootTypes['UserChatRoom'][]; // [UserChatRoom!]!
+  }
+  ChatRoomEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['ChatRoom'] | null; // ChatRoom
+  }
+  ChatRoomMessage: { // field return type
+    chatRoomId: number; // Int!
+    content: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string | null; // ID
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    userId: number; // Int!
+  }
+  ChatRoomMessageEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['ChatRoomMessage'] | null; // ChatRoomMessage
+  }
   Mutation: { // field return type
+    createChatRoom: NexusGenRootTypes['ChatRoom'] | null; // ChatRoom
+    createChatRoomMessage: NexusGenRootTypes['ChatRoomMessage'] | null; // ChatRoomMessage
     createUser: NexusGenRootTypes['User'] | null; // User
+    createUserChatRoom: NexusGenRootTypes['UserChatRoom'] | null; // UserChatRoom
+    deleteChatRoom: NexusGenRootTypes['ChatRoom'] | null; // ChatRoom
+    deleteChatRoomMessage: NexusGenRootTypes['ChatRoomMessage'] | null; // ChatRoomMessage
     deleteUser: NexusGenRootTypes['User'] | null; // User
+    deleteUserChatRoom: NexusGenRootTypes['UserChatRoom'] | null; // UserChatRoom
+    updateChatRoom: NexusGenRootTypes['ChatRoom'] | null; // ChatRoom
+    updateChatRoomMessage: NexusGenRootTypes['ChatRoomMessage'] | null; // ChatRoomMessage
     updateUser: NexusGenRootTypes['User'] | null; // User
+    updateUserChatRoom: NexusGenRootTypes['UserChatRoom'] | null; // UserChatRoom
   }
   PageInfo: { // field return type
     endCursor: string | null; // String
@@ -110,12 +190,36 @@ export interface NexusGenFieldTypes {
     startCursor: string | null; // String
   }
   Query: { // field return type
+    chatRoomConnection: NexusGenRootTypes['QueryChatRoomConnection_Connection'] | null; // QueryChatRoomConnection_Connection
+    chatRoomMessageConnection: NexusGenRootTypes['QueryChatRoomMessageConnection_Connection'] | null; // QueryChatRoomMessageConnection_Connection
+    getChatRoom: NexusGenRootTypes['ChatRoom'] | null; // ChatRoom
+    getChatRoomMessage: NexusGenRootTypes['ChatRoomMessage'] | null; // ChatRoomMessage
     getUser: NexusGenRootTypes['User'] | null; // User
+    getUserChatRoom: NexusGenRootTypes['UserChatRoom'] | null; // UserChatRoom
     me: NexusGenRootTypes['User'] | null; // User
     node: NexusGenRootTypes['Node'] | null; // Node
     nodes: Array<NexusGenRootTypes['Node'] | null>; // [Node]!
     postTweet: boolean | null; // Boolean
+    userChatRoomConnection: NexusGenRootTypes['QueryUserChatRoomConnection_Connection'] | null; // QueryUserChatRoomConnection_Connection
     userConnection: NexusGenRootTypes['QueryUserConnection_Connection'] | null; // QueryUserConnection_Connection
+  }
+  QueryChatRoomConnection_Connection: { // field return type
+    edges: Array<NexusGenRootTypes['ChatRoomEdge'] | null> | null; // [ChatRoomEdge]
+    nodes: Array<NexusGenRootTypes['ChatRoom'] | null> | null; // [ChatRoom]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount: number | null; // Int
+  }
+  QueryChatRoomMessageConnection_Connection: { // field return type
+    edges: Array<NexusGenRootTypes['ChatRoomMessageEdge'] | null> | null; // [ChatRoomMessageEdge]
+    nodes: Array<NexusGenRootTypes['ChatRoomMessage'] | null> | null; // [ChatRoomMessage]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount: number | null; // Int
+  }
+  QueryUserChatRoomConnection_Connection: { // field return type
+    edges: Array<NexusGenRootTypes['UserChatRoomEdge'] | null> | null; // [UserChatRoomEdge]
+    nodes: Array<NexusGenRootTypes['UserChatRoom'] | null> | null; // [UserChatRoom]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount: number | null; // Int
   }
   QueryUserConnection_Connection: { // field return type
     edges: Array<NexusGenRootTypes['UserEdge'] | null> | null; // [UserEdge]
@@ -129,9 +233,21 @@ export interface NexusGenFieldTypes {
     iconUrl: string | null; // String
     id: string | null; // ID
     iv: string | null; // String
+    role: NexusGenEnums['Role'] | null; // Role
     uid: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     username: string | null; // String
+  }
+  UserChatRoom: { // field return type
+    chatRoomId: number; // Int!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string | null; // ID
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    userId: number; // Int!
+  }
+  UserChatRoomEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['UserChatRoom'] | null; // UserChatRoom
   }
   UserEdge: { // field return type
     cursor: string; // String!
@@ -143,10 +259,43 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  ChatRoom: { // field return type name
+    chatRoomMessages: 'ChatRoomMessage'
+    createdAt: 'DateTime'
+    id: 'ID'
+    name: 'String'
+    updatedAt: 'DateTime'
+    userChatRooms: 'UserChatRoom'
+  }
+  ChatRoomEdge: { // field return type name
+    cursor: 'String'
+    node: 'ChatRoom'
+  }
+  ChatRoomMessage: { // field return type name
+    chatRoomId: 'Int'
+    content: 'String'
+    createdAt: 'DateTime'
+    id: 'ID'
+    updatedAt: 'DateTime'
+    userId: 'Int'
+  }
+  ChatRoomMessageEdge: { // field return type name
+    cursor: 'String'
+    node: 'ChatRoomMessage'
+  }
   Mutation: { // field return type name
+    createChatRoom: 'ChatRoom'
+    createChatRoomMessage: 'ChatRoomMessage'
     createUser: 'User'
+    createUserChatRoom: 'UserChatRoom'
+    deleteChatRoom: 'ChatRoom'
+    deleteChatRoomMessage: 'ChatRoomMessage'
     deleteUser: 'User'
+    deleteUserChatRoom: 'UserChatRoom'
+    updateChatRoom: 'ChatRoom'
+    updateChatRoomMessage: 'ChatRoomMessage'
     updateUser: 'User'
+    updateUserChatRoom: 'UserChatRoom'
   }
   PageInfo: { // field return type name
     endCursor: 'String'
@@ -155,12 +304,36 @@ export interface NexusGenFieldTypeNames {
     startCursor: 'String'
   }
   Query: { // field return type name
+    chatRoomConnection: 'QueryChatRoomConnection_Connection'
+    chatRoomMessageConnection: 'QueryChatRoomMessageConnection_Connection'
+    getChatRoom: 'ChatRoom'
+    getChatRoomMessage: 'ChatRoomMessage'
     getUser: 'User'
+    getUserChatRoom: 'UserChatRoom'
     me: 'User'
     node: 'Node'
     nodes: 'Node'
     postTweet: 'Boolean'
+    userChatRoomConnection: 'QueryUserChatRoomConnection_Connection'
     userConnection: 'QueryUserConnection_Connection'
+  }
+  QueryChatRoomConnection_Connection: { // field return type name
+    edges: 'ChatRoomEdge'
+    nodes: 'ChatRoom'
+    pageInfo: 'PageInfo'
+    totalCount: 'Int'
+  }
+  QueryChatRoomMessageConnection_Connection: { // field return type name
+    edges: 'ChatRoomMessageEdge'
+    nodes: 'ChatRoomMessage'
+    pageInfo: 'PageInfo'
+    totalCount: 'Int'
+  }
+  QueryUserChatRoomConnection_Connection: { // field return type name
+    edges: 'UserChatRoomEdge'
+    nodes: 'UserChatRoom'
+    pageInfo: 'PageInfo'
+    totalCount: 'Int'
   }
   QueryUserConnection_Connection: { // field return type name
     edges: 'UserEdge'
@@ -174,9 +347,21 @@ export interface NexusGenFieldTypeNames {
     iconUrl: 'String'
     id: 'ID'
     iv: 'String'
+    role: 'Role'
     uid: 'String'
     updatedAt: 'DateTime'
     username: 'String'
+  }
+  UserChatRoom: { // field return type name
+    chatRoomId: 'Int'
+    createdAt: 'DateTime'
+    id: 'ID'
+    updatedAt: 'DateTime'
+    userId: 'Int'
+  }
+  UserChatRoomEdge: { // field return type name
+    cursor: 'String'
+    node: 'UserChatRoom'
   }
   UserEdge: { // field return type name
     cursor: 'String'
@@ -189,14 +374,43 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    createChatRoom: { // args
+      name?: string | null; // String
+    }
+    createChatRoomMessage: { // args
+      chatRoomId: number; // Int!
+      content: string; // String!
+      userId: number; // Int!
+    }
     createUser: { // args
       email: string; // String!
       iconUrl?: string | null; // String
       uid: string; // String!
       username?: string | null; // String
     }
+    createUserChatRoom: { // args
+      chatRoomId: number; // Int!
+      userId: number; // Int!
+    }
+    deleteChatRoom: { // args
+      id: string; // String!
+    }
+    deleteChatRoomMessage: { // args
+      id: string; // String!
+    }
     deleteUser: { // args
       id: string; // String!
+    }
+    deleteUserChatRoom: { // args
+      id: string; // String!
+    }
+    updateChatRoom: { // args
+      id: string; // String!
+    }
+    updateChatRoomMessage: { // args
+      chatRoomId?: number | null; // Int
+      id: string; // String!
+      userId?: number | null; // Int
     }
     updateUser: { // args
       email?: string | null; // String
@@ -205,9 +419,34 @@ export interface NexusGenArgTypes {
       name?: string | null; // String
       uid?: string | null; // String
     }
+    updateUserChatRoom: { // args
+      chatRoomId?: number | null; // Int
+      id: string; // String!
+    }
   }
   Query: {
+    chatRoomConnection: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    chatRoomMessageConnection: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    getChatRoom: { // args
+      id: string; // String!
+    }
+    getChatRoomMessage: { // args
+      id: string; // String!
+    }
     getUser: { // args
+      id: string; // String!
+    }
+    getUserChatRoom: { // args
       id: string; // String!
     }
     node: { // args
@@ -219,6 +458,12 @@ export interface NexusGenArgTypes {
     postTweet: { // args
       id: string; // String!
       text: string; // String!
+    }
+    userChatRoomConnection: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
     }
     userConnection: { // args
       after?: string | null; // String
@@ -239,7 +484,7 @@ export type NexusGenObjectNames = keyof NexusGenObjects;
 
 export type NexusGenInputNames = never;
 
-export type NexusGenEnumNames = never;
+export type NexusGenEnumNames = keyof NexusGenEnums;
 
 export type NexusGenInterfaceNames = keyof NexusGenInterfaces;
 

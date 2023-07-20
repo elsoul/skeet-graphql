@@ -11,12 +11,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ADMIN
+  MASTER
+}
+
 model User {
   id               Int               @id @default(autoincrement())
   uid              String            @unique
   username         String?
   email            String            @unique
   iconUrl          String?
+  role             Role              @default(USER)
   iv               String?
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
@@ -28,7 +35,7 @@ model User {
 
 model ChatRoom {
   id               Int               @id @default(autoincrement())
-  name             String? // This can be optional for private chats between two users
+  name             String?
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
   chatRoomMessages ChatRoomMessage[]

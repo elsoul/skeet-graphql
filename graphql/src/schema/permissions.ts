@@ -6,7 +6,6 @@ const isAuthenticated = rule({ cache: 'contextual' })(async (
   _args,
   ctx,
 ) => {
-  console.log(!!ctx.user?.id)
   return !!ctx.user?.id
 })
 
