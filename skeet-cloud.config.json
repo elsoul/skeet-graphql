@@ -1,25 +1,40 @@
 {
-  "api": {
-    "appName": "skeet-graphql",
+  "app": {
+    "name": "skeet-graphql",
     "projectId": "skeet-graphql",
-    "region": "europe-west4",
-    "hasLoadBalancer": true,
-    "cloudRun": {
-      "name": "skeet-skeet-graphql-api",
-      "url": "https://graphql.skeet.dev",
-      "cpu": 1,
-      "maxConcurrency": 80,
-      "maxInstances": 100,
-      "minInstances": 0,
-      "memory": "4Gi"
-    },
-    "db": {
-      "databaseVersion": "POSTGRES_15",
-      "cpu": 1,
-      "memory": "3840MiB",
-      "storageSize": 10,
-      "whiteList": "24.132.70.177,77.164.253.253"
-    }
+    "fbProjectId": "skeet-graphql-2c668",
+    "region": "asia-northeast1",
+    "appDomain": "app.skeet.dev",
+    "nsDomain": "skeet.dev",
+    "lbDomain": "lb.skeet.dev",
+    "hasLoadBalancer": false
   },
+  "cloudRun": {
+    "name": "skeet-skeet-graphql-api",
+    "url": "https://graphql.skeet.dev",
+    "cpu": 1,
+    "maxConcurrency": 80,
+    "maxInstances": 100,
+    "minInstances": 0,
+    "memory": "4Gi"
+  },
+  "db": {
+    "databaseVersion": "POSTGRES_15",
+    "cpu": 1,
+    "memory": "3840MiB",
+    "storageSize": 10,
+    "whiteList": "24.132.70.177,77.164.253.253"
+  },
+  "taskQueues": [
+    {
+      "queueName": "authOnCreateUser",
+      "location": "europe-west6",
+      "maxAttempts": 3,
+      "maxConcurrent": 1,
+      "maxRate": 1,
+      "maxInterval": "10s",
+      "minInterval": "1s"
+    }
+  ],
   "cloudArmor": []
 }

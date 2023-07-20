@@ -805,7 +805,7 @@
     "@sinonjs/commons" "^2.0.0"
 
 "@skeet-framework/cli@file:../skeet-cli":
-  version "0.19.0"
+  version "0.19.1"
   resolved "file:../skeet-cli"
   dependencies:
     "@skeet-framework/utils" "^0.1.8"

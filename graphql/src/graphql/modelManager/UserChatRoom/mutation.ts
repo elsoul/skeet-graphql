@@ -29,15 +29,15 @@ export const UserChatRoomMutation = extendType({
         chatRoomId: intArg(),
       },
       async resolve(_, args, ctx) {
-        const id = Number(fromGlobalId(args.id).id)
+        const id = toPrismaId(args.id)
         let data = JSON.parse(JSON.stringify(args))
         delete data.id
         try {
           return await ctx.prisma.userChatRoom.update({
             where: {
-              id
+              id,
             },
-            data
+            data,
           })
         } catch (error) {
           console.log(error)

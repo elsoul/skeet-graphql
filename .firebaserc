@@ -1,15 +1,5 @@
 {
-  "projects": {
-    "default": "skeeter-app"
-  },
-  "targets": {
-    "skeeter-app": {
-      "hosting": {
-        "skeeter-app": [
-          "skeeter-app"
-        ]
-      }
+    "projects": {
+      "default": "skeet-graphql-2c668"
     }
-  },
-  "etags": {}
-}
+  }
