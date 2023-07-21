@@ -6,6 +6,7 @@ export const ChatRoomMessageObject = objectType({
   description: ChatRoomMessage.$description,
   definition(t) {
     t.relayGlobalId('id', {})
+    t.field(ChatRoomMessage.role)
     t.field(ChatRoomMessage.content)
     t.field(ChatRoomMessage.userId)
     t.field(ChatRoomMessage.chatRoomId)

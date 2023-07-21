@@ -61,7 +61,12 @@ export interface NexusGenScalars {
 export interface NexusGenObjects {
   ChatRoom: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    maxTokens: number; // Int!
+    model: string; // String!
     name?: string | null; // String
+    stream: boolean; // Boolean!
+    temperature: number; // Int!
+    title?: string | null; // String
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   ChatRoomEdge: { // root type
@@ -72,6 +77,7 @@ export interface NexusGenObjects {
     chatRoomId: number; // Int!
     content: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    role: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     userId: number; // Int!
   }
@@ -149,7 +155,12 @@ export interface NexusGenFieldTypes {
     chatRoomMessages: NexusGenRootTypes['ChatRoomMessage'][]; // [ChatRoomMessage!]!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string | null; // ID
+    maxTokens: number; // Int!
+    model: string; // String!
     name: string | null; // String
+    stream: boolean; // Boolean!
+    temperature: number; // Int!
+    title: string | null; // String
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     userChatRooms: NexusGenRootTypes['UserChatRoom'][]; // [UserChatRoom!]!
   }
@@ -162,6 +173,7 @@ export interface NexusGenFieldTypes {
     content: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string | null; // ID
+    role: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     userId: number; // Int!
   }
@@ -263,7 +275,12 @@ export interface NexusGenFieldTypeNames {
     chatRoomMessages: 'ChatRoomMessage'
     createdAt: 'DateTime'
     id: 'ID'
+    maxTokens: 'Int'
+    model: 'String'
     name: 'String'
+    stream: 'Boolean'
+    temperature: 'Int'
+    title: 'String'
     updatedAt: 'DateTime'
     userChatRooms: 'UserChatRoom'
   }
@@ -276,6 +293,7 @@ export interface NexusGenFieldTypeNames {
     content: 'String'
     createdAt: 'DateTime'
     id: 'ID'
+    role: 'String'
     updatedAt: 'DateTime'
     userId: 'Int'
   }
@@ -375,11 +393,17 @@ export interface NexusGenFieldTypeNames {
 export interface NexusGenArgTypes {
   Mutation: {
     createChatRoom: { // args
+      maxTokens: number; // Int!
+      model: string; // String!
       name?: string | null; // String
+      stream?: string | null; // String
+      temperature: number; // Int!
+      title?: string | null; // String
     }
     createChatRoomMessage: { // args
       chatRoomId: number; // Int!
       content: string; // String!
+      role: string; // String!
       userId: number; // Int!
     }
     createUser: { // args
@@ -409,6 +433,7 @@ export interface NexusGenArgTypes {
     }
     updateChatRoomMessage: { // args
       chatRoomId?: number | null; // Int
+      content?: string | null; // String
       id: string; // String!
       userId?: number | null; // Int
     }

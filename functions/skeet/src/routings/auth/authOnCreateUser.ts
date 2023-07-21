@@ -34,13 +34,20 @@ export const authOnCreateUser = functions
             ? gravatarIconUrl(email ?? 'info@skeet.dev')
             : photoURL,
       }
+
+      // This function behaves differently in development and production
+      // But no need to change the code
+      // Development - sending POST request to graphql endpoint in development
+      // Production - createting Google Cloud Task to graphql endpoint in production
       const result = await createCloudTask(
         queryName,
         userParams,
         SKEET_GRAPHQL_ENDPOINT_URL.value()
       )
+      // Log the result
       console.log(inspect(result, { depth: null }))
 
+      // Send Discord message when new user is created
       const content = `Skeet APP New user: ${userParams.username} \nemail: ${userParams.email}\niconUrl: ${userParams.iconUrl}`
       await sendDiscord(content, DISCORD_WEBHOOK_URL.value())
       console.log({ status: 'success' })

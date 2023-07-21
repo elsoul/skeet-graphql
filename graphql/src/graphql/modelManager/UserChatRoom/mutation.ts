@@ -35,9 +35,9 @@ export const UserChatRoomMutation = extendType({
         try {
           return await ctx.prisma.userChatRoom.update({
             where: {
-              id,
+              id
             },
-            data,
+            data
           })
         } catch (error) {
           console.log(error)

@@ -6,7 +6,12 @@ type ChatRoom {
   chatRoomMessages: [ChatRoomMessage!]!
   createdAt: DateTime!
   id: ID
+  maxTokens: Int!
+  model: String!
   name: String
+  stream: Boolean!
+  temperature: Int!
+  title: String
   updatedAt: DateTime!
   userChatRooms: [UserChatRoom!]!
 }
@@ -24,6 +29,7 @@ type ChatRoomMessage {
   content: String!
   createdAt: DateTime!
   id: ID
+  role: String!
   updatedAt: DateTime!
   userId: Int!
 }
@@ -42,8 +48,8 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Mutation {
-  createChatRoom(name: String): ChatRoom
-  createChatRoomMessage(chatRoomId: Int!, content: String!, userId: Int!): ChatRoomMessage
+  createChatRoom(maxTokens: Int!, model: String!, name: String, stream: String, temperature: Int!, title: String): ChatRoom
+  createChatRoomMessage(chatRoomId: Int!, content: String!, role: String!, userId: Int!): ChatRoomMessage
   createUser(email: String!, iconUrl: String, uid: String!, username: String): User
   createUserChatRoom(chatRoomId: Int!, userId: Int!): UserChatRoom
   deleteChatRoom(id: String!): ChatRoom
@@ -51,7 +57,7 @@ type Mutation {
   deleteUser(id: String!): User
   deleteUserChatRoom(id: String!): UserChatRoom
   updateChatRoom(id: String!): ChatRoom
-  updateChatRoomMessage(chatRoomId: Int, id: String!, userId: Int): ChatRoomMessage
+  updateChatRoomMessage(chatRoomId: Int, content: String, id: String!, userId: Int): ChatRoomMessage
   updateUser(email: String, iconUrl: String, id: String!, name: String, uid: String): User
   updateUserChatRoom(chatRoomId: Int, id: String!): UserChatRoom
 }

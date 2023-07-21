@@ -1,2 +1,4 @@
 import { enumType } from 'nexus'
-import {  } from 'nexus-prisma'
+import { Role } from 'nexus-prisma'
+
+export const roleEnum = enumType(Role)

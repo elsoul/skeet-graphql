@@ -20,6 +20,11 @@ CREATE TABLE "User" (
 CREATE TABLE "ChatRoom" (
     "id" SERIAL NOT NULL,
     "name" TEXT,
+    "title" TEXT,
+    "model" TEXT NOT NULL DEFAULT 'gpt4',
+    "maxTokens" INTEGER NOT NULL DEFAULT 500,
+    "temperature" INTEGER NOT NULL DEFAULT 0,
+    "stream" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -29,6 +34,7 @@ CREATE TABLE "ChatRoom" (
 -- CreateTable
 CREATE TABLE "ChatRoomMessage" (
     "id" SERIAL NOT NULL,
+    "role" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
     "chatRoomId" INTEGER NOT NULL,

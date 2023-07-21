@@ -8,6 +8,7 @@ export const ChatRoomMessageMutation = extendType({
     t.field('createChatRoomMessage', {
       type: ChatRoomMessage.$name,
       args: {
+        role: nonNull(stringArg()),
         content: nonNull(stringArg()),
         userId: nonNull(intArg()),
         chatRoomId: nonNull(intArg()),
@@ -27,11 +28,12 @@ export const ChatRoomMessageMutation = extendType({
       type: ChatRoomMessage.$name,
       args: {
         id: nonNull(stringArg()),
+        content: stringArg(),
         userId: intArg(),
         chatRoomId: intArg(),
       },
       async resolve(_, args, ctx) {
-        const id = Number(fromGlobalId(args.id).id)
+        const id = toPrismaId(args.id)
         let data = JSON.parse(JSON.stringify(args))
         delete data.id
         try {

@@ -9,6 +9,11 @@ export const ChatRoomMutation = extendType({
       type: ChatRoom.$name,
       args: {
         name: stringArg(),
+        title: stringArg(),
+        model: nonNull(stringArg()),
+        maxTokens: nonNull(intArg()),
+        temperature: nonNull(intArg()),
+        stream: stringArg(),
       },
       async resolve(_, args, ctx) {
         try {
@@ -33,9 +38,9 @@ export const ChatRoomMutation = extendType({
         try {
           return await ctx.prisma.chatRoom.update({
             where: {
-              id,
+              id
             },
-            data,
+            data
           })
         } catch (error) {
           console.log(error)
