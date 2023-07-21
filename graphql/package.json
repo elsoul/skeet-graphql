@@ -18,6 +18,9 @@
     "db:deploy": "npx prisma migrate deploy",
     "db:seed": "npx prisma db seed"
   },
+  "prisma": {
+    "seed": "npx ts-node --transpile-only prisma/seed.ts"
+  },
   "dependencies": {
     "@apollo/server": "4.7.5",
     "@jcm/nexus-plugin-relay-global-id": "0.2.0",
