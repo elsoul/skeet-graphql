@@ -7,13 +7,19 @@ import {
 } from '@skeet-framework/utils'
 import skeetConfig from '../../../skeetOptions.json'
 import { User } from '@/models'
+import { defineSecret } from 'firebase-functions/params'
+import { inspect } from 'util'
+const DISCORD_WEBHOOK_URL = defineSecret('DISCORD_WEBHOOK_URL')
+const SKEET_GRAPHQL_ENDPOINT_URL = defineSecret('SKEET_GRAPHQL_ENDPOINT_URL')
 
-const region = skeetConfig.region
-const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL || ''
+const { projectId, region } = skeetConfig
 const queryName = 'createUser'
 
 export const authOnCreateUser = functions
-  .runWith(authPublicOption)
+  .runWith({
+    ...authPublicOption,
+    secrets: [DISCORD_WEBHOOK_URL, SKEET_GRAPHQL_ENDPOINT_URL],
+  })
   .region(region)
   .auth.user()
   .onCreate(async (user) => {
@@ -28,14 +34,21 @@ export const authOnCreateUser = functions
             ? gravatarIconUrl(email ?? 'info@skeet.dev')
             : photoURL,
       }
-      const result = await createCloudTask(skeetConfig, queryName, userParams)
+      const result = await createCloudTask(
+        projectId,
+        region,
+        queryName,
+        userParams,
+        SKEET_GRAPHQL_ENDPOINT_URL.value()
+      )
 
       if (result && typeof result !== 'string') {
-        console.log({ postStatus: await result.json() })
+        const jsonResult = await result.json()
+        console.log('postStatus:', inspect(jsonResult, { depth: null }))
       }
 
       const content = `Skeet APP New user: ${userParams.username} \nemail: ${userParams.email}\niconUrl: ${userParams.iconUrl}`
-      await sendDiscord(content, DISCORD_WEBHOOK_URL)
+      await sendDiscord(content, DISCORD_WEBHOOK_URL.value())
       console.log({ status: 'success' })
     } catch (error) {
       console.log({ status: 'error', message: String(error) })

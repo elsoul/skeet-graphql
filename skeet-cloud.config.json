@@ -2,7 +2,7 @@
   "app": {
     "name": "skeet-graphql",
     "projectId": "skeet-graphql",
-    "fbProjectId": "skeet-graphql-2c668",
+    "fbProjectId": "skeet-graphql",
     "region": "asia-northeast1",
     "appDomain": "app.skeet.dev",
     "nsDomain": "skeet.dev",
@@ -11,7 +11,7 @@
   },
   "cloudRun": {
     "name": "skeet-skeet-graphql-api",
-    "url": "https://graphql.skeet.dev",
+    "url": "https://skeet-skeet-graphql-api-w6q5zt4hna-an.a.run.app",
     "cpu": 1,
     "maxConcurrency": 80,
     "maxInstances": 100,
@@ -27,7 +27,7 @@
   },
   "taskQueues": [
     {
-      "queueName": "authOnCreateUser",
+      "queueName": "createUser",
       "location": "asia-northeast1",
       "maxAttempts": 3,
       "maxConcurrent": 1,

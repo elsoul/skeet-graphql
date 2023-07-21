@@ -4,6 +4,6 @@
   "appDomain": "skeeter.app",
   "lbDomain": "lb.skeeter.app",
   "nsDomain": "skeeter.app",
-  "fbProjectId": "skeet-graphql-2c668",
+  "fbProjectId": "skeet-graphql",
   "name": "skeet-graphql"
 }
