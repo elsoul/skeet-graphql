@@ -8,6 +8,7 @@ import {
 import skeetConfig from '../../../skeetOptions.json'
 import { User } from '@/models'
 import { defineSecret } from 'firebase-functions/params'
+import { inspect } from 'util'
 const DISCORD_WEBHOOK_URL = defineSecret('DISCORD_WEBHOOK_URL')
 const SKEET_GRAPHQL_ENDPOINT_URL = defineSecret('SKEET_GRAPHQL_ENDPOINT_URL')
 
@@ -38,7 +39,7 @@ export const authOnCreateUser = functions
         userParams,
         SKEET_GRAPHQL_ENDPOINT_URL.value()
       )
-      console.log({ result })
+      console.log(inspect(result, { depth: null }))
 
       const content = `Skeet APP New user: ${userParams.username} \nemail: ${userParams.email}\niconUrl: ${userParams.iconUrl}`
       await sendDiscord(content, DISCORD_WEBHOOK_URL.value())
