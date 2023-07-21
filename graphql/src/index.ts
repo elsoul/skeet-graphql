@@ -16,12 +16,11 @@ import depthLimit from 'graphql-depth-limit'
 import queryComplexity, { simpleEstimator } from 'graphql-query-complexity'
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled'
-import { User } from 'nexus-prisma'
-import { getLoginUser } from './lib/getLoginUser'
+import { CurrentUser, getLoginUser } from './lib/getLoginUser'
 import { sleep } from '@skeet-framework/utils'
 
 interface Context {
-  user?: User
+  currentUser?: CurrentUser
 }
 
 const prisma = new PrismaClient()
@@ -90,7 +89,7 @@ export const startApolloServer = async () => {
     json(),
     expressMiddleware(server, {
       context: async ({ req }) => ({
-        user: await getLoginUser(String(req.headers.authorization)),
+        currentUser: await getLoginUser(String(req.headers.authorization)),
         prisma,
       }),
     }),

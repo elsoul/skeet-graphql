@@ -1,6 +1,16 @@
-import { extendType, nonNull, stringArg, intArg, floatArg } from 'nexus'
+import {
+  extendType,
+  nonNull,
+  stringArg,
+  intArg,
+  floatArg,
+  booleanArg,
+} from 'nexus'
 import { toPrismaId } from '@skeet-framework/utils'
 import { ChatRoom } from 'nexus-prisma'
+import { PrismaClient } from '@prisma/client'
+import { CurrentUser } from '@/lib/getLoginUser'
+import { GraphQLError } from 'graphql'
 
 export const ChatRoomMutation = extendType({
   type: 'Mutation',
@@ -13,16 +23,51 @@ export const ChatRoomMutation = extendType({
         model: nonNull(stringArg()),
         maxTokens: nonNull(intArg()),
         temperature: nonNull(intArg()),
-        stream: stringArg(),
+        stream: nonNull(booleanArg()),
       },
       async resolve(_, args, ctx) {
         try {
-          return await ctx.prisma.chatRoom.create({
-            data: args,
+          const { name, title, model, maxTokens, temperature, stream } = args
+          const user: CurrentUser = await ctx.user
+          if (user === undefined) throw new Error('You are not logged in!')
+          const prismaClient = ctx.prisma as PrismaClient
+          const result = await prismaClient.$transaction(async (tx) => {
+            // ChatRoomを作成
+            const createdChatRoom = await tx.chatRoom.create({
+              data: {
+                name,
+                title,
+                model,
+                maxTokens,
+                temperature,
+                stream,
+              },
+            })
+
+            // UserChatRoomに関連付けを作成
+            await tx.userChatRoom.create({
+              data: {
+                userId: toPrismaId(user.id),
+                chatRoomId: createdChatRoom.id,
+              },
+            })
+
+            // ChatRoomMessageを作成
+            await tx.chatRoomMessage.create({
+              data: {
+                role: 'system',
+                content:
+                  'This is a great chatbot. This Assistant is very kind and helpful.',
+                userId: toPrismaId(user.id),
+                chatRoomId: createdChatRoom.id,
+              },
+            })
+
+            return createdChatRoom
           })
+          return result
         } catch (error) {
-          console.log(error)
-          throw new Error(`error: ${error}`)
+          throw new GraphQLError(`${error}`)
         }
       },
     })
@@ -38,9 +83,9 @@ export const ChatRoomMutation = extendType({
         try {
           return await ctx.prisma.chatRoom.update({
             where: {
-              id
+              id,
             },
-            data
+            data,
           })
         } catch (error) {
           console.log(error)

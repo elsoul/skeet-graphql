@@ -396,7 +396,7 @@ export interface NexusGenArgTypes {
       maxTokens: number; // Int!
       model: string; // String!
       name?: string | null; // String
-      stream?: string | null; // String
+      stream: boolean; // Boolean!
       temperature: number; // Int!
       title?: string | null; // String
     }
