@@ -8,11 +8,10 @@ import {
 import skeetConfig from '../../../skeetOptions.json'
 import { User } from '@/models'
 import { defineSecret } from 'firebase-functions/params'
-import { inspect } from 'util'
 const DISCORD_WEBHOOK_URL = defineSecret('DISCORD_WEBHOOK_URL')
 const SKEET_GRAPHQL_ENDPOINT_URL = defineSecret('SKEET_GRAPHQL_ENDPOINT_URL')
 
-const { projectId, region } = skeetConfig
+const { region } = skeetConfig
 const queryName = 'createUser'
 
 export const authOnCreateUser = functions
@@ -35,17 +34,11 @@ export const authOnCreateUser = functions
             : photoURL,
       }
       const result = await createCloudTask(
-        projectId,
-        region,
         queryName,
         userParams,
         SKEET_GRAPHQL_ENDPOINT_URL.value()
       )
-
-      if (result && typeof result !== 'string') {
-        const jsonResult = await result.json()
-        console.log('postStatus:', inspect(jsonResult, { depth: null }))
-      }
+      console.log({ result })
 
       const content = `Skeet APP New user: ${userParams.username} \nemail: ${userParams.email}\niconUrl: ${userParams.iconUrl}`
       await sendDiscord(content, DISCORD_WEBHOOK_URL.value())
