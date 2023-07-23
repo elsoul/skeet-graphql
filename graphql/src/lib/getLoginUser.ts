@@ -1,11 +1,10 @@
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { auth } from 'firebase-admin'
-import { PrismaClient, User } from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 import { toGlobalId } from '@skeet-framework/utils'
 import admin from 'firebase-admin'
 const prisma = new PrismaClient()
 admin.initializeApp()
-export type CurrentUser = Omit<User, 'id'> & { id: string }
 
 export type UnknownUser = {
   user: {
@@ -25,12 +24,11 @@ export const unknownUser: UnknownUser = {
   },
 }
 
-export const getLoginUser = async (token: string) => {
+export const getLoginUser = async <T>(token: string) => {
   try {
     if (token == 'undefined' || token == null) throw new Error('undefined')
 
     const bearer = token.split('Bearer ')[1]
-    console.log({ bearer })
     if (!bearer) return unknownUser
     const decodedUser: DecodedIdToken = await auth().verifyIdToken(bearer)
     const user = await prisma.user.findUnique({
@@ -38,15 +36,13 @@ export const getLoginUser = async (token: string) => {
         uid: decodedUser.uid,
       },
     })
-    console.log({ user })
     if (user) {
       const globalId = toGlobalId('User', user.id)
-      return { ...user, id: globalId } as CurrentUser
+      return { ...user, id: globalId } as T
     } else {
       return unknownUser
     }
   } catch (error) {
-    console.log({ error })
     return unknownUser
   }
 }

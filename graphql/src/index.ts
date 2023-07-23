@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, User } from '@prisma/client'
 import cors from 'cors'
 import express from 'express'
 import { json } from 'body-parser'
@@ -8,16 +8,17 @@ import bodyParser from 'body-parser'
 import { ApolloServer } from '@apollo/server'
 import { expressMiddleware } from '@apollo/server/express4'
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
-import { schema } from '@/schema/schema'
+import { schema, permissions } from '@/schema'
 import { applyMiddleware } from 'graphql-middleware'
 import { InMemoryLRUCache } from '@apollo/utils.keyvaluecache'
-import { permissions } from '@/schema/permissions'
 import depthLimit from 'graphql-depth-limit'
 import queryComplexity, { simpleEstimator } from 'graphql-query-complexity'
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled'
-import { CurrentUser, getLoginUser } from './lib/getLoginUser'
+import { getLoginUser } from './lib/getLoginUser'
 import { sleep } from '@skeet-framework/utils'
+
+export type CurrentUser = Omit<User, 'id'> & { id: string }
 
 interface Context {
   currentUser?: CurrentUser
@@ -89,7 +90,9 @@ export const startApolloServer = async () => {
     json(),
     expressMiddleware(server, {
       context: async ({ req }) => ({
-        currentUser: await getLoginUser(String(req.headers.authorization)),
+        currentUser: await getLoginUser<CurrentUser>(
+          String(req.headers.authorization),
+        ),
         prisma,
       }),
     }),

@@ -6,15 +6,15 @@ const isAuthenticated = rule({ cache: 'contextual' })(async (
   _args,
   ctx,
 ) => {
-  return !!ctx.user?.id
+  return !!ctx.currentUser?.id
 })
 
 const isAdmin = rule()(async (parent, args, ctx, info) => {
-  return ctx.user.role === 'ADMIN'
+  return ctx.currentUser.role === 'ADMIN'
 })
 
 const isGm = rule()(async (parent, args, ctx, info) => {
-  return ctx.user.role === 'GM'
+  return ctx.currentUser.role === 'GM'
 })
 
 export const permissions = shield(
@@ -27,7 +27,7 @@ export const permissions = shield(
   },
   {
     fallbackError: async (thrownThing) => {
-      console.log('error')
+      console.log(thrownThing)
       if (thrownThing instanceof GraphQLError) {
         return thrownThing
       } else if (thrownThing instanceof Error) {

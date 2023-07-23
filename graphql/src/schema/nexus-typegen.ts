@@ -430,6 +430,8 @@ export interface NexusGenArgTypes {
     }
     updateChatRoom: { // args
       id: string; // String!
+      model?: string | null; // String
+      stream?: boolean | null; // Boolean
     }
     updateChatRoomMessage: { // args
       chatRoomId?: number | null; // Int

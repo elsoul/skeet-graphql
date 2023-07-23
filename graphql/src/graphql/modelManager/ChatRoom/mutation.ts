@@ -9,7 +9,7 @@ import {
 import { toPrismaId } from '@skeet-framework/utils'
 import { ChatRoom } from 'nexus-prisma'
 import { PrismaClient } from '@prisma/client'
-import { CurrentUser } from '@/lib/getLoginUser'
+import { CurrentUser } from '@/index'
 import { GraphQLError } from 'graphql'
 
 export const ChatRoomMutation = extendType({
@@ -28,10 +28,12 @@ export const ChatRoomMutation = extendType({
       async resolve(_, args, ctx) {
         try {
           const { name, title, model, maxTokens, temperature, stream } = args
-          const user: CurrentUser = await ctx.user
-          if (user === undefined) throw new Error('You are not logged in!')
+          const user: CurrentUser = await ctx.currentUser
+          console.log({ user: user.id })
+          if (user.id === '') throw new Error('You are not logged in!')
           const prismaClient = ctx.prisma as PrismaClient
           const result = await prismaClient.$transaction(async (tx) => {
+            const userId = toPrismaId(user.id)
             // ChatRoomを作成
             const createdChatRoom = await tx.chatRoom.create({
               data: {
@@ -47,7 +49,7 @@ export const ChatRoomMutation = extendType({
             // UserChatRoomに関連付けを作成
             await tx.userChatRoom.create({
               data: {
-                userId: toPrismaId(user.id),
+                userId: userId,
                 chatRoomId: createdChatRoom.id,
               },
             })
@@ -58,7 +60,7 @@ export const ChatRoomMutation = extendType({
                 role: 'system',
                 content:
                   'This is a great chatbot. This Assistant is very kind and helpful.',
-                userId: toPrismaId(user.id),
+                userId: userId,
                 chatRoomId: createdChatRoom.id,
               },
             })
@@ -75,6 +77,8 @@ export const ChatRoomMutation = extendType({
       type: ChatRoom.$name,
       args: {
         id: nonNull(stringArg()),
+        model: stringArg(),
+        stream: booleanArg(),
       },
       async resolve(_, args, ctx) {
         const id = toPrismaId(args.id)
