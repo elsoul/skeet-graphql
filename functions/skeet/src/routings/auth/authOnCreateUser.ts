@@ -9,6 +9,7 @@ import skeetConfig from '../../../skeetOptions.json'
 import { User } from '@/models'
 import { defineSecret } from 'firebase-functions/params'
 import { inspect } from 'util'
+import { getUserBearerToken } from '@/lib/getUserAuth'
 const DISCORD_WEBHOOK_URL = defineSecret('DISCORD_WEBHOOK_URL')
 const SKEET_GRAPHQL_ENDPOINT_URL = defineSecret('SKEET_GRAPHQL_ENDPOINT_URL')
 
@@ -39,7 +40,9 @@ export const authOnCreateUser = functions
       // But no need to change the code
       // Development - sending POST request to graphql endpoint in development
       // Production - createting Google Cloud Task to graphql endpoint in production
+      const accessToken = ''
       const result = await createCloudTask(
+        accessToken,
         queryName,
         userParams,
         SKEET_GRAPHQL_ENDPOINT_URL.value()

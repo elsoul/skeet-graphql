@@ -27,7 +27,7 @@
     "@jcm/nexus-plugin-relay-node-interface": "0.2.0",
     "@prisma/client": "5.0.0",
     "@skeet-framework/pubsub": "0.1.2",
-    "@skeet-framework/utils": "^0.5.3",
+    "@skeet-framework/utils": "^0.6.0",
     "bs58": "5.0.0",
     "crypto": "1.0.1",
     "dotenv": "16.3.1",

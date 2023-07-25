@@ -4,9 +4,10 @@ import { toGlobalId } from '@skeet-framework/utils'
 import admin from 'firebase-admin'
 import { PrismaClient } from '@prisma/client'
 import { getApps } from 'firebase-admin/app'
+import { inspect } from 'util'
 admin.initializeApp()
 
-console.log(getApps())
+console.log(inspect(getApps()[0]), { depth: null })
 
 const skeetEnv = process.env.NODE_ENV || 'development'
 
@@ -31,6 +32,7 @@ export const getLoginUser = async <T>(token: string, prisma: PrismaClient) => {
     if (token == 'undefined' || token == null) throw new Error('undefined')
 
     const bearer = token.split('Bearer ')[1]
+    console.log(bearer)
     if (!bearer) return unknownUser
     const decodedUser: DecodedIdToken = await auth().verifyIdToken(bearer)
     const user = await prisma.user.findUnique({
@@ -41,8 +43,10 @@ export const getLoginUser = async <T>(token: string, prisma: PrismaClient) => {
     console.log(user)
     if (!user) return unknownUser
     const response = { ...user, id: toGlobalId('User', user.id) } as T
+    console.log(response)
     console.log('loginUser')
     if (response) return response
+    process.exit(1)
     return response
   } catch (error) {
     if (skeetEnv === 'development') {

@@ -53,6 +53,7 @@ export const createStreamChatMessage = onRequest(
     try {
       const queryType = 'query'
       const queryName = 'getChatRoom'
+      console.log('sending first request')
       const chatRoom = await skeetGraphql<GetChatRoomParams, ChatRoomParams>(
         token,
         SKEET_GRAPHQL_ENDPOINT_URL.value(),
@@ -137,7 +138,10 @@ export const createStreamChatMessage = onRequest(
           role: 'system',
           content: message,
         }
+        console.log('sending cloud task')
+        console.log(token)
         await createCloudTask(
+          token,
           queryName,
           params,
           SKEET_GRAPHQL_ENDPOINT_URL.value()
