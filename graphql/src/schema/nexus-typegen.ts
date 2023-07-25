@@ -401,10 +401,9 @@ export interface NexusGenArgTypes {
       title?: string | null; // String
     }
     createChatRoomMessage: { // args
-      chatRoomId: number; // Int!
+      chatRoomId: string; // String!
       content: string; // String!
       role: string; // String!
-      userId: number; // Int!
     }
     createUser: { // args
       email: string; // String!

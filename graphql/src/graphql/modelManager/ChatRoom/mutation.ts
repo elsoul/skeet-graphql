@@ -28,7 +28,7 @@ export const ChatRoomMutation = extendType({
       async resolve(_, args, ctx) {
         try {
           const { name, title, model, maxTokens, temperature, stream } = args
-          const user: CurrentUser = await ctx.currentUser
+          const user: CurrentUser = await ctx.user
           console.log({ user: user.id })
           if (user.id === '') throw new Error('You are not logged in!')
           const prismaClient = ctx.prisma as PrismaClient

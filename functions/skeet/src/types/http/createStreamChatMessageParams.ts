@@ -4,5 +4,11 @@ export type CreateStreamChatMessageParams = {
 }
 
 export type GetChatRoomParams = {
-  id: number
+  id: string
+}
+
+export type CreateChatMessageParams = {
+  role: string
+  content: string
+  chatRoomId: string
 }

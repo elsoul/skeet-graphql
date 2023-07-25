@@ -6,15 +6,15 @@ const isAuthenticated = rule({ cache: 'contextual' })(async (
   _args,
   ctx,
 ) => {
-  return !!ctx.currentUser?.id
+  return !!ctx.user?.id
 })
 
 const isAdmin = rule()(async (parent, args, ctx, info) => {
-  return ctx.currentUser.role === 'ADMIN'
+  return ctx.user.role === 'ADMIN'
 })
 
 const isGm = rule()(async (parent, args, ctx, info) => {
-  return ctx.currentUser.role === 'GM'
+  return ctx.user.role === 'GM'
 })
 
 export const permissions = shield(

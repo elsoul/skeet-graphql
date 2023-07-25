@@ -49,7 +49,7 @@ scalar DateTime
 
 type Mutation {
   createChatRoom(maxTokens: Int!, model: String!, name: String, stream: Boolean!, temperature: Int!, title: String): ChatRoom
-  createChatRoomMessage(chatRoomId: Int!, content: String!, role: String!, userId: Int!): ChatRoomMessage
+  createChatRoomMessage(chatRoomId: String!, content: String!, role: String!): ChatRoomMessage
   createUser(email: String!, iconUrl: String, uid: String!, username: String): User
   createUserChatRoom(chatRoomId: Int!, userId: Int!): UserChatRoom
   deleteChatRoom(id: String!): ChatRoom

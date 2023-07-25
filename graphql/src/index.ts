@@ -21,7 +21,7 @@ import { sleep } from '@skeet-framework/utils'
 export type CurrentUser = Omit<User, 'id'> & { id: string }
 
 interface Context {
-  currentUser?: CurrentUser
+  user?: CurrentUser
 }
 
 const prisma = new PrismaClient()
@@ -90,8 +90,9 @@ export const startApolloServer = async () => {
     json(),
     expressMiddleware(server, {
       context: async ({ req }) => ({
-        currentUser: await getLoginUser<CurrentUser>(
+        user: await getLoginUser<CurrentUser>(
           String(req.headers.authorization),
+          prisma,
         ),
         prisma,
       }),

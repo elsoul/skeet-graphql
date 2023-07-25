@@ -1,6 +1,7 @@
-import { extendType, nonNull, stringArg, intArg, floatArg } from 'nexus'
+import { extendType, nonNull, stringArg, intArg } from 'nexus'
 import { toPrismaId } from '@skeet-framework/utils'
 import { ChatRoomMessage } from 'nexus-prisma'
+import { CurrentUser } from '@/index'
 
 export const ChatRoomMessageMutation = extendType({
   type: 'Mutation',
@@ -10,17 +11,27 @@ export const ChatRoomMessageMutation = extendType({
       args: {
         role: nonNull(stringArg()),
         content: nonNull(stringArg()),
-        userId: nonNull(intArg()),
-        chatRoomId: nonNull(intArg()),
+        chatRoomId: nonNull(stringArg()),
       },
       async resolve(_, args, ctx) {
+        const { role, content, chatRoomId } = args
+        const user: CurrentUser = ctx.user
+        console.log(user)
+        if (user.uid === '') throw new Error(`You are not logged in!`)
+
+        const data = {
+          role,
+          content,
+          userId: toPrismaId(user.id),
+          chatRoomId: toPrismaId(chatRoomId),
+        }
         try {
           return await ctx.prisma.chatRoomMessage.create({
-            data: args,
+            data,
           })
         } catch (error) {
           console.log(error)
-          throw new Error(`error: ${error}`)
+          throw new Error(`createChatRoomMessage: ${error}`)
         }
       },
     })
@@ -39,9 +50,9 @@ export const ChatRoomMessageMutation = extendType({
         try {
           return await ctx.prisma.chatRoomMessage.update({
             where: {
-              id
+              id,
             },
-            data
+            data,
           })
         } catch (error) {
           console.log(error)

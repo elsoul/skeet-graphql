@@ -34,6 +34,15 @@
       "maxRate": 1,
       "maxInterval": "10s",
       "minInterval": "1s"
+    },
+    {
+      "queueName": "createChatRoomMessage",
+      "location": "asia-northeast1",
+      "maxAttempts": 3,
+      "maxConcurrent": 1,
+      "maxRate": 1,
+      "maxInterval": "10s",
+      "minInterval": "1s"
     }
   ],
   "cloudArmor": []

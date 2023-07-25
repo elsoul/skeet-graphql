@@ -1,18 +1,14 @@
 import { onRequest } from 'firebase-functions/v2/https'
 import { CreateChatCompletionRequest } from 'openai'
-import { chat, streamChat } from '@/lib/openai/openAi'
+import { streamChat } from '@/lib/openai/openAi'
 import { TypedRequestBody } from '@/index'
 import { getUserBearerToken } from '@/lib/getUserAuth'
 import { privateHttpOption, publicHttpOption } from '@/routings'
 // import { generateChatRoomTitle } from '@/lib/openai/generateChatRoomTitle'
 import { defineSecret } from 'firebase-functions/params'
+import { createCloudTask, skeetGraphql, sleep } from '@skeet-framework/utils'
 import {
-  createCloudTask,
-  skeetGraphql,
-  sleep,
-  toPrismaId,
-} from '@skeet-framework/utils'
-import {
+  CreateChatMessageParams,
   CreateStreamChatMessageParams,
   GetChatRoomParams,
 } from '@/types/http/createStreamChatMessageParams'
@@ -51,7 +47,7 @@ export const createStreamChatMessage = onRequest(
     // Get User Info from Firebase Auth
     const token = await getUserBearerToken(req)
     const getChatRoomBody: GetChatRoomParams = {
-      id: toPrismaId(body.chatRoomId),
+      id: body.chatRoomId,
     }
 
     try {
@@ -135,6 +131,17 @@ export const createStreamChatMessage = onRequest(
       stream.on('end', async () => {
         const message = messageResults.join('')
         // Send Message to Client
+        const queryName = 'createChatRoomMessage'
+        const params: CreateChatMessageParams = {
+          chatRoomId: body.chatRoomId,
+          role: 'system',
+          content: message,
+        }
+        await createCloudTask(
+          queryName,
+          params,
+          SKEET_GRAPHQL_ENDPOINT_URL.value()
+        )
         console.log(message)
         res.end('Stream done')
       })
