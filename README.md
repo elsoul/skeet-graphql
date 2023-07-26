@@ -29,7 +29,10 @@ $ npm i -g @skeet-framework/cli
 
 ### Run local
 
+After packages installed:
+
 ```bash
+$ yarn --cwd ./graphql db:dev
 $ skeet s
 ```
 
