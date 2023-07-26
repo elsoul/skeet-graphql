@@ -6,19 +6,29 @@
     "rootDir": ".",
     "strict": true,
     "moduleResolution": "node",
-    "baseUrl": ".",
+    "baseUrl": "src",
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "resolveJsonModule": true,
     "lib": ["esnext"],
+    "inlineSources": true,
+    "inlineSourceMap": false,
+    "mapRoot": ".",
+    "declaration": false,
+    "noEmitOnError": true,
     "typeRoots": ["./node_modules/@types"],
     "sourceMap": true,
     "paths": {
       "@/*": ["./src/*"]
+    }
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "NodeNext"
     }
   },
   "include": ["src/**/*", "prisma/**/*", "test/**/*"],
