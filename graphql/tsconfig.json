@@ -17,13 +17,12 @@
     "lib": ["esnext"],
     "inlineSources": true,
     "inlineSourceMap": false,
-    "mapRoot": ".",
     "declaration": false,
     "noEmitOnError": true,
     "typeRoots": ["./node_modules/@types"],
     "sourceMap": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]
     }
   },
   "ts-node": {
@@ -33,5 +32,5 @@
   },
   "include": ["src/**/*", "prisma/**/*", "test/**/*"],
   "exclude": ["node_modules"],
-  "compileOnSave": false
+  "compileOnSave": true
 }
