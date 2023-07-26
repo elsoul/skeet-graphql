@@ -3,11 +3,7 @@ import { auth } from 'firebase-admin'
 import { toGlobalId } from '@skeet-framework/utils'
 import admin from 'firebase-admin'
 import { PrismaClient } from '@prisma/client'
-import { getApps } from 'firebase-admin/app'
-import { inspect } from 'util'
 admin.initializeApp()
-
-console.log(inspect(getApps()[0]), { depth: null })
 
 const skeetEnv = process.env.NODE_ENV || 'development'
 
@@ -28,11 +24,10 @@ export const unknownUser: UnknownUser = {
 }
 
 export const getLoginUser = async <T>(token: string, prisma: PrismaClient) => {
-  try {
-    if (token == 'undefined' || token == null) throw new Error('undefined')
+  if (token == 'undefined' || token == null) return unknownUser
 
-    const bearer = token.split('Bearer ')[1]
-    console.log(bearer)
+  const bearer = token.split('Bearer ')[1]
+  try {
     if (!bearer) return unknownUser
     const decodedUser: DecodedIdToken = await auth().verifyIdToken(bearer)
     const user = await prisma.user.findUnique({
@@ -40,13 +35,9 @@ export const getLoginUser = async <T>(token: string, prisma: PrismaClient) => {
         uid: decodedUser.uid,
       },
     })
-    console.log(user)
     if (!user) return unknownUser
     const response = { ...user, id: toGlobalId('User', user.id) } as T
-    console.log(response)
-    console.log('loginUser')
     if (response) return response
-    process.exit(1)
     return response
   } catch (error) {
     if (skeetEnv === 'development') {
@@ -56,10 +47,9 @@ export const getLoginUser = async <T>(token: string, prisma: PrismaClient) => {
         },
       })
       if (!user) return unknownUser
+      console.log(`This is development mode - ctx.user returns user id: 1`)
       return { ...user, id: toGlobalId('User', 1) } as T
     }
-    console.log(error)
-    console.log('unknownUser')
     return unknownUser
   }
 }

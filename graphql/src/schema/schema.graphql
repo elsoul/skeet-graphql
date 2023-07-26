@@ -25,13 +25,13 @@ type ChatRoomEdge {
 }
 
 type ChatRoomMessage {
-  chatRoomId: Int!
+  chatRoomId: ID
   content: String!
   createdAt: DateTime!
   id: ID
   role: String!
   updatedAt: DateTime!
-  userId: Int!
+  userId: ID
 }
 
 type ChatRoomMessageEdge {
@@ -121,7 +121,7 @@ type Query {
     last: Int
   ): QueryChatRoomMessageConnection_Connection
   getChatRoom(id: String!): ChatRoom
-  getChatRoomMessage(id: String!): ChatRoomMessage
+  getChatRoomMessages(chatRoomId: String!): [ChatRoomMessage]
   getUser(id: String!): User
   getUserChatRoom(id: String!): UserChatRoom
   me: User

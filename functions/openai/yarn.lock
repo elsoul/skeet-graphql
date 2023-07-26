@@ -1571,10 +1571,10 @@
     jest "29.6.1"
     node-fetch "2.6.9"
 
-"@skeet-framework/utils@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@skeet-framework/utils/-/utils-0.6.0.tgz#f261a38eecb9e54b8d1641df71350991ecb93d44"
-  integrity sha512-WXF0pieSdT+XKR5PM8TywYqBRDXXUmUSRhtrA1VavGlEiw6YiCnghHh2vhgGNm7AOVJrYFIyfpGsxxli7qVhUw==
+"@skeet-framework/utils@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@skeet-framework/utils/-/utils-0.7.0.tgz#d6521da589a575f43a522dae07ad5abd2e774702"
+  integrity sha512-05nvCOKeno+2X0aJ/LaS0eTbXrWFt6g8PRDuTCI73jJWySIgJae6LyoDMrZdjpnPpVvI7c8trfkiFQ97LK15UA==
   dependencies:
     "@apollo/server" "4.8.1"
     "@google-cloud/tasks" "3.1.2"

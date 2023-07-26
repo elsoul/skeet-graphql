@@ -8,8 +8,8 @@ export const ChatRoomMessageObject = objectType({
     t.relayGlobalId('id', {})
     t.field(ChatRoomMessage.role)
     t.field(ChatRoomMessage.content)
-    t.field(ChatRoomMessage.userId)
-    t.field(ChatRoomMessage.chatRoomId)
+    t.relayGlobalId('userId', {})
+    t.relayGlobalId('chatRoomId', {})
     t.field(ChatRoomMessage.createdAt)
     t.field(ChatRoomMessage.updatedAt)
   },

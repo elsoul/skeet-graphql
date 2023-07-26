@@ -6,7 +6,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(async (
   _args,
   ctx,
 ) => {
-  return !!ctx.user?.id
+  return ctx.user?.uid !== ''
 })
 
 const isAdmin = rule()(async (parent, args, ctx, info) => {
@@ -21,7 +21,7 @@ export const permissions = shield(
   {
     Query: {
       me: isAuthenticated,
-      userConnection: not(isAuthenticated),
+      userConnection: isAuthenticated,
     },
     Mutation: {},
   },

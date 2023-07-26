@@ -74,12 +74,10 @@ export interface NexusGenObjects {
     node?: NexusGenRootTypes['ChatRoom'] | null; // ChatRoom
   }
   ChatRoomMessage: { // root type
-    chatRoomId: number; // Int!
     content: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     role: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
-    userId: number; // Int!
   }
   ChatRoomMessageEdge: { // root type
     cursor: string; // String!
@@ -169,13 +167,13 @@ export interface NexusGenFieldTypes {
     node: NexusGenRootTypes['ChatRoom'] | null; // ChatRoom
   }
   ChatRoomMessage: { // field return type
-    chatRoomId: number; // Int!
+    chatRoomId: string | null; // ID
     content: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string | null; // ID
     role: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
-    userId: number; // Int!
+    userId: string | null; // ID
   }
   ChatRoomMessageEdge: { // field return type
     cursor: string; // String!
@@ -205,7 +203,7 @@ export interface NexusGenFieldTypes {
     chatRoomConnection: NexusGenRootTypes['QueryChatRoomConnection_Connection'] | null; // QueryChatRoomConnection_Connection
     chatRoomMessageConnection: NexusGenRootTypes['QueryChatRoomMessageConnection_Connection'] | null; // QueryChatRoomMessageConnection_Connection
     getChatRoom: NexusGenRootTypes['ChatRoom'] | null; // ChatRoom
-    getChatRoomMessage: NexusGenRootTypes['ChatRoomMessage'] | null; // ChatRoomMessage
+    getChatRoomMessages: Array<NexusGenRootTypes['ChatRoomMessage'] | null> | null; // [ChatRoomMessage]
     getUser: NexusGenRootTypes['User'] | null; // User
     getUserChatRoom: NexusGenRootTypes['UserChatRoom'] | null; // UserChatRoom
     me: NexusGenRootTypes['User'] | null; // User
@@ -289,13 +287,13 @@ export interface NexusGenFieldTypeNames {
     node: 'ChatRoom'
   }
   ChatRoomMessage: { // field return type name
-    chatRoomId: 'Int'
+    chatRoomId: 'ID'
     content: 'String'
     createdAt: 'DateTime'
     id: 'ID'
     role: 'String'
     updatedAt: 'DateTime'
-    userId: 'Int'
+    userId: 'ID'
   }
   ChatRoomMessageEdge: { // field return type name
     cursor: 'String'
@@ -325,7 +323,7 @@ export interface NexusGenFieldTypeNames {
     chatRoomConnection: 'QueryChatRoomConnection_Connection'
     chatRoomMessageConnection: 'QueryChatRoomMessageConnection_Connection'
     getChatRoom: 'ChatRoom'
-    getChatRoomMessage: 'ChatRoomMessage'
+    getChatRoomMessages: 'ChatRoomMessage'
     getUser: 'User'
     getUserChatRoom: 'UserChatRoom'
     me: 'User'
@@ -466,8 +464,8 @@ export interface NexusGenArgTypes {
     getChatRoom: { // args
       id: string; // String!
     }
-    getChatRoomMessage: { // args
-      id: string; // String!
+    getChatRoomMessages: { // args
+      chatRoomId: string; // String!
     }
     getUser: { // args
       id: string; // String!

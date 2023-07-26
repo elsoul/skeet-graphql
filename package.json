@@ -10,7 +10,7 @@
   "scripts": {
     "skeet": "run-p skeet:*",
     "skeet:graphql": "yarn --cwd ./graphql dev",
-    "skeet:skeet": "yarn --cwd functions/skeet dev",
+    "skeet:openai": "yarn --cwd functions/openai dev",
     "skeet:dev": "firebase emulators:start",
     "update:packages": "ncu -u && yarn",
     "db:deploy": "yarn --cwd ./graphql db:deploy",
