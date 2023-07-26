@@ -6,7 +6,7 @@
     "rootDir": ".",
     "strict": true,
     "moduleResolution": "node",
-    "baseUrl": "src",
+    "baseUrl": ".",
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
