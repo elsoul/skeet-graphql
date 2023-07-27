@@ -47,7 +47,7 @@ const app = express()
 const httpServer = http.createServer(app)
 app.use(bodyParser.json())
 app.use(cors())
-app.get('/', (req, res) => {
+app.get('/root', (req, res) => {
   res.send('Skeet App is Running!')
 })
 
@@ -82,10 +82,12 @@ const corsOptions: cors.CorsOptions = {
   },
 }
 
+const endpoint = process.env.NODE_ENV === 'production' ? '/' : '/graphql'
+
 export const startApolloServer = async () => {
   await server.start()
   app.use(
-    '/graphql',
+    endpoint,
     cors<cors.CorsRequest>(corsOptions),
     json(),
     expressMiddleware(server, {

@@ -2712,22 +2712,13 @@
 
 "@types/react-relay@14.1.4":
   version "14.1.4"
-  resolved "https://registry.yarnpkg.com/@types/react-relay/-/react-relay-14.1.4.tgz#ee811208ed6f10b50ae10d51bfefc0f224a1c524"
+  resolved "https://registry.npmjs.org/@types/react-relay/-/react-relay-14.1.4.tgz"
   integrity sha512-Fv5KOnIleDR03Jx5ovfVEwjjBjAMOB8SkaVJcstFP2j6hKXXf3SiCJSv7Rzump9eZFMQAS0CC8Jdh+tBwnSYmg==
   dependencies:
     "@types/react" "*"
     "@types/relay-runtime" "*"
 
-"@types/react@*":
-  version "18.2.16"
-  resolved "https://registry.npmjs.org/@types/react/-/react-18.2.16.tgz"
-  integrity sha512-LLFWr12ZhBJ4YVw7neWLe6Pk7Ey5R9OCydfuMsz1L8bZxzaawJj2p06Q8/EFEHDeTBQNFLF62X+CG7B2zIyu0Q==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
-"@types/react@18.2.14":
+"@types/react@*", "@types/react@18.2.14":
   version "18.2.14"
   resolved "https://registry.npmjs.org/@types/react/-/react-18.2.14.tgz"
   integrity sha512-A0zjq+QN/O0Kpe30hA1GidzyFjatVvrpIvWLxD+xv67Vt91TWWgco9IvrJBkeyHm1trGaFS/FSGqPlhyeZRm0g==
@@ -2738,7 +2729,7 @@
 
 "@types/relay-runtime@*", "@types/relay-runtime@14.1.12":
   version "14.1.12"
-  resolved "https://registry.yarnpkg.com/@types/relay-runtime/-/relay-runtime-14.1.12.tgz#080ed86393e5e416150e8f9e988b4462f2824d5d"
+  resolved "https://registry.npmjs.org/@types/relay-runtime/-/relay-runtime-14.1.12.tgz"
   integrity sha512-6U+Q091/4CuvRwLta4zA9uk7eQMD/kEqtlyM4rCsZP0BlNLiBWAOktZwTED9+BSzIi4kt5Bk5QAJQ+1dv9QiZA==
 
 "@types/resolve@1.17.1":
@@ -10382,7 +10373,7 @@ prettier-plugin-tailwindcss@0.3.0:
 
 prettier@2.8.8:
   version "2.8.8"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.8.tgz#e8c5d7e98a4305ffe3de2e1fc4aca1a71c28b1da"
+  resolved "https://registry.npmjs.org/prettier/-/prettier-2.8.8.tgz"
   integrity sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==
 
 pretty-bytes@^5.3.0, pretty-bytes@^5.4.1:

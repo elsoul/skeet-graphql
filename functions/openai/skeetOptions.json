@@ -1,9 +1,9 @@
 {
   "projectId": "skeet-graphql",
   "region": "asia-northeast1",
-  "appDomain": "skeeter.app",
-  "lbDomain": "lb.skeeter.app",
-  "nsDomain": "skeeter.app",
+  "appDomain": "skeet.dev",
+  "lbDomain": "sql.skeet.dev",
+  "nsDomain": "skeet.dev",
   "fbProjectId": "skeet-graphql",
   "name": "skeet-graphql"
 }

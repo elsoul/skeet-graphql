@@ -3,12 +3,13 @@
     "name": "skeet-graphql",
     "projectId": "skeet-graphql",
     "fbProjectId": "skeet-graphql",
+    "template": "Next.js(React) with GraphQL",
     "region": "asia-northeast1",
-    "appDomain": "app.skeet.dev",
+    "appDomain": "skeet.dev",
     "nsDomain": "skeet.dev",
     "functionsDomain": "",
-    "lbDomain": "lb.skeet.dev",
-    "hasLoadBalancer": false
+    "lbDomain": "sql.skeet.dev",
+    "hasLoadBalancer": true
   },
   "cloudRun": {
     "name": "skeet-skeet-graphql-api",
