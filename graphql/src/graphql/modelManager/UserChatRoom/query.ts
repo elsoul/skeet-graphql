@@ -1,4 +1,4 @@
-import { extendType, nonNull, stringArg } from 'nexus'
+import { extendType, stringArg } from 'nexus'
 import { toPrismaId, connectionFromArray } from '@skeet-framework/utils'
 import { UserChatRoom } from 'nexus-prisma'
 
@@ -8,7 +8,10 @@ export const UserChatRoomsQuery = extendType({
     t.connectionField('userChatRoomConnection', {
       type: UserChatRoom.$name,
       async resolve(_, args, ctx, info) {
-        return connectionFromArray(await ctx.prisma.userChatRoom.findMany(), args)
+        return connectionFromArray(
+          await ctx.prisma.userChatRoom.findMany(),
+          args
+        )
       },
       extendConnection(t) {
         t.int('totalCount', {
@@ -21,14 +24,20 @@ export const UserChatRoomsQuery = extendType({
     t.field('getUserChatRoom', {
       type: UserChatRoom.$name,
       args: {
-        id: nonNull(stringArg()),
+        id: stringArg(),
       },
       async resolve(_, { id }, ctx) {
-        return await ctx.prisma.userChatRoom.findUnique({
-          where: {
-            id: toPrismaId(id),
-          },
-        })
+        try {
+          if (!id) throw new Error(`no id`)
+          return await ctx.prisma.userChatRoom.findUnique({
+            where: {
+              id: toPrismaId(id),
+            },
+          })
+        } catch (error) {
+          console.log(error)
+          throw new Error(`error: ${error}`)
+        }
       },
     })
   },

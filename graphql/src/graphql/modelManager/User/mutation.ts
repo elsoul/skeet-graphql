@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client'
 import { generateIv, toPrismaId } from '@skeet-framework/utils'
-import { objectType, stringArg, nonNull } from 'nexus'
+import { objectType, stringArg } from 'nexus'
 import { User } from 'nexus-prisma'
 
 export const UserMutation = objectType({
@@ -9,9 +9,9 @@ export const UserMutation = objectType({
     t.field('createUser', {
       type: User.$name,
       args: {
-        uid: nonNull(stringArg()),
+        uid: stringArg(),
         username: stringArg(),
-        email: nonNull(stringArg()),
+        email: stringArg(),
         iconUrl: stringArg(),
       },
       async resolve(_, args, ctx) {
@@ -36,20 +36,22 @@ export const UserMutation = objectType({
     t.field('updateUser', {
       type: User.$name,
       args: {
-        id: nonNull(stringArg()),
+        id: stringArg(),
         uid: stringArg(),
-        name: stringArg(),
+        username: stringArg(),
         email: stringArg(),
         iconUrl: stringArg(),
       },
-      async resolve(_, { id, name }, ctx) {
+      async resolve(_, { id, username, iconUrl }, ctx) {
         try {
+          if (!id) throw new Error(`no id`)
           return await ctx.prisma.user.update({
             where: {
               id: toPrismaId(id),
             },
             data: {
-              name,
+              username,
+              iconUrl,
             },
           })
         } catch (error) {
@@ -61,10 +63,11 @@ export const UserMutation = objectType({
     t.field('deleteUser', {
       type: User.$name,
       args: {
-        id: nonNull(stringArg()),
+        id: stringArg(),
       },
       async resolve(_, { id }, ctx) {
         try {
+          if (!id) throw new Error(`no id`)
           return await ctx.prisma.user.delete({
             where: {
               id: toPrismaId(id),

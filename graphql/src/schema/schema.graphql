@@ -48,18 +48,18 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Mutation {
-  createChatRoom(maxTokens: Int!, model: String!, name: String, stream: Boolean!, temperature: Int!, title: String): ChatRoom
-  createChatRoomMessage(chatRoomId: String!, content: String!, role: String!): ChatRoomMessage
-  createUser(email: String!, iconUrl: String, uid: String!, username: String): User
-  createUserChatRoom(chatRoomId: Int!, userId: Int!): UserChatRoom
-  deleteChatRoom(id: String!): ChatRoom
-  deleteChatRoomMessage(id: String!): ChatRoomMessage
-  deleteUser(id: String!): User
-  deleteUserChatRoom(id: String!): UserChatRoom
-  updateChatRoom(id: String!, model: String, stream: Boolean): ChatRoom
-  updateChatRoomMessage(chatRoomId: Int, content: String, id: String!, userId: Int): ChatRoomMessage
-  updateUser(email: String, iconUrl: String, id: String!, name: String, uid: String): User
-  updateUserChatRoom(chatRoomId: Int, id: String!): UserChatRoom
+  createChatRoom(maxTokens: Int, model: String, name: String, stream: Boolean, temperature: Int, title: String): ChatRoom
+  createChatRoomMessage(chatRoomId: String, content: String, role: String): ChatRoomMessage
+  createUser(email: String, iconUrl: String, uid: String, username: String): User
+  createUserChatRoom(chatRoomId: Int, userId: Int): UserChatRoom
+  deleteChatRoom(id: String): ChatRoom
+  deleteChatRoomMessage(id: String): ChatRoomMessage
+  deleteUser(id: String): User
+  deleteUserChatRoom(id: String): UserChatRoom
+  updateChatRoom(id: String, model: String, stream: Boolean): ChatRoom
+  updateChatRoomMessage(chatRoomId: Int, content: String, id: String, userId: Int): ChatRoomMessage
+  updateUser(email: String, iconUrl: String, id: String, uid: String, username: String): User
+  updateUserChatRoom(chatRoomId: Int, id: String): UserChatRoom
 }
 
 """An object with a global ID"""
@@ -120,10 +120,10 @@ type Query {
     """Returns the last n elements from the list."""
     last: Int
   ): QueryChatRoomMessageConnection_Connection
-  getChatRoom(id: String!): ChatRoom
-  getChatRoomMessages(chatRoomId: String!): [ChatRoomMessage]
-  getUser(id: String!): User
-  getUserChatRoom(id: String!): UserChatRoom
+  getChatRoom(id: String): ChatRoom
+  getChatRoomMessages(chatRoomId: String): [ChatRoomMessage]
+  getUser(id: String): User
+  getUserChatRoom(id: String): UserChatRoom
   me: User
 
   """Fetches an object given its global ID"""
@@ -137,7 +137,7 @@ type Query {
     """The global IDs of objects"""
     ids: [ID!]!
   ): [Node]!
-  postTweet(id: String!, text: String!): Boolean
+  postTweet(id: String, text: String): Boolean
   userChatRoomConnection(
     """Returns the elements in the list that come after the specified cursor"""
     after: String

@@ -1,4 +1,4 @@
-import { extendType, nonNull, stringArg } from 'nexus'
+import { extendType, stringArg } from 'nexus'
 
 export const postTweet = extendType({
   type: 'Query',
@@ -6,11 +6,17 @@ export const postTweet = extendType({
     t.field('postTweet', {
       type: 'Boolean',
       args: {
-        id: nonNull(stringArg()),
-        text: nonNull(stringArg()),
+        id: stringArg(),
+        text: stringArg(),
       },
       async resolve(_, { id, text }, ctx) {
-        return true
+        try {
+          if (!id || !text) throw new Error(`no id`)
+          return true
+        } catch (error) {
+          console.log(error)
+          throw new Error(`error: ${error}`)
+        }
       },
     })
   },

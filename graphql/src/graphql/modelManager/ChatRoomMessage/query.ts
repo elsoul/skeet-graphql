@@ -1,4 +1,4 @@
-import { extendType, nonNull, stringArg } from 'nexus'
+import { extendType, stringArg } from 'nexus'
 import {
   toPrismaId,
   connectionFromArray,
@@ -6,7 +6,6 @@ import {
 } from '@skeet-framework/utils'
 import { ChatRoomMessage } from 'nexus-prisma'
 import { CurrentUser } from '@/index'
-import { PrismaClient } from '@prisma/client'
 
 export const ChatRoomMessagesQuery = extendType({
   type: 'Query',
@@ -16,7 +15,7 @@ export const ChatRoomMessagesQuery = extendType({
       async resolve(_, args, ctx, info) {
         return connectionFromArray(
           await ctx.prisma.chatRoomMessage.findMany(),
-          args,
+          args
         )
       },
       extendConnection(t) {
@@ -30,13 +29,13 @@ export const ChatRoomMessagesQuery = extendType({
     t.list.field('getChatRoomMessages', {
       type: ChatRoomMessage.$name,
       args: {
-        chatRoomId: nonNull(stringArg()),
+        chatRoomId: stringArg(),
       },
       async resolve(_, { chatRoomId }, ctx) {
-        const user: CurrentUser = ctx.user
-        if (user.id === '') throw new Error('You are not logged in!')
-
         try {
+          if (!chatRoomId) throw new Error(`no chatRoomId`)
+          const user: CurrentUser = ctx.user
+          if (user.id === '') throw new Error('You are not logged in!')
           // Fetch the most recent 5 messages
           const chatRoomMessages = await ctx.prisma.chatRoomMessage.findMany({
             where: {
@@ -66,7 +65,7 @@ export const ChatRoomMessagesQuery = extendType({
           if (
             firstMessage &&
             !reversedChatRoomMessages.some(
-              (msg: any) => msg.id === firstMessage.id,
+              (msg: any) => msg.id === firstMessage.id
             )
           ) {
             reversedChatRoomMessages.unshift(firstMessage)

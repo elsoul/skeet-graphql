@@ -58,14 +58,14 @@ type Inputs = z.infer<typeof schema>
 type Props = {
   setNewChatModalOpen: (_value: boolean) => void
   currentChatRoomId: string | null
-  getChatRooms: () => void
+  // getChatRooms: () => void
 }
 
 export default function ChatBox({
   setNewChatModalOpen,
   currentChatRoomId,
-  getChatRooms,
-}: Props) {
+}: // getChatRooms,
+Props) {
   const { t } = useTranslation()
   const user = useRecoilValue(userState)
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
@@ -99,28 +99,28 @@ export default function ChatBox({
 
   const [isFirstMessage, setFirstMessage] = useState(true)
 
-  const getChatRoom = useCallback(async () => {
-    if (db && user.uid && currentChatRoomId) {
-      const docRef = doc(
-        db,
-        `User/${user.uid}/UserChatRoom/${currentChatRoomId}`
-      )
-      const docSnap = await getDoc(docRef)
-      if (docSnap.exists()) {
-        const data = docSnap.data()
-        if (data.title !== '') {
-          setFirstMessage(false)
-        }
-        setChatRoom({ id: docSnap.id, ...data } as ChatRoom)
-      } else {
-        console.log('No such document!')
-      }
-    }
-  }, [currentChatRoomId, user.uid])
+  // const getChatRoom = useCallback(async () => {
+  //   if (db && user.uid && currentChatRoomId) {
+  //     const docRef = doc(
+  //       db,
+  //       `User/${user.uid}/UserChatRoom/${currentChatRoomId}`
+  //     )
+  //     const docSnap = await getDoc(docRef)
+  //     if (docSnap.exists()) {
+  //       const data = docSnap.data()
+  //       if (data.title !== '') {
+  //         setFirstMessage(false)
+  //       }
+  //       setChatRoom({ id: docSnap.id, ...data } as ChatRoom)
+  //     } else {
+  //       console.log('No such document!')
+  //     }
+  //   }
+  // }, [currentChatRoomId, user.uid])
 
-  useEffect(() => {
-    getChatRoom()
-  }, [getChatRoom])
+  // useEffect(() => {
+  //   getChatRoom()
+  // }, [getChatRoom])
 
   const [isSending, setSending] = useState(false)
 
@@ -245,8 +245,8 @@ export default function ChatBox({
           }
 
           if (chatRoom && chatRoom.title == '') {
-            await getChatRoom()
-            await getChatRooms()
+            // await getChatRoom()
+            // await getChatRooms()
           }
           await getUserChatRoomMessage()
           reset()

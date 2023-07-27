@@ -1,11 +1,4 @@
-import {
-  extendType,
-  nonNull,
-  stringArg,
-  intArg,
-  floatArg,
-  booleanArg,
-} from 'nexus'
+import { extendType, stringArg, intArg, floatArg, booleanArg } from 'nexus'
 import { toPrismaId } from '@skeet-framework/utils'
 import { ChatRoom } from 'nexus-prisma'
 import { PrismaClient } from '@prisma/client'
@@ -20,14 +13,19 @@ export const ChatRoomMutation = extendType({
       args: {
         name: stringArg(),
         title: stringArg(),
-        model: nonNull(stringArg()),
-        maxTokens: nonNull(intArg()),
-        temperature: nonNull(intArg()),
-        stream: nonNull(booleanArg()),
+        model: stringArg(),
+        maxTokens: intArg(),
+        temperature: intArg(),
+        stream: booleanArg(),
       },
-      async resolve(_, args, ctx) {
+      async resolve(
+        _,
+        { name, title, model, maxTokens, temperature, stream },
+        ctx
+      ) {
         try {
-          const { name, title, model, maxTokens, temperature, stream } = args
+          if (!model || !maxTokens || !temperature || !stream)
+            throw new Error(`not enough args`)
           const user: CurrentUser = ctx.user
           console.log({ user: user.id })
           if (user.id === '') throw new Error('You are not logged in!')
@@ -76,15 +74,16 @@ export const ChatRoomMutation = extendType({
     t.field('updateChatRoom', {
       type: ChatRoom.$name,
       args: {
-        id: nonNull(stringArg()),
+        id: stringArg(),
         model: stringArg(),
         stream: booleanArg(),
       },
       async resolve(_, args, ctx) {
-        const id = toPrismaId(args.id)
-        let data = JSON.parse(JSON.stringify(args))
-        delete data.id
         try {
+          if (!args.id) throw new Error(`no id`)
+          const id = toPrismaId(args.id)
+          const data = JSON.parse(JSON.stringify(args))
+          delete data.id
           return await ctx.prisma.chatRoom.update({
             where: {
               id,
@@ -100,10 +99,11 @@ export const ChatRoomMutation = extendType({
     t.field('deleteChatRoom', {
       type: ChatRoom.$name,
       args: {
-        id: nonNull(stringArg()),
+        id: stringArg(),
       },
       async resolve(_, { id }, ctx) {
         try {
+          if (!id) throw new Error(`no id`)
           return await ctx.prisma.chatRoom.delete({
             where: {
               id: toPrismaId(id),

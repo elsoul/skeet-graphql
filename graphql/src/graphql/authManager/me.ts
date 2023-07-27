@@ -18,7 +18,7 @@ export const MeQuery = extendType({
         }
         return await ctx.prisma.user.findUnique({
           where: {
-            id: Number(ctx.user.id),
+            id: process.env.NODE_ENV === 'production' ? Number(ctx.user.id) : 1,
           },
         })
       },

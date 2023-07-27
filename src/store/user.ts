@@ -1,7 +1,8 @@
 import { atom } from 'recoil'
 
 export type UserState = {
-  uid: string
+  id: string // GraphQL ID
+  uid: string // Firebase UID
   email: string
   username: string
   iconUrl: string
@@ -9,6 +10,7 @@ export type UserState = {
 }
 
 export const defaultUser = {
+  id: '',
   uid: '',
   email: '',
   username: '',

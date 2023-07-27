@@ -35,7 +35,7 @@ const queryComplexityRule = queryComplexity({
   // eslint-disable-next-line no-console
   createError: (max: number, actual: number) =>
     new GraphQLError(
-      `Query is too complex: ${actual}. Maximum allowed complexity: ${max}`,
+      `Query is too complex: ${actual}. Maximum allowed complexity: ${max}`
     ),
   estimators: [
     simpleEstimator({
@@ -67,7 +67,7 @@ export const server = new ApolloServer<Context>({
   introspection: true,
 })
 
-const allowedOrigins = ['http://localhost:3000', 'https://app.skeeter.dev']
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:4200']
 new Array(10).fill(0).forEach((_, i) => {
   allowedOrigins.push(`http://localhost:1900${i}`)
 })
@@ -94,11 +94,11 @@ export const startApolloServer = async () => {
       context: async ({ req }) => ({
         user: await getLoginUser<CurrentUser>(
           String(req.headers.authorization),
-          prisma,
+          prisma
         ),
         prisma,
       }),
-    }),
+    })
   )
 }
 
@@ -109,6 +109,6 @@ export const expressServer = httpServer.listen(PORT, async () => {
     process.exit()
   }
   console.log(
-    `🚀 [API:${skeetEnv}]Server ready at http://localhost:${PORT}/graphql`,
+    `🚀 [API:${skeetEnv}]Server ready at http://localhost:${PORT}/graphql`
   )
 })
