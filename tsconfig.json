@@ -26,7 +26,7 @@
       "module": "NodeNext"
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "lib/firebaseConfig.mjs"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", "out", ".next", "build", "dist", "functions"],
   "compileOnSave": false
 }
