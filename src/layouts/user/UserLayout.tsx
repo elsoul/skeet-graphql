@@ -10,16 +10,27 @@ import Link from '@/components/routing/Link'
 import { User, signOut } from 'firebase/auth'
 import { useRecoilState } from 'recoil'
 import { defaultUser, userState } from '@/store/user'
-import { auth, db } from '@/lib/firebase'
-import { doc, getDoc } from 'firebase/firestore'
+import { auth } from '@/lib/firebase'
 import LogoHorizontal from '@/components/common/atoms/LogoHorizontal'
 import Image from 'next/image'
+import { fetchQuery, graphql } from 'react-relay'
+import { UserLayoutQuery } from '@/__generated__/UserLayoutQuery.graphql'
+import { createEnvironment } from '@/lib/relayEnvironment'
 
 type Props = {
   children: ReactNode
 }
 
 const mainContentId = 'userMainContent'
+
+export const userLayoutQuery = graphql`
+  query UserLayoutQuery {
+    me {
+      iconUrl
+      username
+    }
+  }
+`
 
 export default function UserLayout({ children }: Props) {
   const router = useRouter()
@@ -50,22 +61,25 @@ export default function UserLayout({ children }: Props) {
 
   const onAuthStateChanged = useCallback(
     async (fbUser: User | null) => {
-      if (auth && db && fbUser && fbUser.emailVerified) {
-        // const docRef = doc(db, 'User', fbUser.uid)
-        // const docSnap = await getDoc(docRef)
-        // if (docSnap.exists()) {
-        //   setUser({
-        //     uid: fbUser.uid,
-        //     email: fbUser.email ?? '',
-        //     username: docSnap.data().username,
-        //     iconUrl: docSnap.data().iconUrl,
-        //     emailVerified: fbUser.emailVerified,
-        //   })
-        // } else {
-        //   setUser(defaultUser)
-        //   signOut(auth)
-        //   router.push('/auth/login')
-        // }
+      if (auth && fbUser && fbUser.emailVerified) {
+        const user = await fetchQuery<UserLayoutQuery>(
+          createEnvironment(),
+          userLayoutQuery,
+          {}
+        ).toPromise()
+        if (user?.me) {
+          setUser({
+            uid: fbUser.uid,
+            email: fbUser.email ?? '',
+            username: user.me.username ?? '',
+            iconUrl: user.me.iconUrl ?? '',
+            emailVerified: fbUser.emailVerified,
+          })
+        } else {
+          setUser(defaultUser)
+          signOut(auth)
+          router.push('/auth/login')
+        }
       } else {
         setUser(defaultUser)
         router.push('/auth/login')
