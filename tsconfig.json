@@ -26,13 +26,7 @@
       "module": "NodeNext"
     }
   },
-  "files": ["package.json", "skeet-cloud.config.json"],
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "lib/firebaseAppConfig/skeet-graphql.mjs"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "lib/firebaseConfig.mjs"],
   "exclude": ["node_modules", "out", ".next", "build", "dist", "functions"],
   "compileOnSave": false
 }
