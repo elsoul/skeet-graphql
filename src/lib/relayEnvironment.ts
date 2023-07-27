@@ -9,11 +9,16 @@ import {
 } from 'react-relay-network-modern'
 
 import skeetCloudConfig from '@root/skeet-cloud.config.json'
+import { auth } from './firebase'
 
 const source = new RecordSource()
 const store = new Store(source)
 
 let storeEnvironment: Environment | null = null
+
+const getToken = async () => {
+  return (await auth?.currentUser?.getIdToken()) ?? ''
+}
 
 export const createEnvironment: () => Environment = () => {
   if (storeEnvironment) return storeEnvironment
@@ -29,7 +34,7 @@ export const createEnvironment: () => Environment = () => {
       }),
       typeof window !== 'undefined'
         ? authMiddleware({
-            token: 'Bearer test',
+            token: getToken,
           })
         : null,
       retryMiddleware(),
@@ -37,7 +42,7 @@ export const createEnvironment: () => Environment = () => {
         url: () =>
           process.env.NODE_ENV !== 'production'
             ? 'http://localhost:3000/graphql'
-            :  `${skeetCloudConfig.cloudRun.url}/graphql`,
+            : `${skeetCloudConfig.cloudRun.url}/graphql`,
       }),
     ]),
   })
