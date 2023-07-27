@@ -22,6 +22,7 @@ const mainContentId = 'authMainContent'
 export const authLayoutQuery = graphql`
   query AuthLayoutQuery {
     me {
+      id
       iconUrl
       username
     }
@@ -56,8 +57,9 @@ export default function AuthLayout({ children }: Props) {
           authLayoutQuery,
           {}
         ).toPromise()
-        if (user?.me) {
+        if (user?.me?.id) {
           setUser({
+            id: user.me.id,
             uid: fbUser.uid,
             email: fbUser.email ?? '',
             username: user.me.username ?? '',

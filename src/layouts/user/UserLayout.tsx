@@ -26,6 +26,7 @@ const mainContentId = 'userMainContent'
 export const userLayoutQuery = graphql`
   query UserLayoutQuery {
     me {
+      id
       iconUrl
       username
     }
@@ -67,8 +68,9 @@ export default function UserLayout({ children }: Props) {
           userLayoutQuery,
           {}
         ).toPromise()
-        if (user?.me) {
+        if (user?.me?.id) {
           setUser({
+            id: user.me.id,
             uid: fbUser.uid,
             email: fbUser.email ?? '',
             username: user.me.username ?? '',

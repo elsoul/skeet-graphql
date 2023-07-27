@@ -6,13 +6,17 @@ import LogoHorizontal from '@/components/common/atoms/LogoHorizontal'
 import { useRecoilState } from 'recoil'
 import { userState } from '@/store/user'
 import { usernameSchema } from '@/utils/form'
-import { db } from '@/lib/firebase'
-import { doc, updateDoc } from 'firebase/firestore'
 import useToastMessage from '@/hooks/useToastMessage'
 import { Dialog, Transition } from '@headlessui/react'
 import { z } from 'zod'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { graphql } from 'relay-runtime'
+import { useMutation } from 'react-relay'
+import {
+  EditUserProfileMutation,
+  EditUserProfileMutation$data,
+} from '@/__generated__/EditUserProfileMutation.graphql'
 
 const schema = z.object({
   username: usernameSchema,
@@ -20,12 +24,21 @@ const schema = z.object({
 
 type Inputs = z.infer<typeof schema>
 
+const editUserProfileMutation = graphql`
+  mutation EditUserProfileMutation($id: String, $username: String) {
+    updateUser(id: $id, username: $username) {
+      username
+    }
+  }
+`
+
 export default function EditUserProfile() {
   const { t } = useTranslation()
   const [isModalOpen, setModalOpen] = useState(false)
   const [isLoading, setLoading] = useState(false)
   const [user, setUser] = useRecoilState(userState)
   const addToast = useToastMessage()
+  const [commit] = useMutation<EditUserProfileMutation>(editUserProfileMutation)
 
   const {
     handleSubmit,
@@ -40,46 +53,61 @@ export default function EditUserProfile() {
 
   const onSubmit = useCallback(
     async (data: Inputs) => {
-      if (db) {
-        try {
-          setLoading(true)
-          const docRef = doc(db, 'User', user.uid)
-          await updateDoc(docRef, { username: data.username })
-          setUser({
-            ...user,
+      try {
+        setLoading(true)
+        commit({
+          variables: {
+            id: user.id,
             username: data.username,
-          })
-          addToast({
-            type: 'success',
-            title: t('settings:updateProfileSuccess'),
-            description: t('settings:updateProfileSuccessMessage'),
-          })
-        } catch (err) {
-          console.error(err)
-          if (
-            err instanceof Error &&
-            (err.message.includes('Firebase ID token has expired.') ||
-              err.message.includes('Error: getUserAuth'))
-          ) {
-            addToast({
-              type: 'error',
-              title: t('errorTokenExpiredTitle'),
-              description: t('errorTokenExpiredBody'),
+          },
+          onCompleted: (result: EditUserProfileMutation$data) => {
+            setUser({
+              ...user,
+              username: data.username,
             })
-          } else {
+            addToast({
+              type: 'success',
+              title: t('settings:updateProfileSuccess'),
+              description: t('settings:updateProfileSuccessMessage'),
+            })
+          },
+          onError: (err) => {
+            console.error(err.message)
             addToast({
               type: 'error',
               title: t('settings:updateProfileError'),
               description: t('settings:updateProfileErrorMessage'),
             })
-          }
-        } finally {
-          setModalOpen(false)
-          setLoading(false)
+          },
+          updater: (store) => {
+            store.invalidateStore()
+          },
+        })
+      } catch (err) {
+        console.error(err)
+        if (
+          err instanceof Error &&
+          (err.message.includes('Firebase ID token has expired.') ||
+            err.message.includes('Error: getUserAuth'))
+        ) {
+          addToast({
+            type: 'error',
+            title: t('errorTokenExpiredTitle'),
+            description: t('errorTokenExpiredBody'),
+          })
+        } else {
+          addToast({
+            type: 'error',
+            title: t('settings:updateProfileError'),
+            description: t('settings:updateProfileErrorMessage'),
+          })
         }
+      } finally {
+        setModalOpen(false)
+        setLoading(false)
       }
     },
-    [t, user, setUser, addToast, setModalOpen, setLoading]
+    [t, user, setUser, addToast, setModalOpen, setLoading, commit]
   )
 
   const isDisabled = useMemo(

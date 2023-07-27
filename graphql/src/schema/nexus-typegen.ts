@@ -391,61 +391,61 @@ export interface NexusGenFieldTypeNames {
 export interface NexusGenArgTypes {
   Mutation: {
     createChatRoom: { // args
-      maxTokens: number; // Int!
-      model: string; // String!
+      maxTokens?: number | null; // Int
+      model?: string | null; // String
       name?: string | null; // String
-      stream: boolean; // Boolean!
-      temperature: number; // Int!
+      stream?: boolean | null; // Boolean
+      temperature?: number | null; // Int
       title?: string | null; // String
     }
     createChatRoomMessage: { // args
-      chatRoomId: string; // String!
-      content: string; // String!
-      role: string; // String!
+      chatRoomId?: string | null; // String
+      content?: string | null; // String
+      role?: string | null; // String
     }
     createUser: { // args
-      email: string; // String!
+      email?: string | null; // String
       iconUrl?: string | null; // String
-      uid: string; // String!
+      uid?: string | null; // String
       username?: string | null; // String
     }
     createUserChatRoom: { // args
-      chatRoomId: number; // Int!
-      userId: number; // Int!
+      chatRoomId?: number | null; // Int
+      userId?: number | null; // Int
     }
     deleteChatRoom: { // args
-      id: string; // String!
+      id?: string | null; // String
     }
     deleteChatRoomMessage: { // args
-      id: string; // String!
+      id?: string | null; // String
     }
     deleteUser: { // args
-      id: string; // String!
+      id?: string | null; // String
     }
     deleteUserChatRoom: { // args
-      id: string; // String!
+      id?: string | null; // String
     }
     updateChatRoom: { // args
-      id: string; // String!
+      id?: string | null; // String
       model?: string | null; // String
       stream?: boolean | null; // Boolean
     }
     updateChatRoomMessage: { // args
       chatRoomId?: number | null; // Int
       content?: string | null; // String
-      id: string; // String!
+      id?: string | null; // String
       userId?: number | null; // Int
     }
     updateUser: { // args
       email?: string | null; // String
       iconUrl?: string | null; // String
-      id: string; // String!
-      name?: string | null; // String
+      id?: string | null; // String
       uid?: string | null; // String
+      username?: string | null; // String
     }
     updateUserChatRoom: { // args
       chatRoomId?: number | null; // Int
-      id: string; // String!
+      id?: string | null; // String
     }
   }
   Query: {
@@ -462,16 +462,16 @@ export interface NexusGenArgTypes {
       last?: number | null; // Int
     }
     getChatRoom: { // args
-      id: string; // String!
+      id?: string | null; // String
     }
     getChatRoomMessages: { // args
-      chatRoomId: string; // String!
+      chatRoomId?: string | null; // String
     }
     getUser: { // args
-      id: string; // String!
+      id?: string | null; // String
     }
     getUserChatRoom: { // args
-      id: string; // String!
+      id?: string | null; // String
     }
     node: { // args
       id: string; // ID!
@@ -480,8 +480,8 @@ export interface NexusGenArgTypes {
       ids: string[]; // [ID!]!
     }
     postTweet: { // args
-      id: string; // String!
-      text: string; // String!
+      id?: string | null; // String
+      text?: string | null; // String
     }
     userChatRoomConnection: { // args
       after?: string | null; // String

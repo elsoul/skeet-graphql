@@ -1,4 +1,4 @@
-import { extendType, nonNull, stringArg, intArg, floatArg } from 'nexus'
+import { extendType, stringArg, intArg } from 'nexus'
 import { toPrismaId } from '@skeet-framework/utils'
 import { UserChatRoom } from 'nexus-prisma'
 
@@ -8,11 +8,13 @@ export const UserChatRoomMutation = extendType({
     t.field('createUserChatRoom', {
       type: UserChatRoom.$name,
       args: {
-        userId: nonNull(intArg()),
-        chatRoomId: nonNull(intArg()),
+        userId: intArg(),
+        chatRoomId: intArg(),
       },
       async resolve(_, args, ctx) {
         try {
+          if (!args.userId || !args.chatRoomId)
+            throw new Error(`not enough args`)
           return await ctx.prisma.userChatRoom.create({
             data: args,
           })
@@ -25,19 +27,20 @@ export const UserChatRoomMutation = extendType({
     t.field('updateUserChatRoom', {
       type: UserChatRoom.$name,
       args: {
-        id: nonNull(stringArg()),
+        id: stringArg(),
         chatRoomId: intArg(),
       },
       async resolve(_, args, ctx) {
-        const id = toPrismaId(args.id)
-        let data = JSON.parse(JSON.stringify(args))
-        delete data.id
         try {
+          if (!args.id) throw new Error(`no id`)
+          const id = toPrismaId(args.id)
+          const data = JSON.parse(JSON.stringify(args))
+          delete data.id
           return await ctx.prisma.userChatRoom.update({
             where: {
-              id
+              id,
             },
-            data
+            data,
           })
         } catch (error) {
           console.log(error)
@@ -48,10 +51,11 @@ export const UserChatRoomMutation = extendType({
     t.field('deleteUserChatRoom', {
       type: UserChatRoom.$name,
       args: {
-        id: nonNull(stringArg()),
+        id: stringArg(),
       },
       async resolve(_, { id }, ctx) {
         try {
+          if (!id) throw new Error(`no id`)
           return await ctx.prisma.userChatRoom.delete({
             where: {
               id: toPrismaId(id),

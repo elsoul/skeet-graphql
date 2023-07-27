@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<3a610f2fa9cb747f798856e2c73e4cd1>>
+ * @generated SignedSource<<2fc14e63a558798ffea3c8a2d7ca5914>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,6 +13,7 @@ export type UserLayoutQuery$variables = {};
 export type UserLayoutQuery$data = {
   readonly me: {
     readonly iconUrl: string | null;
+    readonly id: string | null;
     readonly username: string | null;
   } | null;
 };
@@ -22,41 +23,47 @@ export type UserLayoutQuery = {
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "iconUrl",
-  "storageKey": null
-},
-v1 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "username",
-  "storageKey": null
-};
+var v0 = [
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "User",
+    "kind": "LinkedField",
+    "name": "me",
+    "plural": false,
+    "selections": [
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "id",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "iconUrl",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "username",
+        "storageKey": null
+      }
+    ],
+    "storageKey": null
+  }
+];
 return {
   "fragment": {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
     "name": "UserLayoutQuery",
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "concreteType": "User",
-        "kind": "LinkedField",
-        "name": "me",
-        "plural": false,
-        "selections": [
-          (v0/*: any*/),
-          (v1/*: any*/)
-        ],
-        "storageKey": null
-      }
-    ],
+    "selections": (v0/*: any*/),
     "type": "Query",
     "abstractKey": null
   },
@@ -65,40 +72,19 @@ return {
     "argumentDefinitions": [],
     "kind": "Operation",
     "name": "UserLayoutQuery",
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "concreteType": "User",
-        "kind": "LinkedField",
-        "name": "me",
-        "plural": false,
-        "selections": [
-          (v0/*: any*/),
-          (v1/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "id",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      }
-    ]
+    "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "88bfa86067a9edb358a7d80e4f9ed0c8",
+    "cacheID": "e2df0e061279e0e3f4e002be1f43e55f",
     "id": null,
     "metadata": {},
     "name": "UserLayoutQuery",
     "operationKind": "query",
-    "text": "query UserLayoutQuery {\n  me {\n    iconUrl\n    username\n    id\n  }\n}\n"
+    "text": "query UserLayoutQuery {\n  me {\n    id\n    iconUrl\n    username\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "288f848ffe905cb3282dc44a771ee2cd";
+(node as any).hash = "3158b9fc47af5f8d0589ffe0cf786bf1";
 
 export default node;

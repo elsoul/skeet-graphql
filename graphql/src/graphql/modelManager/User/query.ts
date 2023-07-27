@@ -1,4 +1,4 @@
-import { extendType, nonNull, stringArg } from 'nexus'
+import { extendType, stringArg } from 'nexus'
 import { connectionFromArray } from 'graphql-relay'
 import { User } from 'nexus-prisma'
 import { toPrismaId } from '@skeet-framework/utils'
@@ -22,14 +22,20 @@ export const UsersQuery = extendType({
     t.field('getUser', {
       type: User.$name,
       args: {
-        id: nonNull(stringArg()),
+        id: stringArg(),
       },
       async resolve(_, { id }, ctx) {
-        return await ctx.prisma.user.findUnique({
-          where: {
-            id: toPrismaId(id),
-          },
-        })
+        try {
+          if (!id) throw new Error(`no id`)
+          return await ctx.prisma.user.findUnique({
+            where: {
+              id: toPrismaId(id),
+            },
+          })
+        } catch (error) {
+          console.log(error)
+          throw new Error(`error: ${error}`)
+        }
       },
     })
   },

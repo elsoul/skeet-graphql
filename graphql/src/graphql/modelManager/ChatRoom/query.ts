@@ -1,4 +1,4 @@
-import { extendType, nonNull, stringArg } from 'nexus'
+import { extendType, stringArg } from 'nexus'
 import { toPrismaId, connectionFromArray } from '@skeet-framework/utils'
 import { ChatRoom } from 'nexus-prisma'
 
@@ -21,14 +21,20 @@ export const ChatRoomsQuery = extendType({
     t.field('getChatRoom', {
       type: ChatRoom.$name,
       args: {
-        id: nonNull(stringArg()),
+        id: stringArg(),
       },
       async resolve(_, { id }, ctx) {
-        return await ctx.prisma.chatRoom.findUnique({
-          where: {
-            id: toPrismaId(id),
-          },
-        })
+        try {
+          if (!id) throw new Error(`no id`)
+          return await ctx.prisma.chatRoom.findUnique({
+            where: {
+              id: toPrismaId(id),
+            },
+          })
+        } catch (error) {
+          console.log(error)
+          throw new Error(`error: ${error}`)
+        }
       },
     })
   },
