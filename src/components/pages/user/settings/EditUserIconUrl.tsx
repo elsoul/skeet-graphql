@@ -7,16 +7,27 @@ import {
 } from '@heroicons/react/24/outline'
 import { useTranslation } from 'next-i18next'
 import { Fragment, useCallback, useMemo, useState } from 'react'
-
-import { doc, updateDoc } from 'firebase/firestore'
 import { useRecoilState } from 'recoil'
 import { userState } from '@/store/user'
-import { db, storage } from '@/lib/firebase'
+import { storage } from '@/lib/firebase'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import useToastMessage from '@/hooks/useToastMessage'
 import { Dialog, Transition } from '@headlessui/react'
 import { useDropzone } from 'react-dropzone'
 import LogoHorizontal from '@/components/common/atoms/LogoHorizontal'
+import { graphql, useMutation } from 'react-relay'
+import {
+  EditUserIconUrlMutation,
+  EditUserIconUrlMutation$data,
+} from '@/__generated__/EditUserIconUrlMutation.graphql'
+
+const editUserIconUrlMutation = graphql`
+  mutation EditUserIconUrlMutation($id: String, $iconUrl: String) {
+    updateUser(id: $id, iconUrl: $iconUrl) {
+      iconUrl
+    }
+  }
+`
 
 export default function EditUserIconUrl() {
   const { t } = useTranslation()
@@ -25,6 +36,7 @@ export default function EditUserIconUrl() {
   const [isLoading, setLoading] = useState(false)
   const [image, setImage] = useState<File | null>(null)
   const [imageUrl, setImageUrl] = useState<null | string>(null)
+  const [commit] = useMutation<EditUserIconUrlMutation>(editUserIconUrlMutation)
 
   const [isModalOpen, setModalOpen] = useState(false)
 
@@ -42,7 +54,7 @@ export default function EditUserIconUrl() {
   const uploadImage = useCallback(async () => {
     try {
       setLoading(true)
-      if (image && storage && user.uid !== '' && db) {
+      if (image && storage && user.uid !== '') {
         const newProfileIconRef = ref(
           storage,
           `User/${user.uid}/profileIcon/profile.${image.type.split('/')[1]}`
@@ -51,21 +63,38 @@ export default function EditUserIconUrl() {
 
         const downloadUrl = await getDownloadURL(newProfileIconRef)
 
-        const docRef = doc(db, 'User', user.uid)
-        await updateDoc(docRef, { iconUrl: downloadUrl })
-        setUser({
-          ...user,
-          iconUrl: downloadUrl,
-        })
+        commit({
+          variables: {
+            id: user.id,
+            iconUrl: downloadUrl,
+          },
+          onCompleted: (result: EditUserIconUrlMutation$data) => {
+            setUser({
+              ...user,
+              iconUrl: downloadUrl,
+            })
 
-        addToast({
-          type: 'success',
-          title: t('settings:avatarUpdated'),
-          description: t('settings:avatarUpdatedMessage'),
+            addToast({
+              type: 'success',
+              title: t('settings:avatarUpdated'),
+              description: t('settings:avatarUpdatedMessage'),
+            })
+            setImage(null)
+            setImageUrl(null)
+            setModalOpen(false)
+          },
+          onError: (err) => {
+            console.error(err.message)
+            addToast({
+              type: 'error',
+              title: t('settings:avatarUpdatedError'),
+              description: t('settings:avatarUpdatedErrorMessage'),
+            })
+          },
+          updater: (store) => {
+            store.invalidateStore()
+          },
         })
-        setImage(null)
-        setImageUrl(null)
-        setModalOpen(false)
       }
     } catch (err) {
       console.error(err)
@@ -89,7 +118,7 @@ export default function EditUserIconUrl() {
     } finally {
       setLoading(false)
     }
-  }, [user, setUser, t, image, addToast])
+  }, [user, setUser, t, image, addToast, commit])
 
   const isDisabled = useMemo(() => {
     return image == null || isLoading
