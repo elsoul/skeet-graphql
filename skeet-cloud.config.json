@@ -6,6 +6,7 @@
     "region": "asia-northeast1",
     "appDomain": "app.skeet.dev",
     "nsDomain": "skeet.dev",
+    "functionsDomain": "",
     "lbDomain": "lb.skeet.dev",
     "hasLoadBalancer": false
   },

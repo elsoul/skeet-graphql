@@ -1,10 +1,14 @@
 /** @type {import('next').NextConfig} */
+const relay = require('./relay.config.js') 
 
 const nextConfig = {
   trailingSlash: true,
   reactStrictMode: true,
   swcMinify: true,
   images: { unoptimized: true },
+  compiler: {
+    relay
+  }
 }
 
 const intercept = require('intercept-stdout')
