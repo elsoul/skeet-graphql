@@ -4,8 +4,8 @@ import Image from 'next/image'
 import nextjsLogo from '@/assets/img/logo/projects/nextjs.svg'
 import i18nextLogo from '@/assets/img/logo/projects/i18next.webp'
 import recoilLogo from '@/assets/img/logo/projects/recoil.svg'
-import eslintLogo from '@/assets/img/logo/projects/eslint.svg'
-import prettierLogo from '@/assets/img/logo/projects/prettier.png'
+import graphqlLogo from '@/assets/img/logo/projects/graphql.svg'
+import relayLogo from '@/assets/img/logo/projects/relay.svg'
 import firebaseLogo from '@/assets/img/logo/projects/Firebase.svg'
 import tailwindcssLogo from '@/assets/img/logo/projects/tailwindcss.svg'
 import typescriptLogo from '@/assets/img/logo/projects/TypeScriptHorizontal.svg'
@@ -68,14 +68,14 @@ export default function HomeHeroRow() {
               ],
               [
                 {
-                  name: 'ESLint',
-                  logo: eslintLogo,
-                  link: 'https://eslint.org/',
+                  name: 'GraphQL',
+                  logo: graphqlLogo,
+                  link: 'https://graphql.org/',
                 },
                 {
-                  name: 'Prettier',
-                  logo: prettierLogo,
-                  link: 'https://prettier.io/',
+                  name: 'Relay',
+                  logo: relayLogo,
+                  link: 'https://relay.dev/',
                 },
                 {
                   name: 'Recoil',

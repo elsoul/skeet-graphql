@@ -1,8 +1,10 @@
-import { ReactElement } from 'react'
+import { ReactElement, Suspense } from 'react'
 import UserLayout from '@/layouts/user/UserLayout'
 import siteConfig from '@/config/site'
 import { getStaticPaths, makeStaticProps } from '@/lib/getStatic'
 import ChatScreen from '@/components/pages/user/chat/ChatScreen'
+import UserScreenLoading from '@/components/loading/UserScreenLoading'
+import UserScreenErrorBoundary from '@/components/error/UserScreenErrorBoundary'
 
 const seo = {
   pathname: '/user/chat',
@@ -23,7 +25,11 @@ export { getStaticPaths, getStaticProps }
 export default function Chat() {
   return (
     <>
-      <ChatScreen />
+      <Suspense fallback={<UserScreenLoading />}>
+        <UserScreenErrorBoundary showRetry={<p>error</p>}>
+          <ChatScreen />
+        </UserScreenErrorBoundary>
+      </Suspense>
     </>
   )
 }

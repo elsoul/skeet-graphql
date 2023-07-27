@@ -39,21 +39,22 @@ export default function AuthLayout({ children }: Props) {
   const onAuthStateChanged = useCallback(
     async (fbUser: User | null) => {
       if (auth && db && fbUser && fbUser.emailVerified) {
-        const docRef = doc(db, 'User', fbUser.uid)
-        const docSnap = await getDoc(docRef)
-        if (docSnap.exists()) {
-          setUser({
-            uid: fbUser.uid,
-            email: fbUser.email ?? '',
-            username: docSnap.data().username,
-            iconUrl: docSnap.data().iconUrl,
-            emailVerified: fbUser.emailVerified,
-          })
-          router.push('/user/chat')
-        } else {
-          setUser(defaultUser)
-          signOut(auth)
-        }
+        // const docRef = doc(db, 'User', fbUser.uid)
+        // const docSnap = await getDoc(docRef)
+        // if (docSnap.exists()) {
+        //   setUser({
+        //     uid: fbUser.uid,
+        //     email: fbUser.email ?? '',
+        //     username: docSnap.data().username,
+        //     iconUrl: docSnap.data().iconUrl,
+        //     emailVerified: fbUser.emailVerified,
+        //   })
+        //   router.push('/user/chat')
+        // } else {
+        //   setUser(defaultUser)
+        //   signOut(auth)
+        // }
+        router.push('/user/chat')
       } else {
         setUser(defaultUser)
       }
@@ -68,8 +69,7 @@ export default function AuthLayout({ children }: Props) {
       subscriber = auth.onAuthStateChanged(onAuthStateChanged)
     }
     return () => subscriber()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [onAuthStateChanged])
 
   return (
     <>

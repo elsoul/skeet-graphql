@@ -77,7 +77,7 @@ type Props = {
   setLastChat: (_value: QueryDocumentSnapshot<DocumentData> | null) => void
   isDataLoading: boolean
   setDataLoading: (_value: boolean) => void
-  getChatRooms: () => void
+  // getChatRooms: () => void
 }
 
 export default function ChatMenu({
@@ -91,8 +91,8 @@ export default function ChatMenu({
   setLastChat,
   isDataLoading,
   setDataLoading,
-  getChatRooms,
-}: Props) {
+}: // getChatRooms,
+Props) {
   const { t, i18n } = useTranslation()
   const isJapanese = useMemo(() => i18n.language === 'ja', [i18n])
   const user = useRecoilValue(userState)
@@ -117,60 +117,60 @@ export default function ChatMenu({
     },
   })
 
-  const queryMore = useCallback(async () => {
-    if (db && user.uid && lastChat) {
-      console.log('lastChat')
-      try {
-        setDataLoading(true)
-        const q = query(
-          collection(db, `User/${user.uid}/UserChatRoom`),
-          orderBy('createdAt', 'desc'),
-          limit(15),
-          startAfter(lastChat)
-        )
-        const querySnapshot = await getDocs(q)
+  // const queryMore = useCallback(async () => {
+  //   if (db && user.uid && lastChat) {
+  //     console.log('lastChat')
+  //     try {
+  //       setDataLoading(true)
+  //       const q = query(
+  //         collection(db, `User/${user.uid}/UserChatRoom`),
+  //         orderBy('createdAt', 'desc'),
+  //         limit(15),
+  //         startAfter(lastChat)
+  //       )
+  //       const querySnapshot = await getDocs(q)
 
-        const list: ChatRoom[] = []
-        querySnapshot.forEach((doc) => {
-          const data = doc.data()
-          list.push({ id: doc.id, ...data } as ChatRoom)
-        })
+  //       const list: ChatRoom[] = []
+  //       querySnapshot.forEach((doc) => {
+  //         const data = doc.data()
+  //         list.push({ id: doc.id, ...data } as ChatRoom)
+  //       })
 
-        if (querySnapshot.docs[querySnapshot.docs.length - 1] === lastChat) {
-          setReachLast(true)
-        } else {
-          setLastChat(querySnapshot.docs[querySnapshot.docs.length - 1])
-          setChatList([...chatList, ...list])
-        }
-      } catch (err) {
-        console.log(err)
-        if (err instanceof Error && err.message.includes('permission-denied')) {
-          addToast({
-            type: 'error',
-            title: t('errorTokenExpiredTitle'),
-            description: t('errorTokenExpiredBody'),
-          })
-        } else {
-          addToast({
-            type: 'error',
-            title: t('errorTitle'),
-            description: t('errorBody'),
-          })
-        }
-      } finally {
-        setDataLoading(false)
-      }
-    }
-  }, [
-    chatList,
-    lastChat,
-    t,
-    user.uid,
-    setDataLoading,
-    addToast,
-    setChatList,
-    setLastChat,
-  ])
+  //       if (querySnapshot.docs[querySnapshot.docs.length - 1] === lastChat) {
+  //         setReachLast(true)
+  //       } else {
+  //         setLastChat(querySnapshot.docs[querySnapshot.docs.length - 1])
+  //         setChatList([...chatList, ...list])
+  //       }
+  //     } catch (err) {
+  //       console.log(err)
+  //       if (err instanceof Error && err.message.includes('permission-denied')) {
+  //         addToast({
+  //           type: 'error',
+  //           title: t('errorTokenExpiredTitle'),
+  //           description: t('errorTokenExpiredBody'),
+  //         })
+  //       } else {
+  //         addToast({
+  //           type: 'error',
+  //           title: t('errorTitle'),
+  //           description: t('errorBody'),
+  //         })
+  //       }
+  //     } finally {
+  //       setDataLoading(false)
+  //     }
+  //   }
+  // }, [
+  //   chatList,
+  //   lastChat,
+  //   t,
+  //   user.uid,
+  //   setDataLoading,
+  //   addToast,
+  //   setChatList,
+  //   setLastChat,
+  // ])
 
   const chatMenuRef = useRef<HTMLDivElement>(null)
   const chatMenuRefMobile = useRef<HTMLDivElement>(null)
@@ -181,10 +181,14 @@ export default function ChatMenu({
       const isBottom =
         current.scrollHeight - current.scrollTop === current.clientHeight
       if (isBottom && !reachLast) {
-        queryMore()
+        // queryMore()
       }
     }
-  }, [queryMore, chatMenuRef, reachLast])
+  }, [
+    // queryMore,
+    chatMenuRef,
+    reachLast,
+  ])
 
   const handleScrollMobile = useCallback(() => {
     const current = chatMenuRefMobile.current
@@ -194,10 +198,14 @@ export default function ChatMenu({
         Math.floor(current.scrollHeight - current.scrollTop) ===
         current.clientHeight
       if (isBottom && !reachLast) {
-        queryMore()
+        // queryMore()
       }
     }
-  }, [queryMore, chatMenuRefMobile, reachLast])
+  }, [
+    // queryMore,
+    chatMenuRefMobile,
+    reachLast,
+  ])
 
   const isDisabled = useMemo(() => {
     return (
@@ -261,7 +269,7 @@ export default function ChatMenu({
       } finally {
         setNewChatModalOpen(false)
         setCreateLoading(false)
-        await getChatRooms()
+        // await getChatRooms()
       }
     },
     [
@@ -271,7 +279,7 @@ export default function ChatMenu({
       isDisabled,
       setCurrentChatRoomId,
       addToast,
-      getChatRooms,
+      // getChatRooms,
     ]
   )
 
