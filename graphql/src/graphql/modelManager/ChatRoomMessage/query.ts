@@ -12,12 +12,27 @@ export const ChatRoomMessagesQuery = extendType({
   definition(t) {
     t.connectionField('chatRoomMessageConnection', {
       type: ChatRoomMessage.$name,
-      async resolve(_, args, ctx, info) {
+      additionalArgs: {
+        chatRoomId: stringArg(),
+      },
+      async resolve(_, { chatRoomId, ...args }, ctx) {
         const user: CurrentUser = ctx.user
+        const prismaChatRoomId = toPrismaId(chatRoomId || '')
+        const userChatRooms = await ctx.prisma.userChatRoom.findMany({
+          where: {
+            userId: toPrismaId(user.id),
+            chatRoomId: prismaChatRoomId,
+          },
+        })
+        if (userChatRooms.length === 0)
+          throw new Error(`You are not a member of this chat room!`)
+
+        ctx.chatRoomId = prismaChatRoomId
+
         return connectionFromArray(
           await ctx.prisma.chatRoomMessage.findMany({
             where: {
-              uid: user.uid,
+              chatRoomId: prismaChatRoomId,
             },
             orderBy: {
               createdAt: 'desc',
@@ -28,8 +43,14 @@ export const ChatRoomMessagesQuery = extendType({
       },
       extendConnection(t) {
         t.int('totalCount', {
-          async resolve(source, args, ctx) {
-            return ctx.prisma.chatRoomMessage.count()
+          async resolve(_, __, ctx) {
+            // Retrieve chatRoomId from the context object
+            const prismaChatRoomId = ctx.chatRoomId
+            return ctx.prisma.chatRoomMessage.count({
+              where: {
+                chatRoomId: prismaChatRoomId,
+              },
+            })
           },
         })
       },

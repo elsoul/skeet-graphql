@@ -24,8 +24,14 @@ export const ChatRoomMutation = extendType({
         ctx
       ) {
         try {
-          if (!model || !maxTokens || !temperature || !stream)
-            throw new Error(`not enough args`)
+          const data = {
+            name: name || 'default room',
+            title,
+            model: model || 'gpt-3.5-turbo',
+            maxTokens: maxTokens || 420,
+            temperature: temperature || 0,
+            stream: !!stream,
+          }
           const user: CurrentUser = ctx.user
           console.log({ user: user.id })
           if (user.id === '') throw new Error('You are not logged in!')
@@ -34,20 +40,13 @@ export const ChatRoomMutation = extendType({
             const userId = toPrismaId(user.id)
             // ChatRoomを作成
             const createdChatRoom = await tx.chatRoom.create({
-              data: {
-                name,
-                title,
-                model,
-                maxTokens,
-                temperature,
-                stream,
-              },
+              data,
             })
 
             // UserChatRoomに関連付けを作成
             await tx.userChatRoom.create({
               data: {
-                userId: userId,
+                userId,
                 chatRoomId: createdChatRoom.id,
               },
             })
@@ -58,7 +57,7 @@ export const ChatRoomMutation = extendType({
                 role: 'system',
                 content:
                   'This is a great chatbot. This Assistant is very kind and helpful.',
-                userId: userId,
+                userId,
                 chatRoomId: createdChatRoom.id,
               },
             })
@@ -75,6 +74,8 @@ export const ChatRoomMutation = extendType({
       type: ChatRoom.$name,
       args: {
         id: stringArg(),
+        name: stringArg(),
+        title: stringArg(),
         model: stringArg(),
         stream: booleanArg(),
       },

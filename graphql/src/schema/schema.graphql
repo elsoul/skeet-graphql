@@ -56,7 +56,7 @@ type Mutation {
   deleteChatRoomMessage(id: String): ChatRoomMessage
   deleteUser(id: String): User
   deleteUserChatRoom(id: String): UserChatRoom
-  updateChatRoom(id: String, model: String, stream: Boolean): ChatRoom
+  updateChatRoom(id: String, model: String, name: String, stream: Boolean, title: String): ChatRoom
   updateChatRoomMessage(chatRoomId: Int, content: String, id: String, userId: Int): ChatRoomMessage
   updateUser(email: String, iconUrl: String, id: String, uid: String, username: String): User
   updateUserChatRoom(chatRoomId: Int, id: String): UserChatRoom
@@ -113,6 +113,7 @@ type Query {
 
     """Returns the elements in the list that come before the specified cursor"""
     before: String
+    chatRoomId: String
 
     """Returns the first n elements from the list."""
     first: Int

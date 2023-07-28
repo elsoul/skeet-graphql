@@ -428,7 +428,9 @@ export interface NexusGenArgTypes {
     updateChatRoom: { // args
       id?: string | null; // String
       model?: string | null; // String
+      name?: string | null; // String
       stream?: boolean | null; // Boolean
+      title?: string | null; // String
     }
     updateChatRoomMessage: { // args
       chatRoomId?: number | null; // Int
@@ -458,6 +460,7 @@ export interface NexusGenArgTypes {
     chatRoomMessageConnection: { // args
       after?: string | null; // String
       before?: string | null; // String
+      chatRoomId?: string | null; // String
       first?: number | null; // Int
       last?: number | null; // Int
     }

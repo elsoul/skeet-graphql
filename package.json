@@ -36,6 +36,7 @@
     "@heroicons/react": "2.0.18",
     "@hookform/resolvers": "3.1.1",
     "@skeet-framework/firestore": "1.1.2",
+    "@skeet-framework/utils": "^0.8.3",
     "clsx": "1.2.1",
     "date-fns": "2.30.0",
     "dotenv": "16.3.1",
