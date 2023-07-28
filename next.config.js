@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-const relay = require('./relay.config.js') 
+const relay = require('./relay.config.js')
 
 const nextConfig = {
   trailingSlash: true,
@@ -7,8 +7,8 @@ const nextConfig = {
   swcMinify: true,
   images: { unoptimized: true },
   compiler: {
-    relay
-  }
+    relay,
+  },
 }
 
 const intercept = require('intercept-stdout')
@@ -26,6 +26,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const withPWA = require('next-pwa')({
+  disable: process.env.NODE_ENV !== 'production',
   dest: 'public',
 })
 

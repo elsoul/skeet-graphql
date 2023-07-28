@@ -1,10 +1,17 @@
-import { ReactElement, Suspense } from 'react'
+import { ReactElement, Suspense, useCallback, useEffect } from 'react'
 import UserLayout from '@/layouts/user/UserLayout'
 import siteConfig from '@/config/site'
 import { getStaticPaths, makeStaticProps } from '@/lib/getStatic'
-import ChatScreen from '@/components/pages/user/chat/ChatScreen'
+import ChatScreen, {
+  chatScreenQuery,
+} from '@/components/pages/user/chat/ChatScreen'
 import UserScreenLoading from '@/components/loading/UserScreenLoading'
 import UserScreenErrorBoundary from '@/components/error/UserScreenErrorBoundary'
+import {
+  ChatScreenQuery,
+  ChatScreenQuery$variables,
+} from '@/__generated__/ChatScreenQuery.graphql'
+import { useQueryLoader } from 'react-relay'
 
 const seo = {
   pathname: '/user/chat',
@@ -23,11 +30,35 @@ const getStaticProps = makeStaticProps(['common', 'user', 'chat'], seo)
 export { getStaticPaths, getStaticProps }
 
 export default function Chat() {
+  const [queryReference, loadQuery] =
+    useQueryLoader<ChatScreenQuery>(chatScreenQuery)
+
+  useEffect(() => {
+    loadQuery({
+      first: 15,
+      after: null,
+    })
+  }, [loadQuery])
+
+  const refetch = useCallback(
+    (variables: ChatScreenQuery$variables) => {
+      loadQuery(variables, { fetchPolicy: 'network-only' })
+    },
+    [loadQuery]
+  )
+
+  if (queryReference == null) {
+    return (
+      <>
+        <UserScreenLoading />
+      </>
+    )
+  }
   return (
     <>
       <Suspense fallback={<UserScreenLoading />}>
         <UserScreenErrorBoundary showRetry={<p>error</p>}>
-          <ChatScreen />
+          <ChatScreen queryReference={queryReference} refetch={refetch} />
         </UserScreenErrorBoundary>
       </Suspense>
     </>

@@ -24,7 +24,7 @@ import { chatContentSchema } from '@/utils/form'
 import { fetchSkeetFunctions } from '@/lib/skeet'
 import Image from 'next/image'
 import { ChatRoom } from './ChatMenu'
-import { AddStreamUserChatRoomMessageParams } from '@/types/http/openai/addStreamUserChatRoomMessageParams'
+import { CreateStreamChatMessageParams } from '@/types/http/openai/createStreamChatMessageParams'
 import { z } from 'zod'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -40,6 +40,7 @@ import remarkSlug from 'remark-slug'
 import remarkGfm from 'remark-gfm'
 import remarkDirective from 'remark-directive'
 import remarkExternalLinks from 'remark-external-links'
+import { ChatScreenQuery$variables } from '@/__generated__/ChatScreenQuery.graphql'
 
 type ChatMessage = {
   id: string
@@ -58,14 +59,14 @@ type Inputs = z.infer<typeof schema>
 type Props = {
   setNewChatModalOpen: (_value: boolean) => void
   currentChatRoomId: string | null
-  // getChatRooms: () => void
+  refetch: (variables: ChatScreenQuery$variables) => void
 }
 
 export default function ChatBox({
   setNewChatModalOpen,
   currentChatRoomId,
-}: // getChatRooms,
-Props) {
+  refetch,
+}: Props) {
   const { t } = useTranslation()
   const user = useRecoilValue(userState)
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
@@ -124,48 +125,48 @@ Props) {
 
   const [isSending, setSending] = useState(false)
 
-  const getUserChatRoomMessage = useCallback(async () => {
-    if (db && user.uid && currentChatRoomId) {
-      const q = query(
-        collection(
-          db,
-          `User/${user.uid}/UserChatRoom/${currentChatRoomId}/UserChatRoomMessage`
-        ),
-        orderBy('createdAt', 'asc')
-      )
-      const querySnapshot = await getDocs(q)
-      const messages: ChatMessage[] = []
-      for await (const qs of querySnapshot.docs) {
-        const data = qs.data()
-        const html = await unified()
-          .use(remarkParse)
-          .use(remarkDirective)
-          .use(remarkGfm)
-          .use(remarkSlug)
-          .use(remarkExternalLinks, {
-            target: '_blank',
-            rel: ['noopener noreferrer'],
-          })
-          .use(remark2Rehype)
-          .use(rehypeCodeTitles)
-          .use(rehypeHighlight)
-          .use(rehypeStringify)
-          .process(data.content as string)
+  // const getUserChatRoomMessage = useCallback(async () => {
+  //   if (db && user.uid && currentChatRoomId) {
+  //     const q = query(
+  //       collection(
+  //         db,
+  //         `User/${user.uid}/UserChatRoom/${currentChatRoomId}/UserChatRoomMessage`
+  //       ),
+  //       orderBy('createdAt', 'asc')
+  //     )
+  //     const querySnapshot = await getDocs(q)
+  //     const messages: ChatMessage[] = []
+  //     for await (const qs of querySnapshot.docs) {
+  //       const data = qs.data()
+  //       const html = await unified()
+  //         .use(remarkParse)
+  //         .use(remarkDirective)
+  //         .use(remarkGfm)
+  //         .use(remarkSlug)
+  //         .use(remarkExternalLinks, {
+  //           target: '_blank',
+  //           rel: ['noopener noreferrer'],
+  //         })
+  //         .use(remark2Rehype)
+  //         .use(rehypeCodeTitles)
+  //         .use(rehypeHighlight)
+  //         .use(rehypeStringify)
+  //         .process(data.content as string)
 
-        messages.push({
-          id: qs.id,
-          ...data,
-          content: html.value,
-        } as ChatMessage)
-      }
+  //       messages.push({
+  //         id: qs.id,
+  //         ...data,
+  //         content: html.value,
+  //       } as ChatMessage)
+  //     }
 
-      setChatMessages(messages)
-    }
-  }, [currentChatRoomId, user.uid])
+  //     setChatMessages(messages)
+  //   }
+  // }, [currentChatRoomId, user.uid])
 
-  useEffect(() => {
-    getUserChatRoomMessage()
-  }, [getUserChatRoomMessage])
+  // useEffect(() => {
+  //   getUserChatRoomMessage()
+  // }, [getUserChatRoomMessage])
 
   useEffect(() => {
     if (chatMessages.length > 0) {
@@ -201,16 +202,14 @@ Props) {
               },
             ]
           })
-          const res =
-            await fetchSkeetFunctions<AddStreamUserChatRoomMessageParams>(
-              'openai',
-              'addStreamUserChatRoomMessage',
-              {
-                userChatRoomId: currentChatRoomId,
-                content: data.chatContent,
-                isFirstMessage,
-              }
-            )
+          const res = await fetchSkeetFunctions<CreateStreamChatMessageParams>(
+            'openai',
+            'addStreamUserChatRoomMessage',
+            {
+              chatRoomId: currentChatRoomId,
+              content: data.chatContent,
+            }
+          )
           const reader = await res?.body?.getReader()
           const decoder = new TextDecoder('utf-8')
 
@@ -248,7 +247,7 @@ Props) {
             // await getChatRoom()
             // await getChatRooms()
           }
-          await getUserChatRoomMessage()
+          // await getUserChatRoomMessage()
           reset()
           setFirstMessage(false)
         }
@@ -281,13 +280,13 @@ Props) {
       currentChatRoomId,
       user.uid,
       setFirstMessage,
-      isFirstMessage,
+      // isFirstMessage,
       chatRoom,
-      getChatRoom,
-      getUserChatRoomMessage,
+      // getChatRoom,
+      // getUserChatRoomMessage,
       addToast,
       reset,
-      getChatRooms,
+      // getChatRooms,
     ]
   )
 
