@@ -32,7 +32,9 @@ $ npm i -g @skeet-framework/cli
 After packages installed:
 
 ```bash
-$ yarn --cwd ./graphql db:dev
+$ skeet docker psql
+$ skeet db generate
+$ skeet db deploy
 $ skeet s
 ```
 

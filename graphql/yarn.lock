@@ -1683,7 +1683,7 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
-"@skeet-framework/utils@^0.8.0":
+"@skeet-framework/utils@0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@skeet-framework/utils/-/utils-0.8.0.tgz#06af99ccfe57fe1366439d722f709d687a3f2a12"
   integrity sha512-ZHjV0SmceKsn3udTS0sy9q8J7HsnW3G7CR5jmYsG/njPlxMxAjuHHweYImCzdAHDqKB/PxmvUkyDSx9AD3dZ1g==
@@ -3010,11 +3010,6 @@ crypto-random-string@^4.0.0:
   integrity sha512-x8dy3RnvYdlUcPOjkEHqozhiwzKNSq7GcPuXFbnyMOCHxX8V3OgIg/pYuabl2sbUPfIJaeAQB7PMOK8DFIdoRA==
   dependencies:
     type-fest "^1.0.1"
-
-crypto@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/crypto/-/crypto-1.0.1.tgz#2af1b7cad8175d24c8a1b0778255794a21803037"
-  integrity sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig==
 
 cssesc@^3.0.0:
   version "3.0.0"
