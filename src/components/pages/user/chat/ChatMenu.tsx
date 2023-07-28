@@ -15,8 +15,6 @@ import {
   useState,
   KeyboardEvent,
 } from 'react'
-import { fetchSkeetFunctions } from '@/lib/skeet'
-import { CreateUserChatRoomParams } from '@/types/http/openai/createUserChatRoomParams'
 import { useRecoilValue } from 'recoil'
 import { userState } from '@/store/user'
 import {
@@ -25,43 +23,58 @@ import {
   gptModelSchema,
   temperatureSchema,
   maxTokensSchema,
-  systemContentSchema,
+  // systemContentSchema,
 } from '@/utils/form'
 
-import {
-  DocumentData,
-  QueryDocumentSnapshot,
-  Timestamp,
-  collection,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-  startAfter,
-} from 'firebase/firestore'
-import { db } from '@/lib/firebase'
 import { format } from 'date-fns'
 import useToastMessage from '@/hooks/useToastMessage'
 import { Dialog, Transition } from '@headlessui/react'
 import { z } from 'zod'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { graphql, useMutation } from 'react-relay'
+import {
+  ChatScreenQuery$data,
+  ChatScreenQuery$variables,
+} from '@/__generated__/ChatScreenQuery.graphql'
+import {
+  ChatMenuMutation,
+  ChatMenuMutation$data,
+} from '@/__generated__/ChatMenuMutation.graphql'
 
 export type ChatRoom = {
   id: string
-  createdAt: Timestamp
-  updatedAt: Timestamp
+  createdAt: string
+  updatedAt: string
   model: GPTModel
   maxTokens: number
   temperature: number
   title: string
 }
 
+const chatMenuMutation = graphql`
+  mutation ChatMenuMutation(
+    $model: String
+    $maxTokens: Int
+    $temperature: Int
+    $stream: Boolean
+  ) {
+    createChatRoom(
+      model: $model
+      maxTokens: $maxTokens
+      temperature: $temperature
+      stream: $stream
+    ) {
+      id
+    }
+  }
+`
+
 const schema = z.object({
   model: gptModelSchema,
   maxTokens: maxTokensSchema,
   temperature: temperatureSchema,
-  systemContent: systemContentSchema,
+  // systemContent: systemContentSchema,
 })
 
 type Inputs = z.infer<typeof schema>
@@ -71,13 +84,8 @@ type Props = {
   setNewChatModalOpen: (_value: boolean) => void
   currentChatRoomId: string | null
   setCurrentChatRoomId: (_value: string | null) => void
-  chatList: ChatRoom[]
-  setChatList: (_value: ChatRoom[]) => void
-  lastChat: QueryDocumentSnapshot<DocumentData> | null
-  setLastChat: (_value: QueryDocumentSnapshot<DocumentData> | null) => void
-  isDataLoading: boolean
-  setDataLoading: (_value: boolean) => void
-  // getChatRooms: () => void
+  refetch: (variables: ChatScreenQuery$variables) => void
+  chatRoomsData: ChatScreenQuery$data
 }
 
 export default function ChatMenu({
@@ -85,14 +93,9 @@ export default function ChatMenu({
   setNewChatModalOpen,
   currentChatRoomId,
   setCurrentChatRoomId,
-  chatList,
-  setChatList,
-  lastChat,
-  setLastChat,
-  isDataLoading,
-  setDataLoading,
-}: // getChatRooms,
-Props) {
+  refetch,
+  chatRoomsData,
+}: Props) {
   const { t, i18n } = useTranslation()
   const isJapanese = useMemo(() => i18n.language === 'ja', [i18n])
   const user = useRecoilValue(userState)
@@ -100,6 +103,7 @@ Props) {
   const [isChatListModalOpen, setChatListModalOpen] = useState(false)
   const addToast = useToastMessage()
   const [reachLast, setReachLast] = useState(false)
+  const [commit] = useMutation<ChatMenuMutation>(chatMenuMutation)
 
   const {
     handleSubmit,
@@ -111,66 +115,31 @@ Props) {
       model: 'gpt-3.5-turbo',
       maxTokens: 1000,
       temperature: 1,
-      systemContent: isJapanese
-        ? 'あなたは、親切で、創造的で、賢く、とてもフレンドリーなアシスタントです。'
-        : 'You are the assistant who is helpful, creative, clever, and very friendly.',
+      // systemContent: isJapanese
+      //   ? 'あなたは、親切で、創造的で、賢く、とてもフレンドリーなアシスタントです。'
+      //   : 'You are the assistant who is helpful, creative, clever, and very friendly.',
     },
   })
 
-  // const queryMore = useCallback(async () => {
-  //   if (db && user.uid && lastChat) {
-  //     console.log('lastChat')
-  //     try {
-  //       setDataLoading(true)
-  //       const q = query(
-  //         collection(db, `User/${user.uid}/UserChatRoom`),
-  //         orderBy('createdAt', 'desc'),
-  //         limit(15),
-  //         startAfter(lastChat)
-  //       )
-  //       const querySnapshot = await getDocs(q)
+  const queryMore = useCallback(async () => {
+    try {
+      refetch({
+        first: 15,
+        after: chatRoomsData.chatRoomConnection?.pageInfo.endCursor,
+      })
 
-  //       const list: ChatRoom[] = []
-  //       querySnapshot.forEach((doc) => {
-  //         const data = doc.data()
-  //         list.push({ id: doc.id, ...data } as ChatRoom)
-  //       })
-
-  //       if (querySnapshot.docs[querySnapshot.docs.length - 1] === lastChat) {
-  //         setReachLast(true)
-  //       } else {
-  //         setLastChat(querySnapshot.docs[querySnapshot.docs.length - 1])
-  //         setChatList([...chatList, ...list])
-  //       }
-  //     } catch (err) {
-  //       console.log(err)
-  //       if (err instanceof Error && err.message.includes('permission-denied')) {
-  //         addToast({
-  //           type: 'error',
-  //           title: t('errorTokenExpiredTitle'),
-  //           description: t('errorTokenExpiredBody'),
-  //         })
-  //       } else {
-  //         addToast({
-  //           type: 'error',
-  //           title: t('errorTitle'),
-  //           description: t('errorBody'),
-  //         })
-  //       }
-  //     } finally {
-  //       setDataLoading(false)
-  //     }
-  //   }
-  // }, [
-  //   chatList,
-  //   lastChat,
-  //   t,
-  //   user.uid,
-  //   setDataLoading,
-  //   addToast,
-  //   setChatList,
-  //   setLastChat,
-  // ])
+      if (!chatRoomsData?.chatRoomConnection?.pageInfo.hasNextPage) {
+        setReachLast(true)
+      }
+    } catch (err) {
+      console.log(err)
+      addToast({
+        type: 'error',
+        title: t('errorTitle'),
+        description: t('errorBody'),
+      })
+    }
+  }, [t, addToast, refetch, chatRoomsData])
 
   const chatMenuRef = useRef<HTMLDivElement>(null)
   const chatMenuRefMobile = useRef<HTMLDivElement>(null)
@@ -181,14 +150,10 @@ Props) {
       const isBottom =
         current.scrollHeight - current.scrollTop === current.clientHeight
       if (isBottom && !reachLast) {
-        // queryMore()
+        queryMore()
       }
     }
-  }, [
-    // queryMore,
-    chatMenuRef,
-    reachLast,
-  ])
+  }, [queryMore, chatMenuRef, reachLast])
 
   const handleScrollMobile = useCallback(() => {
     const current = chatMenuRefMobile.current
@@ -198,27 +163,23 @@ Props) {
         Math.floor(current.scrollHeight - current.scrollTop) ===
         current.clientHeight
       if (isBottom && !reachLast) {
-        // queryMore()
+        queryMore()
       }
     }
-  }, [
-    // queryMore,
-    chatMenuRefMobile,
-    reachLast,
-  ])
+  }, [queryMore, chatMenuRefMobile, reachLast])
 
   const isDisabled = useMemo(() => {
     return (
       isCreateLoading ||
       errors.model != null ||
-      errors.systemContent != null ||
+      // errors.systemContent != null ||
       errors.maxTokens != null ||
       errors.temperature != null
     )
   }, [
     isCreateLoading,
     errors.model,
-    errors.systemContent,
+    // errors.systemContent,
     errors.maxTokens,
     errors.temperature,
   ])
@@ -228,24 +189,39 @@ Props) {
       try {
         setCreateLoading(true)
         if (!isDisabled) {
-          const res = await fetchSkeetFunctions<CreateUserChatRoomParams>(
-            'openai',
-            'createUserChatRoom',
-            {
+          commit({
+            variables: {
               model: data.model,
-              systemContent: data.systemContent,
+              // systemContent: data.systemContent,
               maxTokens: data.maxTokens,
               temperature: data.temperature,
               stream: true,
-            }
-          )
-          const resData = await res?.json()
-          addToast({
-            type: 'success',
-            title: t('chat:chatRoomCreatedSuccessTitle'),
-            description: t('chat:chatRoomCreatedSuccessBody'),
+            },
+            onCompleted: (result: ChatMenuMutation$data) => {
+              addToast({
+                type: 'success',
+                title: t('chat:chatRoomCreatedSuccessTitle'),
+                description: t('chat:chatRoomCreatedSuccessBody'),
+              })
+              setCurrentChatRoomId(result?.createChatRoom?.id ?? null)
+              setNewChatModalOpen(false)
+              setCreateLoading(false)
+              refetch({ first: 15 })
+            },
+            onError: (err) => {
+              console.error(err.message)
+              addToast({
+                type: 'error',
+                title: t('errorTitle'),
+                description: t('errorBody'),
+              })
+              setNewChatModalOpen(false)
+              setCreateLoading(false)
+            },
+            updater: (store) => {
+              store.invalidateStore()
+            },
           })
-          setCurrentChatRoomId(resData.userChatRoomRef.id)
         }
       } catch (err) {
         console.error(err)
@@ -266,10 +242,8 @@ Props) {
             description: t('errorBody'),
           })
         }
-      } finally {
         setNewChatModalOpen(false)
         setCreateLoading(false)
-        // await getChatRooms()
       }
     },
     [
@@ -279,7 +253,8 @@ Props) {
       isDisabled,
       setCurrentChatRoomId,
       addToast,
-      // getChatRooms,
+      commit,
+      refetch,
     ]
   )
 
@@ -346,14 +321,14 @@ Props) {
               </span>
             </button>
             <div className="flex flex-col gap-3 pb-20">
-              {chatList.map((chat) => (
+              {chatRoomsData.chatRoomConnection?.edges?.map((chat) => (
                 <div
                   onClick={() => {
-                    setCurrentChatRoomId(chat.id)
+                    setCurrentChatRoomId(chat?.node?.id ?? null)
                   }}
-                  key={`ChatMenu Desktop ${chat.id}`}
+                  key={`ChatMenu Desktop ${chat?.node?.id}`}
                   className={clsx(
-                    currentChatRoomId === chat.id &&
+                    currentChatRoomId === chat?.node?.id &&
                       'border-2 border-gray-900 dark:border-gray-50',
                     'flex flex-row items-start justify-start gap-2 bg-gray-50 p-2 hover:cursor-pointer dark:bg-gray-800'
                   )}
@@ -364,11 +339,11 @@ Props) {
                     )}
                   />
                   <div className="flex flex-col gap-2">
-                    {chat.title !== '' ? (
+                    {chat?.node?.title !== '' && chat?.node?.title != null ? (
                       <p className="font-medium text-gray-900 dark:text-white">
-                        {chat.title.length > 20
-                          ? `${chat.title.slice(0, 20)} ...`
-                          : chat.title}
+                        {chat?.node?.title?.length ?? 0 > 20
+                          ? `${chat?.node?.title?.slice(0, 20)} ...`
+                          : chat?.node?.title}
                       </p>
                     ) : (
                       <p className="font-light italic text-gray-600 dark:text-gray-300">
@@ -376,7 +351,10 @@ Props) {
                       </p>
                     )}
                     <p className="text-sm font-light text-gray-700 dark:text-gray-200">
-                      {format(chat.createdAt.toDate(), 'yyyy-MM-dd HH:mm')}
+                      {format(
+                        new Date(chat?.node?.createdAt),
+                        'yyyy-MM-dd HH:mm'
+                      )}
                     </p>
                   </div>
                 </div>
@@ -526,7 +504,7 @@ Props) {
                               </div>
                             </div>
 
-                            <div>
+                            {/* <div>
                               <p className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-50">
                                 {t('chat:systemContent')}
                                 {errors.systemContent && (
@@ -549,7 +527,7 @@ Props) {
                                   )}
                                 />
                               </div>
-                            </div>
+                            </div> */}
 
                             <div>
                               <button
@@ -623,46 +601,49 @@ Props) {
                     </p>
                     <div className="w-full sm:mx-auto sm:max-w-xl">
                       <div className="flex flex-col gap-3 pb-20 sm:px-10">
-                        {chatList.map((chat) => (
-                          <div
-                            onClick={() => {
-                              setCurrentChatRoomId(chat.id)
-                              setChatListModalOpen(false)
-                            }}
-                            key={`ChatMenu Mobile ${chat.id}`}
-                            className={clsx(
-                              currentChatRoomId === chat.id &&
-                                'border-2 border-gray-900 dark:border-gray-50',
-                              'flex flex-row items-start justify-start gap-2 bg-gray-50 p-2 hover:cursor-pointer dark:bg-gray-800'
-                            )}
-                          >
-                            <ChatBubbleLeftIcon
+                        {chatRoomsData.chatRoomConnection?.edges?.map(
+                          (chat) => (
+                            <div
+                              onClick={() => {
+                                setCurrentChatRoomId(chat?.node?.id ?? null)
+                                setChatListModalOpen(false)
+                              }}
+                              key={`ChatMenu Mobile ${chat?.node?.id}`}
                               className={clsx(
-                                'h-5 w-5 flex-shrink-0 text-gray-900 dark:text-white'
+                                currentChatRoomId === chat?.node?.id &&
+                                  'border-2 border-gray-900 dark:border-gray-50',
+                                'flex flex-row items-start justify-start gap-2 bg-gray-50 p-2 hover:cursor-pointer dark:bg-gray-800'
                               )}
-                            />
-                            <div className="flex flex-col gap-2">
-                              {chat.title !== '' ? (
-                                <p className="font-medium text-gray-900 dark:text-white">
-                                  {chat.title.length > 20
-                                    ? `${chat.title.slice(0, 20)} ...`
-                                    : chat.title}
-                                </p>
-                              ) : (
-                                <p className="font-light italic text-gray-600 dark:text-gray-300">
-                                  {t('noTitle')}
-                                </p>
-                              )}
-
-                              <p className="text-sm font-light text-gray-700 dark:text-gray-200">
-                                {format(
-                                  chat.createdAt.toDate(),
-                                  'yyyy-MM-dd HH:mm'
+                            >
+                              <ChatBubbleLeftIcon
+                                className={clsx(
+                                  'h-5 w-5 flex-shrink-0 text-gray-900 dark:text-white'
                                 )}
-                              </p>
+                              />
+                              <div className="flex flex-col gap-2">
+                                {chat?.node?.title !== '' &&
+                                chat?.node?.title != null ? (
+                                  <p className="font-medium text-gray-900 dark:text-white">
+                                    {chat?.node?.title?.length ?? 0 > 20
+                                      ? `${chat?.node?.title?.slice(0, 20)} ...`
+                                      : chat?.node?.title}
+                                  </p>
+                                ) : (
+                                  <p className="font-light italic text-gray-600 dark:text-gray-300">
+                                    {t('noTitle')}
+                                  </p>
+                                )}
+
+                                <p className="text-sm font-light text-gray-700 dark:text-gray-200">
+                                  {format(
+                                    new Date(chat?.node?.createdAt),
+                                    'yyyy-MM-dd HH:mm'
+                                  )}
+                                </p>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          )
+                        )}
                       </div>
                     </div>
                   </div>

@@ -70,6 +70,8 @@ export default function EditUserProfile() {
               title: t('settings:updateProfileSuccess'),
               description: t('settings:updateProfileSuccessMessage'),
             })
+            setModalOpen(false)
+            setLoading(false)
           },
           onError: (err) => {
             console.error(err.message)
@@ -78,6 +80,8 @@ export default function EditUserProfile() {
               title: t('settings:updateProfileError'),
               description: t('settings:updateProfileErrorMessage'),
             })
+            setModalOpen(false)
+            setLoading(false)
           },
           updater: (store) => {
             store.invalidateStore()
@@ -102,7 +106,6 @@ export default function EditUserProfile() {
             description: t('settings:updateProfileErrorMessage'),
           })
         }
-      } finally {
         setModalOpen(false)
         setLoading(false)
       }
