@@ -15,5 +15,7 @@
   "systemContent": "AI Character Setting",
   "systemContentErrorText": "Please enter AI character setting in 1000 characters.",
   "chatGPTCustom": "Chat GPT Custom with API",
-  "chatMessageSubmit": "Submit"
+  "chatMessageSubmit": "Submit",
+  "pleaseRefetch": "Excuse me. Failed to get data. Please try again later.",
+  "refetchButton": "Retry"
 }

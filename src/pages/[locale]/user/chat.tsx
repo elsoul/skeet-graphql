@@ -12,6 +12,7 @@ import {
   ChatScreenQuery$variables,
 } from '@/__generated__/ChatScreenQuery.graphql'
 import { useQueryLoader } from 'react-relay'
+import { sleep } from '@/utils/time'
 
 const seo = {
   pathname: '/user/chat',
@@ -34,10 +35,16 @@ export default function Chat() {
     useQueryLoader<ChatScreenQuery>(chatScreenQuery)
 
   useEffect(() => {
-    loadQuery({
-      first: 15,
-      after: null,
-    })
+    ;(async () => {
+      await sleep(250)
+      loadQuery(
+        {
+          first: 15,
+          after: null,
+        },
+        { fetchPolicy: 'network-only' }
+      )
+    })()
   }, [loadQuery])
 
   const refetch = useCallback(
