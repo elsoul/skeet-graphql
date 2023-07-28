@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<44252fc303dcb06810f26b83ee51fd80>>
+ * @generated SignedSource<<7c55be7e9a31b348661fac96664af338>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -31,6 +31,15 @@ export type ChatBoxQuery$data = {
       readonly hasNextPage: boolean;
     };
   } | null;
+  readonly getChatRoom: {
+    readonly createdAt: any;
+    readonly id: string | null;
+    readonly maxTokens: number;
+    readonly model: string;
+    readonly temperature: number;
+    readonly title: string | null;
+    readonly updatedAt: any;
+  } | null;
 };
 export type ChatBoxQuery = {
   response: ChatBoxQuery$data;
@@ -55,7 +64,69 @@ v2 = {
   "name": "id",
   "storageKey": null
 },
-v3 = [
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "createdAt",
+  "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "updatedAt",
+  "storageKey": null
+},
+v5 = [
+  {
+    "alias": null,
+    "args": [
+      {
+        "kind": "Variable",
+        "name": "id",
+        "variableName": "chatRoomId"
+      }
+    ],
+    "concreteType": "ChatRoom",
+    "kind": "LinkedField",
+    "name": "getChatRoom",
+    "plural": false,
+    "selections": [
+      (v2/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "maxTokens",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "title",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "model",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "temperature",
+        "storageKey": null
+      },
+      (v3/*: any*/),
+      (v4/*: any*/)
+    ],
+    "storageKey": null
+  },
   {
     "alias": null,
     "args": [
@@ -106,20 +177,8 @@ v3 = [
                 "name": "content",
                 "storageKey": null
               },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "createdAt",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "updatedAt",
-                "storageKey": null
-              }
+              (v3/*: any*/),
+              (v4/*: any*/)
             ],
             "storageKey": null
           }
@@ -169,7 +228,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "ChatBoxQuery",
-    "selections": (v3/*: any*/),
+    "selections": (v5/*: any*/),
     "type": "Query",
     "abstractKey": null
   },
@@ -181,19 +240,19 @@ return {
     ],
     "kind": "Operation",
     "name": "ChatBoxQuery",
-    "selections": (v3/*: any*/)
+    "selections": (v5/*: any*/)
   },
   "params": {
-    "cacheID": "cba29ff1379722a032423736839f8106",
+    "cacheID": "abd3e564323c1f012c0aeb5de8f9d3b0",
     "id": null,
     "metadata": {},
     "name": "ChatBoxQuery",
     "operationKind": "query",
-    "text": "query ChatBoxQuery(\n  $first: Int\n  $chatRoomId: String\n) {\n  chatRoomMessageConnection(first: $first, chatRoomId: $chatRoomId) {\n    edges {\n      node {\n        id\n        role\n        content\n        createdAt\n        updatedAt\n      }\n    }\n    pageInfo {\n      hasNextPage\n    }\n    nodes {\n      id\n    }\n  }\n}\n"
+    "text": "query ChatBoxQuery(\n  $first: Int\n  $chatRoomId: String\n) {\n  getChatRoom(id: $chatRoomId) {\n    id\n    maxTokens\n    title\n    model\n    temperature\n    createdAt\n    updatedAt\n  }\n  chatRoomMessageConnection(first: $first, chatRoomId: $chatRoomId) {\n    edges {\n      node {\n        id\n        role\n        content\n        createdAt\n        updatedAt\n      }\n    }\n    pageInfo {\n      hasNextPage\n    }\n    nodes {\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "e8a1f1c2c80a5b2abadaa1224547f444";
+(node as any).hash = "cc153c33020056dc25a842e5d30e04a1";
 
 export default node;

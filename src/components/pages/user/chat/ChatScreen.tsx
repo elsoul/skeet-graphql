@@ -73,7 +73,7 @@ export default function ChatScreen({ queryReference, refetch }: Props) {
           chatRoomsData={data}
         />
         {!currentChatRoomId && (
-          <div className="flex h-full w-full flex-col items-center justify-center bg-gray-50 dark:bg-gray-800">
+          <div className="flex h-full w-full flex-1 flex-col items-center justify-center bg-gray-50 dark:bg-gray-800">
             <div className="flex w-full max-w-md flex-col items-center justify-center gap-6 p-4">
               <h2 className="text-2xl font-bold text-gray-700 dark:text-gray-200">
                 {t('chat:chatGPTCustom')}
@@ -106,7 +106,6 @@ export default function ChatScreen({ queryReference, refetch }: Props) {
                   showRetry={<RefetchChat refetch={chatBoxRefetch} />}
                 >
                   <ChatBox
-                    setNewChatModalOpen={setNewChatModalOpen}
                     currentChatRoomId={currentChatRoomId}
                     refetch={refetch}
                     chatBoxQueryReference={chatBoxQueryReference}

@@ -356,7 +356,7 @@ export default function ChatMenu({
                   <div className="flex flex-col gap-2">
                     {chat?.node?.title !== '' && chat?.node?.title != null ? (
                       <p className="font-medium text-gray-900 dark:text-white">
-                        {chat?.node?.title?.length ?? 0 > 20
+                        {(chat?.node?.title?.length ?? 0) > 20
                           ? `${chat?.node?.title?.slice(0, 20)} ...`
                           : chat?.node?.title}
                       </p>
@@ -638,7 +638,7 @@ export default function ChatMenu({
                               {chat?.node?.title !== '' &&
                               chat?.node?.title != null ? (
                                 <p className="font-medium text-gray-900 dark:text-white">
-                                  {chat?.node?.title?.length ?? 0 > 20
+                                  {(chat?.node?.title?.length ?? 0) > 20
                                     ? `${chat?.node?.title?.slice(0, 20)} ...`
                                     : chat?.node?.title}
                                 </p>

@@ -16,3 +16,8 @@ export type CreateChatMessageParams = {
   content: string
   chatRoomId: string
 }
+
+export type UpdateChatRoomTitleParams = {
+  id: string
+  title: string
+}

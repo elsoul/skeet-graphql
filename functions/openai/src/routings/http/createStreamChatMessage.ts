@@ -4,7 +4,6 @@ import { streamChat } from '@/lib/openai/openAi'
 import { TypedRequestBody } from '@/index'
 import { getUserBearerToken } from '@/lib/getUserAuth'
 import { publicHttpOption } from '@/routings'
-// import { generateChatRoomTitle } from '@/lib/openai/generateChatRoomTitle'
 import { defineSecret } from 'firebase-functions/params'
 import { skeetGraphql, sleep } from '@skeet-framework/utils'
 import {
@@ -12,6 +11,7 @@ import {
   CreateStreamChatMessageParams,
   GetChatMessagesParams,
   GetChatRoomParams,
+  UpdateChatRoomTitleParams,
 } from '@/types/http/createStreamChatMessageParams'
 import { inspect } from 'util'
 import { generateChatRoomTitle } from '@/lib/openai/generateChatRoomTitle'
@@ -23,6 +23,7 @@ type ChatRoomParams = {
   maxTokens: number
   temperature: number
   stream: boolean
+  title: string
 }
 
 type ChatRoomMessage = {
@@ -70,7 +71,7 @@ export const createStreamChatMessage = onRequest(
         queryType,
         queryName,
         getChatRoomBody,
-        ['model', 'maxTokens', 'temperature', 'stream']
+        ['model', 'maxTokens', 'temperature', 'stream', 'title']
       )
       console.log(inspect(chatRoom, { depth: null }))
 
@@ -111,14 +112,30 @@ export const createStreamChatMessage = onRequest(
       const messages = chatMessages.data
         .getChatRoomMessages as CreateChatCompletionRequest['messages']
       // Update UserChatRoom Title
-      if (messages.length === 2) {
+      if (
+        chatRoom.data.getChatRoom.title == '' ||
+        !chatRoom.data.getChatRoom.title
+      ) {
         const title = await generateChatRoomTitle(
           body.content,
           organization,
           apiKey
         )
-        console.log({ title })
-        // Update UserChatRoom Title by Cloud Task
+
+        if (title) {
+          const params: UpdateChatRoomTitleParams = {
+            id: body.chatRoomId,
+            title,
+          }
+          await skeetGraphql(
+            token,
+            SKEET_GRAPHQL_ENDPOINT_URL.value(),
+            'mutation',
+            'updateChatRoom',
+            params,
+            ['id', 'title']
+          )
+        }
       }
 
       // Send Request to OpenAI
@@ -174,6 +191,7 @@ export const createStreamChatMessage = onRequest(
       stream.on('end', async () => {
         const message = messageResults.join('')
         // Send Message to Client
+
         const params: CreateChatMessageParams = {
           chatRoomId: body.chatRoomId,
           role: 'assistant',
