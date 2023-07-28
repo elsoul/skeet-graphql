@@ -13,8 +13,16 @@ export const ChatRoomMessagesQuery = extendType({
     t.connectionField('chatRoomMessageConnection', {
       type: ChatRoomMessage.$name,
       async resolve(_, args, ctx, info) {
+        const user: CurrentUser = ctx.user
         return connectionFromArray(
-          await ctx.prisma.chatRoomMessage.findMany(),
+          await ctx.prisma.chatRoomMessage.findMany({
+            where: {
+              uid: user.uid,
+            },
+            orderBy: {
+              createdAt: 'desc',
+            },
+          }),
           args
         )
       },

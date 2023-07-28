@@ -1,6 +1,7 @@
 import { extendType, stringArg } from 'nexus'
 import { toPrismaId, connectionFromArray } from '@skeet-framework/utils'
 import { ChatRoom } from 'nexus-prisma'
+import { CurrentUser } from '@/index'
 
 export const ChatRoomsQuery = extendType({
   type: 'Query',
@@ -8,7 +9,18 @@ export const ChatRoomsQuery = extendType({
     t.connectionField('chatRoomConnection', {
       type: ChatRoom.$name,
       async resolve(_, args, ctx, info) {
-        return connectionFromArray(await ctx.prisma.chatRoom.findMany(), args)
+        const user: CurrentUser = ctx.user
+        return connectionFromArray(
+          await ctx.prisma.chatRoom.findMany({
+            where: {
+              uid: user.uid,
+            },
+            orderBy: {
+              createdAt: 'desc',
+            },
+          }),
+          args
+        )
       },
       extendConnection(t) {
         t.int('totalCount', {
