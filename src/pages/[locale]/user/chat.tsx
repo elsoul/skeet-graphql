@@ -12,6 +12,8 @@ import {
   ChatScreenQuery$variables,
 } from '@/__generated__/ChatScreenQuery.graphql'
 import { useQueryLoader } from 'react-relay'
+import { sleep } from '@/utils/time'
+import RefetchChat from '@/components/pages/user/chat/RefetchChat'
 
 const seo = {
   pathname: '/user/chat',
@@ -34,10 +36,13 @@ export default function Chat() {
     useQueryLoader<ChatScreenQuery>(chatScreenQuery)
 
   useEffect(() => {
-    loadQuery({
-      first: 15,
-      after: null,
-    })
+    ;(async () => {
+      await sleep(250)
+      loadQuery({
+        first: 15,
+        after: null,
+      })
+    })()
   }, [loadQuery])
 
   const refetch = useCallback(
@@ -56,11 +61,15 @@ export default function Chat() {
   }
   return (
     <>
-      <Suspense fallback={<UserScreenLoading />}>
-        <UserScreenErrorBoundary showRetry={<p>error</p>}>
-          <ChatScreen queryReference={queryReference} refetch={refetch} />
-        </UserScreenErrorBoundary>
-      </Suspense>
+      <div className="content-height">
+        <Suspense fallback={<UserScreenLoading />}>
+          <UserScreenErrorBoundary
+            showRetry={<RefetchChat refetch={refetch} />}
+          >
+            <ChatScreen queryReference={queryReference} refetch={refetch} />
+          </UserScreenErrorBoundary>
+        </Suspense>
+      </div>
     </>
   )
 }

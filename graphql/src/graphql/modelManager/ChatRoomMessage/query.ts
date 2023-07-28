@@ -35,7 +35,7 @@ export const ChatRoomMessagesQuery = extendType({
               chatRoomId: prismaChatRoomId,
             },
             orderBy: {
-              createdAt: 'desc',
+              createdAt: 'asc',
             },
           }),
           args

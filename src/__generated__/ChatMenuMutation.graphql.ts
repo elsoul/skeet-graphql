@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5bc04432c434e32b75d5f8a1942c8670>>
+ * @generated SignedSource<<21fca908d2835069b73d5a77b0860349>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,6 +13,7 @@ export type ChatMenuMutation$variables = {
   maxTokens?: number | null;
   model?: string | null;
   stream?: boolean | null;
+  systemContent?: string | null;
   temperature?: number | null;
 };
 export type ChatMenuMutation$data = {
@@ -44,9 +45,14 @@ v2 = {
 v3 = {
   "defaultValue": null,
   "kind": "LocalArgument",
+  "name": "systemContent"
+},
+v4 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
   "name": "temperature"
 },
-v4 = [
+v5 = [
   {
     "alias": null,
     "args": [
@@ -64,6 +70,11 @@ v4 = [
         "kind": "Variable",
         "name": "stream",
         "variableName": "stream"
+      },
+      {
+        "kind": "Variable",
+        "name": "systemContent",
+        "variableName": "systemContent"
       },
       {
         "kind": "Variable",
@@ -93,12 +104,13 @@ return {
       (v0/*: any*/),
       (v1/*: any*/),
       (v2/*: any*/),
-      (v3/*: any*/)
+      (v3/*: any*/),
+      (v4/*: any*/)
     ],
     "kind": "Fragment",
     "metadata": null,
     "name": "ChatMenuMutation",
-    "selections": (v4/*: any*/),
+    "selections": (v5/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
@@ -107,24 +119,25 @@ return {
     "argumentDefinitions": [
       (v1/*: any*/),
       (v0/*: any*/),
-      (v3/*: any*/),
-      (v2/*: any*/)
+      (v4/*: any*/),
+      (v2/*: any*/),
+      (v3/*: any*/)
     ],
     "kind": "Operation",
     "name": "ChatMenuMutation",
-    "selections": (v4/*: any*/)
+    "selections": (v5/*: any*/)
   },
   "params": {
-    "cacheID": "f3ff266c31d8ecf774b769b1bbb64cfd",
+    "cacheID": "b1f3a3665aba9f44149de2f385396456",
     "id": null,
     "metadata": {},
     "name": "ChatMenuMutation",
     "operationKind": "mutation",
-    "text": "mutation ChatMenuMutation(\n  $model: String\n  $maxTokens: Int\n  $temperature: Int\n  $stream: Boolean\n) {\n  createChatRoom(model: $model, maxTokens: $maxTokens, temperature: $temperature, stream: $stream) {\n    id\n  }\n}\n"
+    "text": "mutation ChatMenuMutation(\n  $model: String\n  $maxTokens: Int\n  $temperature: Int\n  $stream: Boolean\n  $systemContent: String\n) {\n  createChatRoom(model: $model, maxTokens: $maxTokens, temperature: $temperature, stream: $stream, systemContent: $systemContent) {\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "9a80efe773b470fd5b7d389e4ba1e3f0";
+(node as any).hash = "5fa285d511b0a232be48cd78981181a9";
 
 export default node;

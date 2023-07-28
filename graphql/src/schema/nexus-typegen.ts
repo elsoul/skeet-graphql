@@ -395,6 +395,7 @@ export interface NexusGenArgTypes {
       model?: string | null; // String
       name?: string | null; // String
       stream?: boolean | null; // Boolean
+      systemContent?: string | null; // String
       temperature?: number | null; // Int
       title?: string | null; // String
     }

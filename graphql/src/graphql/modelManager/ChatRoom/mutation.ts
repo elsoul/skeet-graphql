@@ -17,10 +17,11 @@ export const ChatRoomMutation = extendType({
         maxTokens: intArg(),
         temperature: intArg(),
         stream: booleanArg(),
+        systemContent: stringArg(),
       },
       async resolve(
         _,
-        { name, title, model, maxTokens, temperature, stream },
+        { name, title, model, maxTokens, temperature, stream, systemContent },
         ctx
       ) {
         try {
@@ -56,6 +57,7 @@ export const ChatRoomMutation = extendType({
               data: {
                 role: 'system',
                 content:
+                  systemContent ||
                   'This is a great chatbot. This Assistant is very kind and helpful.',
                 userId,
                 chatRoomId: createdChatRoom.id,

@@ -22,7 +22,7 @@ import {
   gptModelSchema,
   temperatureSchema,
   maxTokensSchema,
-  // systemContentSchema,
+  systemContentSchema,
 } from '@/utils/form'
 
 import { format } from 'date-fns'
@@ -88,12 +88,14 @@ const chatMenuMutation = graphql`
     $maxTokens: Int
     $temperature: Int
     $stream: Boolean
+    $systemContent: String
   ) {
     createChatRoom(
       model: $model
       maxTokens: $maxTokens
       temperature: $temperature
       stream: $stream
+      systemContent: $systemContent
     ) {
       id
     }
@@ -104,7 +106,7 @@ const schema = z.object({
   model: gptModelSchema,
   maxTokens: maxTokensSchema,
   temperature: temperatureSchema,
-  // systemContent: systemContentSchema,
+  systemContent: systemContentSchema,
 })
 
 type Inputs = z.infer<typeof schema>
@@ -124,11 +126,8 @@ export default function ChatMenu({
   setCurrentChatRoomId,
   chatRoomsData,
 }: Props) {
-  const {
-    t,
-    // , i18n
-  } = useTranslation()
-  // const isJapanese = useMemo(() => i18n.language === 'ja', [i18n])
+  const { t, i18n } = useTranslation()
+  const isJapanese = useMemo(() => i18n.language === 'ja', [i18n])
 
   const [isCreateLoading, setCreateLoading] = useState(false)
   const [isChatListModalOpen, setChatListModalOpen] = useState(false)
@@ -145,9 +144,9 @@ export default function ChatMenu({
       model: 'gpt-3.5-turbo',
       maxTokens: 1000,
       temperature: 1,
-      // systemContent: isJapanese
-      //   ? 'あなたは、親切で、創造的で、賢く、とてもフレンドリーなアシスタントです。'
-      //   : 'You are the assistant who is helpful, creative, clever, and very friendly.',
+      systemContent: isJapanese
+        ? 'あなたは、親切で、創造的で、賢く、とてもフレンドリーなアシスタントです。'
+        : 'You are the assistant who is helpful, creative, clever, and very friendly.',
     },
   })
 
@@ -188,14 +187,14 @@ export default function ChatMenu({
     return (
       isCreateLoading ||
       errors.model != null ||
-      // errors.systemContent != null ||
+      errors.systemContent != null ||
       errors.maxTokens != null ||
       errors.temperature != null
     )
   }, [
     isCreateLoading,
     errors.model,
-    // errors.systemContent,
+    errors.systemContent,
     errors.maxTokens,
     errors.temperature,
   ])
@@ -208,7 +207,7 @@ export default function ChatMenu({
           commit({
             variables: {
               model: data.model,
-              // systemContent: data.systemContent,
+              systemContent: data.systemContent,
               maxTokens: data.maxTokens,
               temperature: data.temperature,
               stream: true,
@@ -357,7 +356,7 @@ export default function ChatMenu({
                   <div className="flex flex-col gap-2">
                     {chat?.node?.title !== '' && chat?.node?.title != null ? (
                       <p className="font-medium text-gray-900 dark:text-white">
-                        {chat?.node?.title?.length ?? 0 > 20
+                        {(chat?.node?.title?.length ?? 0) > 20
                           ? `${chat?.node?.title?.slice(0, 20)} ...`
                           : chat?.node?.title}
                       </p>
@@ -520,7 +519,7 @@ export default function ChatMenu({
                               </div>
                             </div>
 
-                            {/* <div>
+                            <div>
                               <p className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-50">
                                 {t('chat:systemContent')}
                                 {errors.systemContent && (
@@ -543,7 +542,7 @@ export default function ChatMenu({
                                   )}
                                 />
                               </div>
-                            </div> */}
+                            </div>
 
                             <div>
                               <button
@@ -639,7 +638,7 @@ export default function ChatMenu({
                               {chat?.node?.title !== '' &&
                               chat?.node?.title != null ? (
                                 <p className="font-medium text-gray-900 dark:text-white">
-                                  {chat?.node?.title?.length ?? 0 > 20
+                                  {(chat?.node?.title?.length ?? 0) > 20
                                     ? `${chat?.node?.title?.slice(0, 20)} ...`
                                     : chat?.node?.title}
                                 </p>
