@@ -41,6 +41,11 @@ import remarkGfm from 'remark-gfm'
 import remarkDirective from 'remark-directive'
 import remarkExternalLinks from 'remark-external-links'
 import { ChatScreenQuery$variables } from '@/__generated__/ChatScreenQuery.graphql'
+import { PreloadedQuery, graphql, usePreloadedQuery } from 'react-relay'
+import {
+  ChatBoxQuery,
+  ChatBoxQuery$variables,
+} from '@/__generated__/ChatBoxQuery.graphql'
 
 type ChatMessage = {
   id: string
@@ -49,6 +54,28 @@ type ChatMessage = {
   updatedAt: string
   content: string
 }
+
+export const chatBoxQuery = graphql`
+  query ChatBoxQuery($first: Int, $chatRoomId: String) {
+    chatRoomMessageConnection(first: $first, chatRoomId: $chatRoomId) {
+      edges {
+        node {
+          id
+          role
+          content
+          createdAt
+          updatedAt
+        }
+      }
+      pageInfo {
+        hasNextPage
+      }
+      nodes {
+        id
+      }
+    }
+  }
+`
 
 const schema = z.object({
   chatContent: chatContentSchema,
@@ -60,12 +87,16 @@ type Props = {
   setNewChatModalOpen: (_value: boolean) => void
   currentChatRoomId: string | null
   refetch: (variables: ChatScreenQuery$variables) => void
+  chatBoxQueryReference: PreloadedQuery<ChatBoxQuery, Record<string, unknown>>
+  chatBoxRefetch: (variables: ChatBoxQuery$variables) => void
 }
 
 export default function ChatBox({
   setNewChatModalOpen,
   currentChatRoomId,
   refetch,
+  chatBoxQueryReference,
+  chatBoxRefetch,
 }: Props) {
   const { t } = useTranslation()
   const user = useRecoilValue(userState)
@@ -99,6 +130,10 @@ export default function ChatBox({
   }, [chatContent])
 
   const [isFirstMessage, setFirstMessage] = useState(true)
+
+  const data = usePreloadedQuery(chatBoxQuery, chatBoxQueryReference)
+  console.log(currentChatRoomId)
+  console.log(data)
 
   // const getChatRoom = useCallback(async () => {
   //   if (db && user.uid && currentChatRoomId) {
@@ -302,28 +337,6 @@ export default function ChatBox({
   return (
     <>
       <div className="content-height-mobile sm:content-height w-full overflow-y-auto pt-4 sm:flex-1 sm:px-4 sm:pt-0">
-        {!currentChatRoomId && (
-          <div className="flex h-full w-full flex-col items-center justify-center bg-gray-50 dark:bg-gray-800">
-            <div className="flex w-full max-w-md flex-col items-center justify-center gap-6 p-4">
-              <h2 className="text-2xl font-bold text-gray-700 dark:text-gray-200">
-                {t('chat:chatGPTCustom')}
-              </h2>
-              <button
-                onClick={() => {
-                  setNewChatModalOpen(true)
-                }}
-                className={clsx(
-                  'flex w-full flex-row items-center justify-center gap-4 bg-gray-900 px-3 py-2 hover:cursor-pointer hover:bg-gray-700 dark:bg-gray-600 dark:hover:bg-gray-400'
-                )}
-              >
-                <PlusCircleIcon className="h-6 w-6 text-white" />
-                <span className="text-lg font-bold text-white">
-                  {t('chat:newChat')}
-                </span>
-              </button>
-            </div>
-          </div>
-        )}
         {currentChatRoomId && (
           <div className="flex h-full w-full flex-col justify-between gap-4">
             <div

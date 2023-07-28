@@ -48,7 +48,7 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Mutation {
-  createChatRoom(maxTokens: Int, model: String, name: String, stream: Boolean, temperature: Int, title: String): ChatRoom
+  createChatRoom(maxTokens: Int, model: String, name: String, stream: Boolean, systemContent: String, temperature: Int, title: String): ChatRoom
   createChatRoomMessage(chatRoomId: String, content: String, role: String): ChatRoomMessage
   createUser(email: String, iconUrl: String, uid: String, username: String): User
   createUserChatRoom(chatRoomId: Int, userId: Int): UserChatRoom

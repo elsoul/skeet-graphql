@@ -38,13 +38,10 @@ export default function Chat() {
   useEffect(() => {
     ;(async () => {
       await sleep(250)
-      loadQuery(
-        {
-          first: 15,
-          after: null,
-        },
-        { fetchPolicy: 'network-only' }
-      )
+      loadQuery({
+        first: 15,
+        after: null,
+      })
     })()
   }, [loadQuery])
 
@@ -64,7 +61,7 @@ export default function Chat() {
   }
   return (
     <>
-      <div className="h-screen">
+      <div className="content-height">
         <Suspense fallback={<UserScreenLoading />}>
           <UserScreenErrorBoundary
             showRetry={<RefetchChat refetch={refetch} />}
