@@ -14,36 +14,10 @@ export const chatScreenQuery = graphql`
     $last: Int
     $before: String
   ) {
-    chatRoomConnection(
-      first: $first
-      after: $after
-      last: $last
-      before: $before
-    ) {
-      edges {
-        cursor
-        node {
-          id
-          maxTokens
-          model
-          title
-          createdAt
-          updatedAt
-          temperature
-        }
-      }
-      nodes {
-        id
-      }
-      pageInfo {
-        endCursor
-        hasNextPage
-        hasPreviousPage
-        startCursor
-      }
-    }
+    ...ChatMenu_query
   }
 `
+
 type Props = {
   queryReference: PreloadedQuery<ChatScreenQuery, Record<string, unknown>>
   refetch: (variables: ChatScreenQuery$variables) => void
@@ -64,7 +38,6 @@ export default function ChatScreen({ queryReference, refetch }: Props) {
           setNewChatModalOpen={setNewChatModalOpen}
           currentChatRoomId={currentChatRoomId}
           setCurrentChatRoomId={setCurrentChatRoomId}
-          refetch={refetch}
           chatRoomsData={data}
         />
         <ChatBox

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8080b79a29dd603d7ee90c01d482b539>>
+ * @generated SignedSource<<72f1370448f8d370abb02ba09416fadf>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,42 +10,44 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type ChatScreenQuery$variables = {
+export type ChatMenuPaginationQuery$variables = {
   after?: string | null;
   before?: string | null;
   first?: number | null;
   last?: number | null;
 };
-export type ChatScreenQuery$data = {
+export type ChatMenuPaginationQuery$data = {
   readonly " $fragmentSpreads": FragmentRefs<"ChatMenu_query">;
 };
-export type ChatScreenQuery = {
-  response: ChatScreenQuery$data;
-  variables: ChatScreenQuery$variables;
+export type ChatMenuPaginationQuery = {
+  response: ChatMenuPaginationQuery$data;
+  variables: ChatMenuPaginationQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
-  "name": "after"
-},
-v1 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
-  "name": "before"
-},
-v2 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
-  "name": "first"
-},
-v3 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
-  "name": "last"
-},
-v4 = [
+var v0 = [
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "after"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "before"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "first"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "last"
+  }
+],
+v1 = [
   {
     "kind": "Variable",
     "name": "after",
@@ -67,7 +69,7 @@ v4 = [
     "variableName": "last"
   }
 ],
-v5 = {
+v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -76,15 +78,10 @@ v5 = {
 };
 return {
   "fragment": {
-    "argumentDefinitions": [
-      (v0/*: any*/),
-      (v1/*: any*/),
-      (v2/*: any*/),
-      (v3/*: any*/)
-    ],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "ChatScreenQuery",
+    "name": "ChatMenuPaginationQuery",
     "selections": [
       {
         "args": null,
@@ -97,18 +94,13 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [
-      (v2/*: any*/),
-      (v0/*: any*/),
-      (v3/*: any*/),
-      (v1/*: any*/)
-    ],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "ChatScreenQuery",
+    "name": "ChatMenuPaginationQuery",
     "selections": [
       {
         "alias": null,
-        "args": (v4/*: any*/),
+        "args": (v1/*: any*/),
         "concreteType": "QueryChatRoomConnection_Connection",
         "kind": "LinkedField",
         "name": "chatRoomConnection",
@@ -130,7 +122,7 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v5/*: any*/),
+                  (v2/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -201,7 +193,7 @@ return {
             "name": "nodes",
             "plural": true,
             "selections": [
-              (v5/*: any*/)
+              (v2/*: any*/)
             ],
             "storageKey": null
           },
@@ -249,7 +241,7 @@ return {
       },
       {
         "alias": null,
-        "args": (v4/*: any*/),
+        "args": (v1/*: any*/),
         "filters": null,
         "handle": "connection",
         "key": "ChatMenu_chatRoomConnection",
@@ -259,16 +251,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "67ccd97b7794c71a887114636b7bf208",
+    "cacheID": "7851f76624f7a781fe4f811df27cbc3e",
     "id": null,
     "metadata": {},
-    "name": "ChatScreenQuery",
+    "name": "ChatMenuPaginationQuery",
     "operationKind": "query",
-    "text": "query ChatScreenQuery(\n  $first: Int\n  $after: String\n  $last: Int\n  $before: String\n) {\n  ...ChatMenu_query\n}\n\nfragment ChatMenu_query on Query {\n  chatRoomConnection(first: $first, after: $after, last: $last, before: $before) {\n    edges {\n      node {\n        id\n        maxTokens\n        model\n        title\n        createdAt\n        updatedAt\n        temperature\n        __typename\n      }\n      cursor\n    }\n    nodes {\n      id\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n"
+    "text": "query ChatMenuPaginationQuery(\n  $after: String\n  $before: String\n  $first: Int\n  $last: Int\n) {\n  ...ChatMenu_query\n}\n\nfragment ChatMenu_query on Query {\n  chatRoomConnection(first: $first, after: $after, last: $last, before: $before) {\n    edges {\n      node {\n        id\n        maxTokens\n        model\n        title\n        createdAt\n        updatedAt\n        temperature\n        __typename\n      }\n      cursor\n    }\n    nodes {\n      id\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "2836761d65817355708114c29052336a";
+(node as any).hash = "6f7d0804d82b115cd7c9de0be2bf5058";
 
 export default node;

@@ -15,8 +15,7 @@ import {
   useState,
   KeyboardEvent,
 } from 'react'
-import { useRecoilValue } from 'recoil'
-import { userState } from '@/store/user'
+
 import {
   GPTModel,
   allowedGPTModel,
@@ -32,15 +31,13 @@ import { Dialog, Transition } from '@headlessui/react'
 import { z } from 'zod'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { graphql, useMutation } from 'react-relay'
-import {
-  ChatScreenQuery$data,
-  ChatScreenQuery$variables,
-} from '@/__generated__/ChatScreenQuery.graphql'
+import { graphql, useMutation, usePaginationFragment } from 'react-relay'
 import {
   ChatMenuMutation,
   ChatMenuMutation$data,
 } from '@/__generated__/ChatMenuMutation.graphql'
+import { ChatMenuPaginationQuery } from '@/__generated__/ChatMenuPaginationQuery.graphql'
+import { ChatMenu_query$key } from '@/__generated__/ChatMenu_query.graphql'
 
 export type ChatRoom = {
   id: string
@@ -51,6 +48,39 @@ export type ChatRoom = {
   temperature: number
   title: string
 }
+
+const chatMenuPaginationQuery = graphql`
+  fragment ChatMenu_query on Query
+  @refetchable(queryName: "ChatMenuPaginationQuery") {
+    chatRoomConnection(
+      first: $first
+      after: $after
+      last: $last
+      before: $before
+    ) @connection(key: "ChatMenu_chatRoomConnection") {
+      edges {
+        node {
+          id
+          maxTokens
+          model
+          title
+          createdAt
+          updatedAt
+          temperature
+        }
+      }
+      nodes {
+        id
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+    }
+  }
+`
 
 const chatMenuMutation = graphql`
   mutation ChatMenuMutation(
@@ -84,8 +114,7 @@ type Props = {
   setNewChatModalOpen: (_value: boolean) => void
   currentChatRoomId: string | null
   setCurrentChatRoomId: (_value: string | null) => void
-  refetch: (variables: ChatScreenQuery$variables) => void
-  chatRoomsData: ChatScreenQuery$data
+  chatRoomsData: ChatMenu_query$key
 }
 
 export default function ChatMenu({
@@ -93,16 +122,17 @@ export default function ChatMenu({
   setNewChatModalOpen,
   currentChatRoomId,
   setCurrentChatRoomId,
-  refetch,
   chatRoomsData,
 }: Props) {
-  const { t, i18n } = useTranslation()
-  const isJapanese = useMemo(() => i18n.language === 'ja', [i18n])
-  const user = useRecoilValue(userState)
+  const {
+    t,
+    // , i18n
+  } = useTranslation()
+  // const isJapanese = useMemo(() => i18n.language === 'ja', [i18n])
+
   const [isCreateLoading, setCreateLoading] = useState(false)
   const [isChatListModalOpen, setChatListModalOpen] = useState(false)
   const addToast = useToastMessage()
-  const [reachLast, setReachLast] = useState(false)
   const [commit] = useMutation<ChatMenuMutation>(chatMenuMutation)
 
   const {
@@ -121,25 +151,11 @@ export default function ChatMenu({
     },
   })
 
-  const queryMore = useCallback(async () => {
-    try {
-      refetch({
-        first: 15,
-        after: chatRoomsData.chatRoomConnection?.pageInfo.endCursor,
-      })
-
-      if (!chatRoomsData?.chatRoomConnection?.pageInfo.hasNextPage) {
-        setReachLast(true)
-      }
-    } catch (err) {
-      console.log(err)
-      addToast({
-        type: 'error',
-        title: t('errorTitle'),
-        description: t('errorBody'),
-      })
-    }
-  }, [t, addToast, refetch, chatRoomsData])
+  const { data, loadNext, hasNext, isLoadingNext, refetch } =
+    usePaginationFragment<ChatMenuPaginationQuery, ChatMenu_query$key>(
+      chatMenuPaginationQuery,
+      chatRoomsData
+    )
 
   const chatMenuRef = useRef<HTMLDivElement>(null)
   const chatMenuRefMobile = useRef<HTMLDivElement>(null)
@@ -149,11 +165,11 @@ export default function ChatMenu({
     if (current) {
       const isBottom =
         current.scrollHeight - current.scrollTop === current.clientHeight
-      if (isBottom && !reachLast) {
-        queryMore()
+      if (isBottom && hasNext && !isLoadingNext) {
+        loadNext(15)
       }
     }
-  }, [queryMore, chatMenuRef, reachLast])
+  }, [chatMenuRef, loadNext, hasNext, isLoadingNext])
 
   const handleScrollMobile = useCallback(() => {
     const current = chatMenuRefMobile.current
@@ -162,11 +178,11 @@ export default function ChatMenu({
       const isBottom =
         Math.floor(current.scrollHeight - current.scrollTop) ===
         current.clientHeight
-      if (isBottom && !reachLast) {
-        queryMore()
+      if (isBottom && hasNext && !isLoadingNext) {
+        loadNext(15)
       }
     }
-  }, [queryMore, chatMenuRefMobile, reachLast])
+  }, [chatMenuRefMobile, loadNext, hasNext, isLoadingNext])
 
   const isDisabled = useMemo(() => {
     return (
@@ -321,7 +337,7 @@ export default function ChatMenu({
               </span>
             </button>
             <div className="flex flex-col gap-3 pb-20">
-              {chatRoomsData.chatRoomConnection?.edges?.map((chat) => (
+              {data.chatRoomConnection?.edges?.map((chat) => (
                 <div
                   onClick={() => {
                     setCurrentChatRoomId(chat?.node?.id ?? null)
@@ -601,49 +617,47 @@ export default function ChatMenu({
                     </p>
                     <div className="w-full sm:mx-auto sm:max-w-xl">
                       <div className="flex flex-col gap-3 pb-20 sm:px-10">
-                        {chatRoomsData.chatRoomConnection?.edges?.map(
-                          (chat) => (
-                            <div
-                              onClick={() => {
-                                setCurrentChatRoomId(chat?.node?.id ?? null)
-                                setChatListModalOpen(false)
-                              }}
-                              key={`ChatMenu Mobile ${chat?.node?.id}`}
+                        {data.chatRoomConnection?.edges?.map((chat) => (
+                          <div
+                            onClick={() => {
+                              setCurrentChatRoomId(chat?.node?.id ?? null)
+                              setChatListModalOpen(false)
+                            }}
+                            key={`ChatMenu Mobile ${chat?.node?.id}`}
+                            className={clsx(
+                              currentChatRoomId === chat?.node?.id &&
+                                'border-2 border-gray-900 dark:border-gray-50',
+                              'flex flex-row items-start justify-start gap-2 bg-gray-50 p-2 hover:cursor-pointer dark:bg-gray-800'
+                            )}
+                          >
+                            <ChatBubbleLeftIcon
                               className={clsx(
-                                currentChatRoomId === chat?.node?.id &&
-                                  'border-2 border-gray-900 dark:border-gray-50',
-                                'flex flex-row items-start justify-start gap-2 bg-gray-50 p-2 hover:cursor-pointer dark:bg-gray-800'
+                                'h-5 w-5 flex-shrink-0 text-gray-900 dark:text-white'
                               )}
-                            >
-                              <ChatBubbleLeftIcon
-                                className={clsx(
-                                  'h-5 w-5 flex-shrink-0 text-gray-900 dark:text-white'
-                                )}
-                              />
-                              <div className="flex flex-col gap-2">
-                                {chat?.node?.title !== '' &&
-                                chat?.node?.title != null ? (
-                                  <p className="font-medium text-gray-900 dark:text-white">
-                                    {chat?.node?.title?.length ?? 0 > 20
-                                      ? `${chat?.node?.title?.slice(0, 20)} ...`
-                                      : chat?.node?.title}
-                                  </p>
-                                ) : (
-                                  <p className="font-light italic text-gray-600 dark:text-gray-300">
-                                    {t('noTitle')}
-                                  </p>
-                                )}
-
-                                <p className="text-sm font-light text-gray-700 dark:text-gray-200">
-                                  {format(
-                                    new Date(chat?.node?.createdAt),
-                                    'yyyy-MM-dd HH:mm'
-                                  )}
+                            />
+                            <div className="flex flex-col gap-2">
+                              {chat?.node?.title !== '' &&
+                              chat?.node?.title != null ? (
+                                <p className="font-medium text-gray-900 dark:text-white">
+                                  {chat?.node?.title?.length ?? 0 > 20
+                                    ? `${chat?.node?.title?.slice(0, 20)} ...`
+                                    : chat?.node?.title}
                                 </p>
-                              </div>
+                              ) : (
+                                <p className="font-light italic text-gray-600 dark:text-gray-300">
+                                  {t('noTitle')}
+                                </p>
+                              )}
+
+                              <p className="text-sm font-light text-gray-700 dark:text-gray-200">
+                                {format(
+                                  new Date(chat?.node?.createdAt),
+                                  'yyyy-MM-dd HH:mm'
+                                )}
+                              </p>
                             </div>
-                          )
-                        )}
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
