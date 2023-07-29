@@ -27,6 +27,14 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "out", ".next", "build", "dist", "functions"],
+  "exclude": [
+    "node_modules",
+    "out",
+    ".next",
+    "build",
+    "dist",
+    "functions",
+    "graphql"
+  ],
   "compileOnSave": false
 }
