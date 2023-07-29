@@ -13,7 +13,7 @@
   },
   "cloudRun": {
     "name": "skeet-skeet-graphql-api",
-    "url": "https://sql.skeet.dev/graphql",
+    "url": "https://sql.skeet.dev",
     "cpu": 1,
     "maxConcurrency": 80,
     "maxInstances": 100,

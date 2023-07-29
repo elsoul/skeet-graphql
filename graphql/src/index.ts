@@ -70,6 +70,7 @@ export const server = new ApolloServer<Context>({
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:4200',
+  'https://next-graphql.skeet.dev',
   'https://skeet-graphql.web.app',
 ]
 new Array(10).fill(0).forEach((_, i) => {
