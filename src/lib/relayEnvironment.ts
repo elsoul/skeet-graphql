@@ -42,7 +42,7 @@ export const createEnvironment: () => Environment = () => {
         url: () =>
           process.env.NODE_ENV !== 'production'
             ? 'http://localhost:3000/graphql'
-            : `${skeetCloudConfig.cloudRun.url}`,
+            : `${skeetCloudConfig.cloudRun.url}/graphql`,
       }),
     ]),
   })

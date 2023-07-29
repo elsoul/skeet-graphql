@@ -2594,10 +2594,10 @@
     node-fetch "2.6.7"
     typesaurus "7"
 
-"@skeet-framework/utils@^0.8.3":
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/@skeet-framework/utils/-/utils-0.8.3.tgz#5361f756bd64fc415f8c8a7cae00025587030bdd"
-  integrity sha512-3t+f/LIsoDJejnxIovydMq+oNRM9K5zh/XKGXVq+XymQrxHhZm/W2Q00QOvfXuk+YXd1BZQbD2335bq8GFeNIw==
+"@skeet-framework/utils@^0.8.5":
+  version "0.8.5"
+  resolved "https://registry.yarnpkg.com/@skeet-framework/utils/-/utils-0.8.5.tgz#2781d85556e367ed24f4167c1d83ca48fceff6fa"
+  integrity sha512-+214QfzPttC0AjlPPIsLfyzXVF5Z+K+DW1Y0KtXfdA+b/TApSxjYDAIM/4+b7RbvZjkxupI+q/w6Kr/ixZaokQ==
   dependencies:
     "@apollo/server" "4.8.1"
     "@google-cloud/tasks" "3.2.0"
