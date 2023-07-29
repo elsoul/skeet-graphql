@@ -67,7 +67,11 @@ export const server = new ApolloServer<Context>({
   introspection: true,
 })
 
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:4200']
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:4200',
+  'https://skeet-graphql.web.app/',
+]
 new Array(10).fill(0).forEach((_, i) => {
   allowedOrigins.push(`http://localhost:1900${i}`)
 })
