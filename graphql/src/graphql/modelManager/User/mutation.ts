@@ -16,11 +16,12 @@ export const UserMutation = objectType({
       },
       async resolve(_, args, ctx) {
         try {
+          if (!args.uid || !args.email) throw new Error(`no uid or email`)
           const { uid, username, email, iconUrl } = args
           const userParams: Prisma.UserCreateInput = {
-            uid: uid!,
+            uid: uid,
             username,
-            email: email!,
+            email: email,
             iconUrl,
             iv: generateIv(),
           }
