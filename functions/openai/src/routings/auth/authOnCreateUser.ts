@@ -24,11 +24,12 @@ export const authOnCreateUser = functions
   .auth.user()
   .onCreate(async (user) => {
     try {
+      if (!user.email) throw new Error(`no email`)
       const { uid, email, displayName, photoURL } = user
       const userParams: User = {
         uid,
-        email: email || '',
-        username: displayName || email?.split('@')[0] || '',
+        email: email,
+        username: displayName || email?.split('@')[0],
         iconUrl:
           photoURL == '' || !photoURL
             ? gravatarIconUrl(email ?? 'info@skeet.dev')

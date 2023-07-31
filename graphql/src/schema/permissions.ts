@@ -1,13 +1,11 @@
 import { not, rule, shield } from 'graphql-shield'
 import { GraphQLError } from 'graphql'
 
-const isAuthenticated = rule({ cache: 'contextual' })(async (
-  _parent,
-  _args,
-  ctx,
-) => {
-  return ctx.user?.uid !== ''
-})
+const isAuthenticated = rule({ cache: 'contextual' })(
+  async (_parent, _args, ctx) => {
+    return ctx.user?.uid !== ''
+  }
+)
 
 const isAdmin = rule()(async (parent, args, ctx, info) => {
   return ctx.user.role === 'ADMIN'
@@ -31,11 +29,10 @@ export const permissions = shield(
       if (thrownThing instanceof GraphQLError) {
         return thrownThing
       } else if (thrownThing instanceof Error) {
-        console.error(thrownThing)
         return new GraphQLError('Internal server error')
       } else {
         return new GraphQLError('Not Authorized')
       }
     },
-  },
+  }
 )
