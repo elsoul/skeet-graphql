@@ -1,3 +1,4 @@
+import { toPrismaId } from '@skeet-framework/utils'
 import { extendType } from 'nexus'
 import { User } from 'nexus-prisma'
 
@@ -18,7 +19,10 @@ export const MeQuery = extendType({
         }
         return await ctx.prisma.user.findUnique({
           where: {
-            id: process.env.NODE_ENV === 'production' ? Number(ctx.user.id) : 1,
+            id:
+              process.env.NODE_ENV === 'production'
+                ? toPrismaId(ctx.user.id)
+                : 1,
           },
         })
       },

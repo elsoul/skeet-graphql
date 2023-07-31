@@ -1,13 +1,14 @@
 import * as functions from 'firebase-functions/v1'
 import { authPublicOption } from '@/routings'
 import {
-  createCloudTask,
   gravatarIconUrl,
   sendDiscord,
+  skeetGraphql,
 } from '@skeet-framework/utils'
 import skeetConfig from '../../../skeetOptions.json'
 import { User } from '@/models'
 import { defineSecret } from 'firebase-functions/params'
+import { inspect } from 'util'
 const DISCORD_WEBHOOK_URL = defineSecret('DISCORD_WEBHOOK_URL')
 const SKEET_GRAPHQL_ENDPOINT_URL = defineSecret('SKEET_GRAPHQL_ENDPOINT_URL')
 
@@ -34,15 +35,18 @@ export const authOnCreateUser = functions
             : photoURL,
       }
 
-      // This function behaves differently in development and production
-      // But no need to change the code
-      // Development - sending POST request to graphql endpoint in development
-      // Production - createting Google Cloud Task to graphql endpoint in production
       console.log({ userParams })
-      await createCloudTask(
+      const accessToken = 'skeet-access-token'
+      const createUserResponse = await skeetGraphql(
+        accessToken,
+        SKEET_GRAPHQL_ENDPOINT_URL.value(),
+        'mutation',
         queryName,
-        userParams,
-        SKEET_GRAPHQL_ENDPOINT_URL.value()
+        userParams
+      )
+
+      console.log(
+        inspect(createUserResponse, false, null, true /* enable colors */)
       )
 
       // Send Discord message when new user is created
