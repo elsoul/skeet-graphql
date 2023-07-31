@@ -43,10 +43,35 @@ const queryComplexityRule = queryComplexity({
     }),
   ],
 })
+
+const allowedOrigins: string[] = []
+if (process.env.NODE_ENV === 'production') {
+  allowedOrigins.push('https://next-graphql.skeet.dev')
+  allowedOrigins.push('https://skeet-graphql.web.app')
+} else {
+  allowedOrigins.push('http://localhost:3000')
+  allowedOrigins.push('http://localhost:4200')
+  new Array(10).fill(0).forEach((_, i) => {
+    allowedOrigins.push(`http://localhost:1900${i}`)
+  })
+}
+
+const corsOptions: cors.CorsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, origin)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+}
+
+const endpoint = process.env.NODE_ENV === 'production' ? '/' : '/graphql'
+
 const app = express()
 const httpServer = http.createServer(app)
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors<cors.CorsRequest>(corsOptions))
 app.get('/root', (req, res) => {
   res.send('Skeet App is Running!')
 })
@@ -66,28 +91,6 @@ export const server = new ApolloServer<Context>({
   validationRules: [depthLimit(7), queryComplexityRule],
   introspection: true,
 })
-
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:4200',
-  'https://next-graphql.skeet.dev',
-  'https://skeet-graphql.web.app',
-]
-new Array(10).fill(0).forEach((_, i) => {
-  allowedOrigins.push(`http://localhost:1900${i}`)
-})
-
-const corsOptions: cors.CorsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  },
-}
-
-const endpoint = process.env.NODE_ENV === 'production' ? '/' : '/graphql'
 
 export const startApolloServer = async () => {
   await server.start()
