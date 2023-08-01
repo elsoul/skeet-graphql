@@ -1,3 +1,25 @@
+![Skeet Next.js + GraphQL Template](https://storage.googleapis.com/skeet-assets/imgs/frontend/skeet-next-graphql.png)
+
+<p align="center">
+  <a href="https://twitter.com/intent/follow?screen_name=ELSOUL_LABO2">
+    <img src="https://img.shields.io/twitter/follow/ELSOUL_LABO2.svg?label=Follow%20@ELSOUL_LABO2" alt="Follow @ELSOUL_LABO2" />
+  </a>
+  <br/>
+
+  <a aria-label="npm version" href="https://www.npmjs.com/package/@skeet-framework/cli">
+    <img alt="" src="https://badgen.net/npm/v/@skeet-framework/cli">
+  </a>
+  <a aria-label="Downloads Number" href="https://www.npmjs.com/package/@skeet-framework/cli">
+    <img alt="" src="https://badgen.net/npm/dt/@skeet-framework/cli">
+  </a>
+  <a aria-label="License" href="https://github.com/elsoul/skeet-cli/blob/master/LICENSE.txt">
+    <img alt="" src="https://badgen.net/badge/license/Apache/blue">
+  </a>
+    <a aria-label="Code of Conduct" href="https://github.com/elsoul/skeet-cli/blob/master/CODE_OF_CONDUCT.md">
+    <img alt="" src="https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg">
+  </a>
+</p>
+
 ## Skeet GraphQL Boilerplate
 
 Nexus Prisma, GraphQL, Relay Connection, ApolloServer with Express, TypeScript, PostgreSQL, Jest Test, Google Cloud Run
@@ -18,6 +40,7 @@ Powered by TypeScript GraphQL, Prisma, Jest, Prettier, and Google Cloud.
 - [Yarn](https://yarnpkg.com/)
 - [Google SDK](https://cloud.google.com/sdk/docs)
 - [Docker](https://www.docker.com/)
+- [Watchman](https://facebook.github.io/watchman/docs/install)
 
 ## Usage
 
