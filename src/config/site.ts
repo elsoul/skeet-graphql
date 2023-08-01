@@ -3,12 +3,12 @@ import skeetCloudConfig from '@root/skeet-cloud.config.json'
 const siteConfig = {
   domain: skeetCloudConfig.app.appDomain,
   copyright: 'ELSOUL LABO B.V.',
-  sitenameJA: 'Skeet Next',
-  sitenameEN: 'Skeet Next',
+  sitenameJA: 'Skeet Next.js GraphQL',
+  sitenameEN: 'Skeet Next.js GraphQL',
   keywordsJA:
-    'Next.js, Firebase, SSG, テンプレート, SEO, 多言語対応, サーバーレス, TypeScript, PWA',
+    'Next.js, Firebase, SSG, テンプレート, SEO, 多言語対応, サーバーレス, TypeScript, PWA, GraphQL',
   keywordsEN:
-    'Next.js, Firebase, SSG, Template, SEO, i18n translation, Serverless, TypeScript, PWA',
+    'Next.js, Firebase, SSG, Template, SEO, i18n translation, Serverless, TypeScript, PWA, GraphQL',
   descriptionJA:
     'Next.jsのボイラープレート。SEO対応、多言語対応、SSG、PWA。WebAppをすぐに構築開始でき、そのデプロイは保証されています。',
   descriptionEN:
