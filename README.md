@@ -22,7 +22,23 @@
 
 ## Skeet GraphQL Boilerplate
 
-Nexus Prisma, GraphQL, Relay Connection, ApolloServer with Express, TypeScript, PostgreSQL, Jest Test, Google Cloud Run
+- [Prisma - ORM](https://www.prisma.io/)
+- [Nexus Prisma - GraphQL plugin for Prisma](https://graphql-nexus.github.io/nexus-prisma)
+- [Apollo - GraphQL Server](https://www.apollographql.com/)
+- [Express - HTTP API](https://expressjs.com/)
+- [PostgreSQL - Relational Database](https://www.postgresql.org/)
+- [Jest - Testing framework](https://jestjs.io/)
+- [TypeScript - Type Check](https://www.typescriptlang.org/)
+- [ESLint - Linter](https://eslint.org/)
+- [Prettier - Formatter](https://prettier.io/)
+- [Firebase - Serverless Platform](https://firebase.google.com/)
+- [Google Cloud - Cloud Platform](https://cloud.google.com/)
+- [Next.js - SSG Framework](https://nextjs.org/)
+- [React - UI Framework](https://reactjs.org/)
+- [Relay - GraphQL Client](https://relay.dev/)
+- [Recoil - State Management](https://recoiljs.org/)
+- [Tailwind - CSS Framework](https://tailwindcss.com/)
+- [Next i18next - i18n Translation](https://github.com/isaachinman/next-i18next)
 
 ## What's Skeet?
 
@@ -55,6 +71,7 @@ $ npm i -g @skeet-framework/cli
 After packages installed:
 
 ```bash
+$ skeet yarn install
 $ skeet docker psql
 $ skeet db generate
 $ skeet db deploy
