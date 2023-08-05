@@ -1,7 +1,7 @@
 import { extendType, stringArg } from 'nexus'
 import { connectionFromArray } from 'graphql-relay'
 import { User } from 'nexus-prisma'
-import { toPrismaId } from '@skeet-framework/utils'
+import { toPrismaId } from '@/lib/toPrismaId'
 
 export const UsersQuery = extendType({
   type: 'Query',

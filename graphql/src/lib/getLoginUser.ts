@@ -1,6 +1,6 @@
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { auth } from 'firebase-admin'
-import { toGlobalId } from '@skeet-framework/utils'
+import { toGlobalId } from 'graphql-relay'
 import admin from 'firebase-admin'
 import { PrismaClient } from '@prisma/client'
 admin.initializeApp()

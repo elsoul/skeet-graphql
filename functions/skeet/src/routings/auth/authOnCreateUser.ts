@@ -53,7 +53,7 @@ export const authOnCreateUser = functions
       // Send Discord message when new user is created
       const content = `Skeet APP New user: ${userParams.username} \nemail: ${userParams.email}\niconUrl: ${userParams.iconUrl}`
       if (process.env.NODE_ENV === 'production') {
-        await sendDiscord(content, DISCORD_WEBHOOK_URL.value())
+        await sendDiscord(content)
       }
       console.log({ status: 'success' })
     } catch (error) {

@@ -1,5 +1,5 @@
 import { extendType, stringArg, intArg } from 'nexus'
-import { toPrismaId } from '@skeet-framework/utils'
+import { toPrismaId } from '@/lib/toPrismaId'
 import { ChatRoomMessage } from 'nexus-prisma'
 import { CurrentUser } from '@/index'
 

@@ -1,5 +1,5 @@
 import { extendType, stringArg, intArg, floatArg, booleanArg } from 'nexus'
-import { toPrismaId } from '@skeet-framework/utils'
+import { toPrismaId } from '@/lib/toPrismaId'
 import { ChatRoom } from 'nexus-prisma'
 import { PrismaClient } from '@prisma/client'
 import { CurrentUser } from '@/index'
@@ -28,9 +28,9 @@ export const ChatRoomMutation = extendType({
           const data = {
             name: name || 'default room',
             title,
-            model: model || 'gpt-3.5-turbo',
-            maxTokens: maxTokens || 420,
-            temperature: temperature || 0,
+            model: model || 'chat-bison@001',
+            maxTokens: maxTokens || 256,
+            temperature: temperature || 0.2,
             stream: !!stream,
           }
           const user: CurrentUser = ctx.user
@@ -40,6 +40,7 @@ export const ChatRoomMutation = extendType({
           const result = await prismaClient.$transaction(async (tx) => {
             const userId = toPrismaId(user.id)
             // ChatRoomを作成
+            console.log({ user })
             const createdChatRoom = await tx.chatRoom.create({
               data,
             })
@@ -55,7 +56,7 @@ export const ChatRoomMutation = extendType({
             // ChatRoomMessageを作成
             await tx.chatRoomMessage.create({
               data: {
-                role: 'system',
+                role: 'context',
                 content:
                   systemContent ||
                   'This is a great chatbot. This Assistant is very kind and helpful.',

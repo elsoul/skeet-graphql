@@ -1,4 +1,4 @@
-import { toPrismaId } from '@skeet-framework/utils'
+import { toPrismaId } from '@/lib/toPrismaId'
 import { extendType } from 'nexus'
 import { User } from 'nexus-prisma'
 
