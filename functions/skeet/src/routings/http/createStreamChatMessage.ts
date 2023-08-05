@@ -181,7 +181,6 @@ export const createStreamChatMessage = onRequest(
 
       // Get OpenAI Stream
       const stream = await vertexAiStream(vertexPrompt, openAiOptions)
-      console.log('stream', stream)
       const messageResults: string[] = []
       let streamClosed = false
 
@@ -191,13 +190,13 @@ export const createStreamChatMessage = onRequest(
         const payloads = chunk.toString().split('\n\n')
         for await (const payload of payloads) {
           console.log('payload', payload)
+          messageResults.push(payload)
           try {
-            messageResults.push(payload)
             while (!streamClosed && res.writableLength > 0) {
               await sleep(10)
             }
             // Send Message to Client
-            res.write(JSON.stringify({ text: payload }))
+            res.write(payload)
           } catch (error) {
             console.log(`Error with JSON.parse and ${payload}.\n${error}`)
           }
@@ -207,25 +206,27 @@ export const createStreamChatMessage = onRequest(
 
       // Stream End
       stream.on('end', async () => {
-        const message = messageResults.join('')
-        // Send Message to Client
+        // ** Want to save the messageResults to the database but can't figure out how to get messageResult here. **
+        // ChatGpt was ok.
 
-        const params: CreateChatMessageParams = {
-          chatRoomId: body.chatRoomId,
-          role: 'assistant',
-          content: message,
-        }
+        // const message = messageResults.join('')
+        // console.log({ message })
+        // const params: CreateChatMessageParams = {
+        //   chatRoomId: body.chatRoomId,
+        //   role: 'assistant',
+        //   content: message,
+        // }
 
-        const result = await skeetGraphql(
-          token,
-          SKEET_GRAPHQL_ENDPOINT_URL.value(),
-          'mutation',
-          createMessageQueryName,
-          params,
-          ['id', 'role', 'content']
-        )
-        console.log('got result')
-        console.log(inspect(result, { depth: null }))
+        // const result = await skeetGraphql(
+        //   token,
+        //   SKEET_GRAPHQL_ENDPOINT_URL.value(),
+        //   'mutation',
+        //   createMessageQueryName,
+        //   params,
+        //   ['id', 'role', 'content']
+        // )
+        // console.log('got result')
+        // console.log(inspect(result, { depth: null }))
         res.end('Stream done')
       })
       stream.on('error', (e: Error) => console.error(e))
@@ -234,10 +235,7 @@ export const createStreamChatMessage = onRequest(
         error instanceof Error &&
         !error.message.includes('Please ask to join the whitelist.') &&
         !error.message.includes('userChatRoomId is empty') &&
-        !error.message.includes('stream must be true') &&
-        !error.message.includes(
-          `ChatGPT organization or apiKey is empty\nPlease run \`skeet add secret CHAT_GPT_ORG/CHAT_GPT_KEY\``
-        )
+        !error.message.includes('stream must be true')
       ) {
         console.error(`Connection Error - ${error}`)
       }

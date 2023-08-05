@@ -18,7 +18,7 @@
   },
   "main": "dist/index.js",
   "dependencies": {
-    "@skeet-framework/ai": "1.0.1",
+    "@skeet-framework/ai": "^1.0.2",
     "@skeet-framework/pubsub": "0.1.2",
     "@skeet-framework/utils": "1.0.0",
     "date-fns": "2.29.3",

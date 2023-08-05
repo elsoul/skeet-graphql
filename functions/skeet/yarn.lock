@@ -1346,10 +1346,10 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
-"@skeet-framework/ai@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@skeet-framework/ai/-/ai-1.0.1.tgz#9c63948cd36998cb9f2ad9afbc46bc5f1e559b12"
-  integrity sha512-cWMGh53M6n7n3RrAqdj8gplkd1YSpEalORbnCcmzOZ4lUsnwZ0OmqdzqXnqINtFLzPrJposs+toM3VMf+eIC0Q==
+"@skeet-framework/ai@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@skeet-framework/ai/-/ai-1.0.2.tgz#f7cd70ee3cf2297eb7245d2a54cac53cad39d9e6"
+  integrity sha512-7OkBm0I8vtRNVJ6kQYU/QKC7QnRjEz6bimiHRzh5iY/hSbtpScPIjQ++kfbF7Z6KDSsz4yAkUsv2E+SecnNWqQ==
   dependencies:
     "@google-cloud/aiplatform" "2.17.0"
     "@google-cloud/translate" "7.2.2"
@@ -1370,7 +1370,7 @@
     jest "29.6.1"
     node-fetch "2.6.9"
 
-"@skeet-framework/utils@^1.0.0":
+"@skeet-framework/utils@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@skeet-framework/utils/-/utils-1.0.0.tgz#f0225590b30ed7582b195009c15c6182d7237d5a"
   integrity sha512-dY8uzVr6HL5vHegCt7MAbKet5/nGNU+oh5vsdbmrsUHcJdmo8aX6/NfBATUYbFXP3UCx825N6gxoQdrffQtobQ==
