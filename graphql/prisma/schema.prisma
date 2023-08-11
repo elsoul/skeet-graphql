@@ -18,17 +18,18 @@ enum Role {
 }
 
 model User {
-  id               Int               @id @default(autoincrement())
-  uid              String            @unique
-  username         String?
-  email            String            @unique
-  iconUrl          String?
-  role             Role              @default(USER)
-  iv               String?
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
-  chatRoomMessages ChatRoomMessage[]
-  userChatRooms    UserChatRoom[]
+  id                 Int                  @id @default(autoincrement())
+  uid                String               @unique
+  username           String?
+  email              String               @unique
+  iconUrl            String?
+  role               Role                 @default(USER)
+  iv                 String?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  chatRoomMessages   ChatRoomMessage[]
+  userChatRooms      UserChatRoom[]
+  UserVertexChatRoom UserVertexChatRoom[]
 
   @@index([username])
 }
@@ -68,4 +69,61 @@ model UserChatRoom {
   ChatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
 
   @@id([userId, chatRoomId])
+}
+
+model VertexChatRoom {
+  id                    Int                     @id @default(autoincrement())
+  name                  String?
+  title                 String?
+  model                 String                  @default("chat-bison@001")
+  maxTokens             Int                     @default(256)
+  temperature           Float                   @default(0.2)
+  topP                  Float                   @default(0.95)
+  topK                  Int                     @default(40)
+  context               String                  @default("You are a developer who is knowledgeable about the Skeet framework, a framework for building web applications.")
+  isShered              Boolean                 @default(false)
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+  VertexChatRoomExample VertexChatRoomExample[]
+  VertexChatRoomMessage VertexChatRoomMessage[]
+  UserVertexChatRoom    UserVertexChatRoom[]
+
+  @@index([name])
+  @@index([title])
+}
+
+model VertexChatRoomExample {
+  id               Int            @id @default(autoincrement())
+  vertexChatRoomId Int
+  input            String         @default("What is the Skeet framework?")
+  output           String         @default("The Skeet framework is a Typescript framework for building web applications using Typescript and React.")
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  VertexChatRoom   VertexChatRoom @relation(fields: [vertexChatRoomId], references: [id])
+
+  @@index([input])
+  @@index([output])
+}
+
+model UserVertexChatRoom {
+  userId           Int
+  vertexChatRoomId Int
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  User             User           @relation(fields: [userId], references: [id])
+  VertexChatRoom   VertexChatRoom @relation(fields: [vertexChatRoomId], references: [id])
+
+  @@id([userId, vertexChatRoomId])
+}
+
+model VertexChatRoomMessage {
+  id               Int            @id @default(autoincrement())
+  role             String
+  content          String
+  vertexChatRoomId Int
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  VertexChatRoom   VertexChatRoom @relation(fields: [vertexChatRoomId], references: [id])
+
+  @@index([content])
 }

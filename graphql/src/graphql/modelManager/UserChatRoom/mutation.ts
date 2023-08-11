@@ -1,5 +1,5 @@
 import { extendType, stringArg, intArg } from 'nexus'
-import { toPrismaId } from '@skeet-framework/utils'
+import { toPrismaId } from '@/lib/toPrismaId'
 import { UserChatRoom } from 'nexus-prisma'
 
 export const UserChatRoomMutation = extendType({
