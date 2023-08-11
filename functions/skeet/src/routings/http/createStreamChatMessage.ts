@@ -1,227 +1,235 @@
-// import { onRequest } from 'firebase-functions/v2/https'
-// import { CreateChatCompletionRequest } from 'openai'
-// import { streamChat } from '@/lib/openai/openAi'
-// import { TypedRequestBody } from '@/index'
-// import { getUserBearerToken } from '@/lib/getUserAuth'
-// import { publicHttpOption } from '@/routings'
-// import { defineSecret } from 'firebase-functions/params'
-// import { skeetGraphql, sleep } from '@skeet-framework/utils'
-// import {
-//   CreateChatMessageParams,
-//   CreateStreamChatMessageParams,
-//   GetChatMessagesParams,
-//   GetChatRoomParams,
-//   UpdateChatRoomTitleParams,
-// } from '@/types/http/createStreamChatMessageParams'
-// import { inspect } from 'util'
-// import { generateChatRoomTitle } from '@/lib/openai/generateChatRoomTitle'
-// import { VertexAI, VertexAiOptions } from '@skeet-framework/ai'
-// const chatGptOrg = defineSecret('CHAT_GPT_ORG')
-// const chatGptKey = defineSecret('CHAT_GPT_KEY')
-// const SKEET_GRAPHQL_ENDPOINT_URL = defineSecret('SKEET_GRAPHQL_ENDPOINT_URL')
-// type ChatRoomParams = {
-//   model: string
-//   maxTokens: number
-//   temperature: number
-//   stream: boolean
-//   title: string
-// }
+import { onRequest } from 'firebase-functions/v2/https'
+import { OpenAI, OpenAIMessage, OpenAIOptions } from '@skeet-framework/ai'
+import { TypedRequestBody } from '@/index'
+import { getUserBearerToken } from '@/lib/getUserAuth'
+import { publicHttpOption } from '@/routings'
+import { defineSecret } from 'firebase-functions/params'
+import { skeetGraphql, sleep } from '@skeet-framework/utils'
+import {
+  CreateChatMessageParams,
+  CreateStreamChatMessageParams,
+  GetChatMessagesParams,
+  GetChatRoomParams,
+  UpdateChatRoomTitleParams,
+} from '@/types/http/createStreamChatMessageParams'
+import { inspect } from 'util'
+const chatGptOrg = defineSecret('CHAT_GPT_ORG')
+const chatGptKey = defineSecret('CHAT_GPT_KEY')
+const SKEET_GRAPHQL_ENDPOINT_URL = defineSecret('SKEET_GRAPHQL_ENDPOINT_URL')
+type ChatRoomParams = {
+  model: string
+  maxTokens: number
+  temperature: number
+  stream: boolean
+  title: string
+}
 
-// type ChatRoomMessage = {
-//   id: string
-//   role: string
-//   content: string
-// }
+type ChatRoomMessage = {
+  id: string
+  role: string
+  content: string
+}
 
-// type ChatMessagesParams = ChatRoomMessage[]
+type ChatMessagesParams = ChatRoomMessage[]
 
-// export const createStreamChatMessage = onRequest(
-//   {
-//     ...publicHttpOption,
-//     secrets: [chatGptOrg, chatGptKey, SKEET_GRAPHQL_ENDPOINT_URL],
-//   },
-//   async (req: TypedRequestBody<CreateStreamChatMessageParams>, res) => {
-//     const organization = chatGptOrg.value()
-//     const apiKey = chatGptKey.value()
-//     if (!organization || !apiKey)
-//       throw new Error(
-//         `ChatGPT organization or apiKey is empty\nPlease run \`skeet add secret CHAT_GPT_ORG/CHAT_GPT_KEY\``
-//       )
+export const createStreamChatMessage = onRequest(
+  {
+    ...publicHttpOption,
+    secrets: [chatGptOrg, chatGptKey, SKEET_GRAPHQL_ENDPOINT_URL],
+  },
+  async (req: TypedRequestBody<CreateStreamChatMessageParams>, res) => {
+    const organization = chatGptOrg.value()
+    const apiKey = chatGptKey.value()
+    if (!organization || !apiKey)
+      throw new Error(
+        `ChatGPT organization or apiKey is empty\nPlease run \`skeet add secret CHAT_GPT_ORG/CHAT_GPT_KEY\``
+      )
 
-//     // Get Request Body
-//     console.log(inspect(req.body, { depth: null }))
-//     const body = {
-//       chatRoomId: req.body.chatRoomId || '',
-//       content: req.body.content,
-//     }
-//     if (body.chatRoomId === '') throw new Error('chatRoomId is empty')
+    // Get Request Body
+    console.log(inspect(req.body, { depth: null }))
+    const body = {
+      chatRoomId: req.body.chatRoomId || '',
+      content: req.body.content,
+    }
+    if (body.chatRoomId === '') throw new Error('chatRoomId is empty')
 
-//     // Get User Info from Firebase Auth
-//     const token = await getUserBearerToken(req)
-//     const getChatRoomBody: GetChatRoomParams = {
-//       id: body.chatRoomId,
-//     }
+    // Get User Info from Firebase Auth
+    const token = await getUserBearerToken(req)
+    const getChatRoomBody: GetChatRoomParams = {
+      id: body.chatRoomId,
+    }
 
-//     try {
-//       // Get ChatRoom Info from GraphQL
-//       const queryType = 'query'
-//       const queryName = 'getChatRoom'
-//       const chatRoom = await skeetGraphql<GetChatRoomParams, ChatRoomParams>(
-//         token,
-//         SKEET_GRAPHQL_ENDPOINT_URL.value(),
-//         queryType,
-//         queryName,
-//         getChatRoomBody,
-//         ['model', 'maxTokens', 'temperature', 'stream', 'title']
-//       )
-//       console.log(inspect(chatRoom, { depth: null }))
+    try {
+      // Get ChatRoom Info from GraphQL
+      const queryType = 'query'
+      const queryName = 'getChatRoom'
+      const chatRoom = await skeetGraphql<GetChatRoomParams, ChatRoomParams>(
+        token,
+        SKEET_GRAPHQL_ENDPOINT_URL.value(),
+        queryType,
+        queryName,
+        getChatRoomBody,
+        ['model', 'maxTokens', 'temperature', 'stream', 'title']
+      )
+      console.log(inspect(chatRoom, { depth: null }))
 
-//       // Create VertexAI with options
-//       const vertexAiOptions: VertexAiOptions = {
-//         model: chatRoom.data.getChatRoom.model,
-//         maxOutputTokens: chatRoom.data.getChatRoom.maxTokens,
-//         temperature: chatRoom.data.getChatRoom.temperature,
-//       }
-//       const vertexAi = new VertexAI(vertexAiOptions)
+      // Create OpenAI
+      // const openAiOptions: OpenAIOptions = {
+      //   organizationKey: organization,
+      //   apiKey,
+      //   model: chatRoom.data.getChatRoom.model,
+      //   maxTokens: chatRoom.data.getChatRoom.maxTokens,
+      //   temperature: chatRoom.data.getChatRoom.temperature,
+      //   stream: true,
+      // }
 
-//       // Create ChatRoomMessage
-//       const createMessageQueryName = 'createChatRoomMessage'
-//       const params: CreateChatMessageParams = {
-//         chatRoomId: body.chatRoomId,
-//         role: 'user',
-//         content: body.content,
-//       }
+      const openAi = new OpenAI()
 
-//       const result = await skeetGraphql(
-//         token,
-//         SKEET_GRAPHQL_ENDPOINT_URL.value(),
-//         'mutation',
-//         createMessageQueryName,
-//         params,
-//         ['id', 'role', 'content']
-//       )
-//       console.log(inspect(result, { depth: null }))
+      // Create ChatRoomMessage
+      const createMessageQueryName = 'createChatRoomMessage'
+      const params: CreateChatMessageParams = {
+        chatRoomId: body.chatRoomId,
+        role: 'user',
+        content: body.content,
+      }
 
-//       const queryName2 = 'getChatRoomMessages'
-//       const params2 = {
-//         chatRoomId: body.chatRoomId,
-//       }
-//       const chatMessages = await skeetGraphql<
-//         GetChatMessagesParams,
-//         ChatMessagesParams
-//       >(
-//         token,
-//         SKEET_GRAPHQL_ENDPOINT_URL.value(),
-//         queryType,
-//         queryName2,
-//         params2,
-//         ['role', 'content']
-//       )
-//       console.log(inspect(chatMessages, { depth: null }))
-//       const messages = chatMessages.data
-//         .getChatRoomMessages as CreateChatCompletionRequest['messages']
-//       // Update UserChatRoom Title
-//       if (
-//         chatRoom.data.getChatRoom.title == '' ||
-//         !chatRoom.data.getChatRoom.title
-//       ) {
-//         const titlePrompt = await vertexAi.generateTitlePrompt(body.content)
-//         const title = await vertexAi.prompt(titlePrompt)
-//         if (title) {
-//           const params: UpdateChatRoomTitleParams = {
-//             id: body.chatRoomId,
-//             title,
-//           }
-//           await skeetGraphql(
-//             token,
-//             SKEET_GRAPHQL_ENDPOINT_URL.value(),
-//             'mutation',
-//             'updateChatRoom',
-//             params,
-//             ['id', 'title']
-//           )
-//         }
-//       }
+      const result = await skeetGraphql(
+        token,
+        SKEET_GRAPHQL_ENDPOINT_URL.value(),
+        'mutation',
+        createMessageQueryName,
+        params,
+        ['id', 'role', 'content']
+      )
+      console.log(inspect(result, { depth: null }))
 
-//       // Send Request to OpenAI
+      const queryName2 = 'getChatRoomMessages'
+      const params2 = {
+        chatRoomId: body.chatRoomId,
+      }
+      const chatMessages = await skeetGraphql<
+        GetChatMessagesParams,
+        ChatMessagesParams
+      >(
+        token,
+        SKEET_GRAPHQL_ENDPOINT_URL.value(),
+        queryType,
+        queryName2,
+        params2,
+        ['role', 'content']
+      )
+      console.log(inspect(chatMessages, { depth: null }))
 
-//       console.log('openAiBody')
-//       console.log(inspect(openAiBody, { depth: null }))
+      // Update UserChatRoom Title
+      if (
+        chatRoom.data.getChatRoom.title == '' ||
+        !chatRoom.data.getChatRoom.title
+      ) {
+        const title = await openAi.generateTitle(body.content)
 
-//       // Get OpenAI Stream
-//       const stream = await vertexAi.promptStream(openAiBody)
-//       const messageResults: string[] = []
-//       let streamClosed = false
+        if (title) {
+          const params: UpdateChatRoomTitleParams = {
+            id: body.chatRoomId,
+            title,
+          }
+          await skeetGraphql(
+            token,
+            SKEET_GRAPHQL_ENDPOINT_URL.value(),
+            'mutation',
+            'updateChatRoom',
+            params,
+            ['id', 'title']
+          )
+        }
+      }
 
-//       res.once('error', () => (streamClosed = true))
-//       res.once('close', () => (streamClosed = true))
-//       stream.on('data', async (chunk: Buffer) => {
-//         const payloads = chunk.toString().split('\n\n')
-//         for await (const payload of payloads) {
-//           if (payload.includes('[DONE]')) return
-//           if (payload.startsWith('data:')) {
-//             const data = payload.replaceAll(/(\n)?^data:\s*/g, '')
-//             try {
-//               const delta = JSON.parse(data.trim())
-//               const message = delta.choices[0].delta?.content
-//               if (message == undefined) continue
+      // Send Request to OpenAI
+      const messages = chatMessages.data.getChatRoomMessages.map((message) => {
+        return {
+          role: message.role,
+          content: message.content,
+        } as OpenAIMessage
+      })
+      const prompt = {
+        messages,
+      }
+      console.log('prompt')
+      console.log(inspect(prompt, { depth: null }))
 
-//               // Log Message
-//               console.log(message)
-//               messageResults.push(message)
+      // Get OpenAI Stream
+      const stream = await openAi.promptStream(prompt)
+      const messageResults: string[] = []
+      let streamClosed = false
 
-//               while (!streamClosed && res.writableLength > 0) {
-//                 await sleep(10)
-//               }
+      res.once('error', () => (streamClosed = true))
+      res.once('close', () => (streamClosed = true))
+      stream.on('data', async (chunk: Buffer) => {
+        const payloads = chunk.toString().split('\n\n')
+        for await (const payload of payloads) {
+          if (payload.includes('[DONE]')) return
+          if (payload.startsWith('data:')) {
+            const data = payload.replaceAll(/(\n)?^data:\s*/g, '')
+            try {
+              const delta = JSON.parse(data.trim())
+              const message = delta.choices[0].delta?.content
+              if (message == undefined) continue
 
-//               // Send Message to Client
-//               res.write(JSON.stringify({ text: message }))
-//             } catch (error) {
-//               console.log(`Error with JSON.parse and ${payload}.\n${error}`)
-//             }
-//           }
-//         }
-//         if (streamClosed) res.end('Stream disconnected')
-//       })
+              // Log Message
+              console.log(message)
+              messageResults.push(message)
 
-//       // Stream End
-//       stream.on('end', async () => {
-//         const message = messageResults.join('')
-//         // Send Message to Client
+              while (!streamClosed && res.writableLength > 0) {
+                await sleep(10)
+              }
 
-//         const params: CreateChatMessageParams = {
-//           chatRoomId: body.chatRoomId,
-//           role: 'assistant',
-//           content: message,
-//         }
+              // Send Message to Client
+              res.write(JSON.stringify({ text: message }))
+            } catch (error) {
+              console.log(`Error with JSON.parse and ${payload}.\n${error}`)
+            }
+          }
+        }
+        if (streamClosed) res.end('Stream disconnected')
+      })
 
-//         const result = await skeetGraphql(
-//           token,
-//           SKEET_GRAPHQL_ENDPOINT_URL.value(),
-//           'mutation',
-//           createMessageQueryName,
-//           params,
-//           ['id', 'role', 'content']
-//         )
-//         console.log('got result')
-//         console.log(inspect(result, { depth: null }))
-//         res.end('Stream done')
-//       })
-//       stream.on('error', (e: Error) => console.error(e))
-//     } catch (error) {
-//       if (
-//         error instanceof Error &&
-//         !error.message.includes('Please ask to join the whitelist.') &&
-//         !error.message.includes('userChatRoomId is empty') &&
-//         !error.message.includes('stream must be true') &&
-//         !error.message.includes(
-//           `ChatGPT organization or apiKey is empty\nPlease run \`skeet add secret CHAT_GPT_ORG/CHAT_GPT_KEY\``
-//         )
-//       ) {
-//         console.error(`OpenAI API Connection Error - ${error}`)
-//       }
+      // Stream End
+      stream.on('end', async () => {
+        const message = messageResults.join('')
+        // Send Message to Client
 
-//       res.status(500).json({ status: 'error', message: String(error) })
-//     }
-//   }
-// )
+        const params: CreateChatMessageParams = {
+          chatRoomId: body.chatRoomId,
+          role: 'assistant',
+          content: message,
+        }
+
+        const result = await skeetGraphql(
+          token,
+          SKEET_GRAPHQL_ENDPOINT_URL.value(),
+          'mutation',
+          createMessageQueryName,
+          params,
+          ['id', 'role', 'content']
+        )
+        console.log('got result')
+        console.log(inspect(result, { depth: null }))
+        res.end('Stream done')
+      })
+      stream.on('error', (e: Error) => console.error(e))
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        !error.message.includes('Please ask to join the whitelist.') &&
+        !error.message.includes('userChatRoomId is empty') &&
+        !error.message.includes('stream must be true') &&
+        !error.message.includes(
+          `ChatGPT organization or apiKey is empty\nPlease run \`skeet add secret CHAT_GPT_ORG/CHAT_GPT_KEY\``
+        )
+      ) {
+        console.error(`OpenAI API Connection Error - ${error}`)
+      }
+
+      res.status(500).json({ status: 'error', message: String(error) })
+    }
+  }
+)
