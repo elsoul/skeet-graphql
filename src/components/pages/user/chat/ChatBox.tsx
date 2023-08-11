@@ -16,7 +16,7 @@ import { GPTModel, chatContentSchema } from '@/utils/form'
 import { fetchSkeetFunctions } from '@/lib/skeet'
 import Image from 'next/image'
 import { ChatRoom } from './ChatMenu'
-import { CreateStreamChatMessageParams } from '@/types/http/openai/createStreamChatMessageParams'
+import { CreateStreamChatMessageParams } from '@/types/http/skeet/createStreamChatMessageParams'
 import { z } from 'zod'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -128,6 +128,7 @@ export default function ChatBox({
   const chatContentLines = useMemo(() => {
     return (chatContent.match(/\n/g) || []).length + 1
   }, [chatContent])
+  console.log(chatMessages)
 
   const data = usePreloadedQuery(chatBoxQuery, chatBoxQueryReference)
 
@@ -224,7 +225,7 @@ export default function ChatBox({
             ]
           })
           const res = await fetchSkeetFunctions<CreateStreamChatMessageParams>(
-            'openai',
+            'skeet',
             'createStreamChatMessage',
             {
               chatRoomId: currentChatRoomId,
