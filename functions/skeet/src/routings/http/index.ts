@@ -1,2 +1,2 @@
 export * from './root'
-export * from './createVertexChatMessage'
+export * from './createStreamChatMessage'

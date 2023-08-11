@@ -28,7 +28,7 @@ export const ChatRoomMutation = extendType({
           const data = {
             name: name || 'default room',
             title,
-            model: model || 'chat-bison@001',
+            model: model || 'gpt-3.5-turbo',
             maxTokens: maxTokens || 256,
             temperature: temperature || 0.2,
             stream: !!stream,
@@ -56,7 +56,7 @@ export const ChatRoomMutation = extendType({
             // ChatRoomMessageを作成
             await tx.chatRoomMessage.create({
               data: {
-                role: 'context',
+                role: 'system',
                 content:
                   systemContent ||
                   'This is a great chatbot. This Assistant is very kind and helpful.',
