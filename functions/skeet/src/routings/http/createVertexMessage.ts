@@ -4,6 +4,7 @@ import { TypedRequestBody } from '@/index'
 import { CreateVertexMessageParams } from '@/types/http/createVertexMessageParams'
 import { getUserBearerToken } from '@/lib/getUserAuth'
 import { skeetGraphql } from '@skeet-framework/utils'
+import skeetOptions from '../../../skeetOptions.json'
 import { defineSecret } from 'firebase-functions/params'
 import { inspect } from 'util'
 import {
@@ -78,8 +79,8 @@ export const createVertexMessage = onRequest(
         temperature: chatRoom.data.getVertexChatRoom.temperature,
         topP: chatRoom.data.getVertexChatRoom.topP,
         topK: chatRoom.data.getVertexChatRoom.topK,
-        location: 'asia-northeast1',
-        projectId: 'skeet-graphql',
+        location: skeetOptions.region,
+        projectId: skeetOptions.projectId,
       }
       const vertexAi = new VertexAI(vertexAiOptions)
       const userMessage = {
