@@ -101,6 +101,7 @@ model VertexChatRoomExample {
   updatedAt        DateTime       @updatedAt
   VertexChatRoom   VertexChatRoom @relation(fields: [vertexChatRoomId], references: [id])
 
+  @@unique([vertexChatRoomId, input, output])
   @@index([input])
   @@index([output])
 }

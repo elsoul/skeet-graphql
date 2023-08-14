@@ -111,6 +111,26 @@ export interface NexusGenObjects {
     nodes?: Array<NexusGenRootTypes['User'] | null> | null; // [User]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
+  QueryUserVertexChatRoomConnection_Connection: { // root type
+    edges?: Array<NexusGenRootTypes['UserVertexChatRoomEdge'] | null> | null; // [UserVertexChatRoomEdge]
+    nodes?: Array<NexusGenRootTypes['UserVertexChatRoom'] | null> | null; // [UserVertexChatRoom]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  QueryVertexChatRoomConnection_Connection: { // root type
+    edges?: Array<NexusGenRootTypes['VertexChatRoomEdge'] | null> | null; // [VertexChatRoomEdge]
+    nodes?: Array<NexusGenRootTypes['VertexChatRoom'] | null> | null; // [VertexChatRoom]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  QueryVertexChatRoomExampleConnection_Connection: { // root type
+    edges?: Array<NexusGenRootTypes['VertexChatRoomExampleEdge'] | null> | null; // [VertexChatRoomExampleEdge]
+    nodes?: Array<NexusGenRootTypes['VertexChatRoomExample'] | null> | null; // [VertexChatRoomExample]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  QueryVertexChatRoomMessageConnection_Connection: { // root type
+    edges?: Array<NexusGenRootTypes['VertexChatRoomMessageEdge'] | null> | null; // [VertexChatRoomMessageEdge]
+    nodes?: Array<NexusGenRootTypes['VertexChatRoomMessage'] | null> | null; // [VertexChatRoomMessage]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
   User: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     email: string; // String!
@@ -134,6 +154,54 @@ export interface NexusGenObjects {
   UserEdge: { // root type
     cursor: string; // String!
     node?: NexusGenRootTypes['User'] | null; // User
+  }
+  UserVertexChatRoom: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    userId: number; // Int!
+    vertexChatRoomId: number; // Int!
+  }
+  UserVertexChatRoomEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['UserVertexChatRoom'] | null; // UserVertexChatRoom
+  }
+  VertexChatRoom: { // root type
+    context: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    isShered: boolean; // Boolean!
+    maxTokens: number; // Int!
+    model: string; // String!
+    name?: string | null; // String
+    temperature: number; // Float!
+    title?: string | null; // String
+    topK: number; // Int!
+    topP: number; // Float!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  VertexChatRoomEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['VertexChatRoom'] | null; // VertexChatRoom
+  }
+  VertexChatRoomExample: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    input: string; // String!
+    output: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  VertexChatRoomExampleEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['VertexChatRoomExample'] | null; // VertexChatRoomExample
+  }
+  VertexChatRoomMessage: { // root type
+    content: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    role: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    vertexChatRoomId: number; // Int!
+  }
+  VertexChatRoomMessageEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['VertexChatRoomMessage'] | null; // VertexChatRoomMessage
   }
 }
 
@@ -184,14 +252,26 @@ export interface NexusGenFieldTypes {
     createChatRoomMessage: NexusGenRootTypes['ChatRoomMessage'] | null; // ChatRoomMessage
     createUser: NexusGenRootTypes['User'] | null; // User
     createUserChatRoom: NexusGenRootTypes['UserChatRoom'] | null; // UserChatRoom
+    createUserVertexChatRoom: NexusGenRootTypes['UserVertexChatRoom'] | null; // UserVertexChatRoom
+    createVertexChatRoom: NexusGenRootTypes['VertexChatRoom'] | null; // VertexChatRoom
+    createVertexChatRoomExample: NexusGenRootTypes['VertexChatRoomExample'] | null; // VertexChatRoomExample
+    createVertexChatRoomMessage: NexusGenRootTypes['VertexChatRoomMessage'] | null; // VertexChatRoomMessage
     deleteChatRoom: NexusGenRootTypes['ChatRoom'] | null; // ChatRoom
     deleteChatRoomMessage: NexusGenRootTypes['ChatRoomMessage'] | null; // ChatRoomMessage
     deleteUser: NexusGenRootTypes['User'] | null; // User
     deleteUserChatRoom: NexusGenRootTypes['UserChatRoom'] | null; // UserChatRoom
+    deleteUserVertexChatRoom: NexusGenRootTypes['UserVertexChatRoom'] | null; // UserVertexChatRoom
+    deleteVertexChatRoom: NexusGenRootTypes['VertexChatRoom'] | null; // VertexChatRoom
+    deleteVertexChatRoomExample: NexusGenRootTypes['VertexChatRoomExample'] | null; // VertexChatRoomExample
+    deleteVertexChatRoomMessage: NexusGenRootTypes['VertexChatRoomMessage'] | null; // VertexChatRoomMessage
     updateChatRoom: NexusGenRootTypes['ChatRoom'] | null; // ChatRoom
     updateChatRoomMessage: NexusGenRootTypes['ChatRoomMessage'] | null; // ChatRoomMessage
     updateUser: NexusGenRootTypes['User'] | null; // User
     updateUserChatRoom: NexusGenRootTypes['UserChatRoom'] | null; // UserChatRoom
+    updateUserVertexChatRoom: NexusGenRootTypes['UserVertexChatRoom'] | null; // UserVertexChatRoom
+    updateVertexChatRoom: NexusGenRootTypes['VertexChatRoom'] | null; // VertexChatRoom
+    updateVertexChatRoomExample: NexusGenRootTypes['VertexChatRoomExample'] | null; // VertexChatRoomExample
+    updateVertexChatRoomMessage: NexusGenRootTypes['VertexChatRoomMessage'] | null; // VertexChatRoomMessage
   }
   PageInfo: { // field return type
     endCursor: string | null; // String
@@ -206,12 +286,20 @@ export interface NexusGenFieldTypes {
     getChatRoomMessages: Array<NexusGenRootTypes['ChatRoomMessage'] | null> | null; // [ChatRoomMessage]
     getUser: NexusGenRootTypes['User'] | null; // User
     getUserChatRoom: NexusGenRootTypes['UserChatRoom'] | null; // UserChatRoom
+    getUserVertexChatRoom: NexusGenRootTypes['UserVertexChatRoom'] | null; // UserVertexChatRoom
+    getVertexChatRoom: NexusGenRootTypes['VertexChatRoom'] | null; // VertexChatRoom
+    getVertexChatRoomExamples: Array<NexusGenRootTypes['VertexChatRoomExample'] | null> | null; // [VertexChatRoomExample]
+    getVertexChatRoomMessage: NexusGenRootTypes['VertexChatRoomMessage'] | null; // VertexChatRoomMessage
     me: NexusGenRootTypes['User'] | null; // User
     node: NexusGenRootTypes['Node'] | null; // Node
     nodes: Array<NexusGenRootTypes['Node'] | null>; // [Node]!
     postTweet: boolean | null; // Boolean
     userChatRoomConnection: NexusGenRootTypes['QueryUserChatRoomConnection_Connection'] | null; // QueryUserChatRoomConnection_Connection
     userConnection: NexusGenRootTypes['QueryUserConnection_Connection'] | null; // QueryUserConnection_Connection
+    userVertexChatRoomConnection: NexusGenRootTypes['QueryUserVertexChatRoomConnection_Connection'] | null; // QueryUserVertexChatRoomConnection_Connection
+    vertexChatRoomConnection: NexusGenRootTypes['QueryVertexChatRoomConnection_Connection'] | null; // QueryVertexChatRoomConnection_Connection
+    vertexChatRoomExampleConnection: NexusGenRootTypes['QueryVertexChatRoomExampleConnection_Connection'] | null; // QueryVertexChatRoomExampleConnection_Connection
+    vertexChatRoomMessageConnection: NexusGenRootTypes['QueryVertexChatRoomMessageConnection_Connection'] | null; // QueryVertexChatRoomMessageConnection_Connection
   }
   QueryChatRoomConnection_Connection: { // field return type
     edges: Array<NexusGenRootTypes['ChatRoomEdge'] | null> | null; // [ChatRoomEdge]
@@ -234,6 +322,30 @@ export interface NexusGenFieldTypes {
   QueryUserConnection_Connection: { // field return type
     edges: Array<NexusGenRootTypes['UserEdge'] | null> | null; // [UserEdge]
     nodes: Array<NexusGenRootTypes['User'] | null> | null; // [User]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount: number | null; // Int
+  }
+  QueryUserVertexChatRoomConnection_Connection: { // field return type
+    edges: Array<NexusGenRootTypes['UserVertexChatRoomEdge'] | null> | null; // [UserVertexChatRoomEdge]
+    nodes: Array<NexusGenRootTypes['UserVertexChatRoom'] | null> | null; // [UserVertexChatRoom]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount: number | null; // Int
+  }
+  QueryVertexChatRoomConnection_Connection: { // field return type
+    edges: Array<NexusGenRootTypes['VertexChatRoomEdge'] | null> | null; // [VertexChatRoomEdge]
+    nodes: Array<NexusGenRootTypes['VertexChatRoom'] | null> | null; // [VertexChatRoom]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount: number | null; // Int
+  }
+  QueryVertexChatRoomExampleConnection_Connection: { // field return type
+    edges: Array<NexusGenRootTypes['VertexChatRoomExampleEdge'] | null> | null; // [VertexChatRoomExampleEdge]
+    nodes: Array<NexusGenRootTypes['VertexChatRoomExample'] | null> | null; // [VertexChatRoomExample]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount: number | null; // Int
+  }
+  QueryVertexChatRoomMessageConnection_Connection: { // field return type
+    edges: Array<NexusGenRootTypes['VertexChatRoomMessageEdge'] | null> | null; // [VertexChatRoomMessageEdge]
+    nodes: Array<NexusGenRootTypes['VertexChatRoomMessage'] | null> | null; // [VertexChatRoomMessage]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
     totalCount: number | null; // Int
   }
@@ -262,6 +374,62 @@ export interface NexusGenFieldTypes {
   UserEdge: { // field return type
     cursor: string; // String!
     node: NexusGenRootTypes['User'] | null; // User
+  }
+  UserVertexChatRoom: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string | null; // ID
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    userId: number; // Int!
+    vertexChatRoomId: number; // Int!
+  }
+  UserVertexChatRoomEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['UserVertexChatRoom'] | null; // UserVertexChatRoom
+  }
+  VertexChatRoom: { // field return type
+    UserVertexChatRoom: NexusGenRootTypes['UserVertexChatRoom'][]; // [UserVertexChatRoom!]!
+    VertexChatRoomExample: NexusGenRootTypes['VertexChatRoomExample'][]; // [VertexChatRoomExample!]!
+    VertexChatRoomMessage: NexusGenRootTypes['VertexChatRoomMessage'][]; // [VertexChatRoomMessage!]!
+    context: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string | null; // ID
+    isShered: boolean; // Boolean!
+    maxTokens: number; // Int!
+    model: string; // String!
+    name: string | null; // String
+    temperature: number; // Float!
+    title: string | null; // String
+    topK: number; // Int!
+    topP: number; // Float!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  VertexChatRoomEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['VertexChatRoom'] | null; // VertexChatRoom
+  }
+  VertexChatRoomExample: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string | null; // ID
+    input: string; // String!
+    output: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    vertexChatRoomId: string | null; // ID
+  }
+  VertexChatRoomExampleEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['VertexChatRoomExample'] | null; // VertexChatRoomExample
+  }
+  VertexChatRoomMessage: { // field return type
+    content: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string | null; // ID
+    role: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    vertexChatRoomId: number; // Int!
+  }
+  VertexChatRoomMessageEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['VertexChatRoomMessage'] | null; // VertexChatRoomMessage
   }
   Node: { // field return type
     id: string | null; // ID
@@ -304,14 +472,26 @@ export interface NexusGenFieldTypeNames {
     createChatRoomMessage: 'ChatRoomMessage'
     createUser: 'User'
     createUserChatRoom: 'UserChatRoom'
+    createUserVertexChatRoom: 'UserVertexChatRoom'
+    createVertexChatRoom: 'VertexChatRoom'
+    createVertexChatRoomExample: 'VertexChatRoomExample'
+    createVertexChatRoomMessage: 'VertexChatRoomMessage'
     deleteChatRoom: 'ChatRoom'
     deleteChatRoomMessage: 'ChatRoomMessage'
     deleteUser: 'User'
     deleteUserChatRoom: 'UserChatRoom'
+    deleteUserVertexChatRoom: 'UserVertexChatRoom'
+    deleteVertexChatRoom: 'VertexChatRoom'
+    deleteVertexChatRoomExample: 'VertexChatRoomExample'
+    deleteVertexChatRoomMessage: 'VertexChatRoomMessage'
     updateChatRoom: 'ChatRoom'
     updateChatRoomMessage: 'ChatRoomMessage'
     updateUser: 'User'
     updateUserChatRoom: 'UserChatRoom'
+    updateUserVertexChatRoom: 'UserVertexChatRoom'
+    updateVertexChatRoom: 'VertexChatRoom'
+    updateVertexChatRoomExample: 'VertexChatRoomExample'
+    updateVertexChatRoomMessage: 'VertexChatRoomMessage'
   }
   PageInfo: { // field return type name
     endCursor: 'String'
@@ -326,12 +506,20 @@ export interface NexusGenFieldTypeNames {
     getChatRoomMessages: 'ChatRoomMessage'
     getUser: 'User'
     getUserChatRoom: 'UserChatRoom'
+    getUserVertexChatRoom: 'UserVertexChatRoom'
+    getVertexChatRoom: 'VertexChatRoom'
+    getVertexChatRoomExamples: 'VertexChatRoomExample'
+    getVertexChatRoomMessage: 'VertexChatRoomMessage'
     me: 'User'
     node: 'Node'
     nodes: 'Node'
     postTweet: 'Boolean'
     userChatRoomConnection: 'QueryUserChatRoomConnection_Connection'
     userConnection: 'QueryUserConnection_Connection'
+    userVertexChatRoomConnection: 'QueryUserVertexChatRoomConnection_Connection'
+    vertexChatRoomConnection: 'QueryVertexChatRoomConnection_Connection'
+    vertexChatRoomExampleConnection: 'QueryVertexChatRoomExampleConnection_Connection'
+    vertexChatRoomMessageConnection: 'QueryVertexChatRoomMessageConnection_Connection'
   }
   QueryChatRoomConnection_Connection: { // field return type name
     edges: 'ChatRoomEdge'
@@ -354,6 +542,30 @@ export interface NexusGenFieldTypeNames {
   QueryUserConnection_Connection: { // field return type name
     edges: 'UserEdge'
     nodes: 'User'
+    pageInfo: 'PageInfo'
+    totalCount: 'Int'
+  }
+  QueryUserVertexChatRoomConnection_Connection: { // field return type name
+    edges: 'UserVertexChatRoomEdge'
+    nodes: 'UserVertexChatRoom'
+    pageInfo: 'PageInfo'
+    totalCount: 'Int'
+  }
+  QueryVertexChatRoomConnection_Connection: { // field return type name
+    edges: 'VertexChatRoomEdge'
+    nodes: 'VertexChatRoom'
+    pageInfo: 'PageInfo'
+    totalCount: 'Int'
+  }
+  QueryVertexChatRoomExampleConnection_Connection: { // field return type name
+    edges: 'VertexChatRoomExampleEdge'
+    nodes: 'VertexChatRoomExample'
+    pageInfo: 'PageInfo'
+    totalCount: 'Int'
+  }
+  QueryVertexChatRoomMessageConnection_Connection: { // field return type name
+    edges: 'VertexChatRoomMessageEdge'
+    nodes: 'VertexChatRoomMessage'
     pageInfo: 'PageInfo'
     totalCount: 'Int'
   }
@@ -382,6 +594,62 @@ export interface NexusGenFieldTypeNames {
   UserEdge: { // field return type name
     cursor: 'String'
     node: 'User'
+  }
+  UserVertexChatRoom: { // field return type name
+    createdAt: 'DateTime'
+    id: 'ID'
+    updatedAt: 'DateTime'
+    userId: 'Int'
+    vertexChatRoomId: 'Int'
+  }
+  UserVertexChatRoomEdge: { // field return type name
+    cursor: 'String'
+    node: 'UserVertexChatRoom'
+  }
+  VertexChatRoom: { // field return type name
+    UserVertexChatRoom: 'UserVertexChatRoom'
+    VertexChatRoomExample: 'VertexChatRoomExample'
+    VertexChatRoomMessage: 'VertexChatRoomMessage'
+    context: 'String'
+    createdAt: 'DateTime'
+    id: 'ID'
+    isShered: 'Boolean'
+    maxTokens: 'Int'
+    model: 'String'
+    name: 'String'
+    temperature: 'Float'
+    title: 'String'
+    topK: 'Int'
+    topP: 'Float'
+    updatedAt: 'DateTime'
+  }
+  VertexChatRoomEdge: { // field return type name
+    cursor: 'String'
+    node: 'VertexChatRoom'
+  }
+  VertexChatRoomExample: { // field return type name
+    createdAt: 'DateTime'
+    id: 'ID'
+    input: 'String'
+    output: 'String'
+    updatedAt: 'DateTime'
+    vertexChatRoomId: 'ID'
+  }
+  VertexChatRoomExampleEdge: { // field return type name
+    cursor: 'String'
+    node: 'VertexChatRoomExample'
+  }
+  VertexChatRoomMessage: { // field return type name
+    content: 'String'
+    createdAt: 'DateTime'
+    id: 'ID'
+    role: 'String'
+    updatedAt: 'DateTime'
+    vertexChatRoomId: 'Int'
+  }
+  VertexChatRoomMessageEdge: { // field return type name
+    cursor: 'String'
+    node: 'VertexChatRoomMessage'
   }
   Node: { // field return type name
     id: 'ID'
@@ -414,6 +682,31 @@ export interface NexusGenArgTypes {
       chatRoomId?: number | null; // Int
       userId?: number | null; // Int
     }
+    createUserVertexChatRoom: { // args
+      userId?: number | null; // Int
+      vertexChatRoomId?: number | null; // Int
+    }
+    createVertexChatRoom: { // args
+      context?: string | null; // String
+      isShered?: boolean | null; // Boolean
+      maxTokens?: number | null; // Int
+      model?: string | null; // String
+      name?: string | null; // String
+      temperature?: number | null; // Float
+      title?: string | null; // String
+      topK?: number | null; // Int
+      topP?: number | null; // Float
+    }
+    createVertexChatRoomExample: { // args
+      input?: string | null; // String
+      output?: string | null; // String
+      vertexChatRoomId?: string | null; // String
+    }
+    createVertexChatRoomMessage: { // args
+      content?: string | null; // String
+      role?: string | null; // String
+      vertexChatRoomId?: string | null; // String
+    }
     deleteChatRoom: { // args
       id?: string | null; // String
     }
@@ -424,6 +717,18 @@ export interface NexusGenArgTypes {
       id?: string | null; // String
     }
     deleteUserChatRoom: { // args
+      id?: string | null; // String
+    }
+    deleteUserVertexChatRoom: { // args
+      id?: string | null; // String
+    }
+    deleteVertexChatRoom: { // args
+      id?: string | null; // String
+    }
+    deleteVertexChatRoomExample: { // args
+      id?: string | null; // String
+    }
+    deleteVertexChatRoomMessage: { // args
       id?: string | null; // String
     }
     updateChatRoom: { // args
@@ -448,6 +753,19 @@ export interface NexusGenArgTypes {
     }
     updateUserChatRoom: { // args
       chatRoomId?: number | null; // Int
+      id?: string | null; // String
+    }
+    updateUserVertexChatRoom: { // args
+      id?: string | null; // String
+    }
+    updateVertexChatRoom: { // args
+      id?: string | null; // String
+      title?: string | null; // String
+    }
+    updateVertexChatRoomExample: { // args
+      id?: string | null; // String
+    }
+    updateVertexChatRoomMessage: { // args
       id?: string | null; // String
     }
   }
@@ -477,6 +795,18 @@ export interface NexusGenArgTypes {
     getUserChatRoom: { // args
       id?: string | null; // String
     }
+    getUserVertexChatRoom: { // args
+      id: string; // String!
+    }
+    getVertexChatRoom: { // args
+      id?: string | null; // String
+    }
+    getVertexChatRoomExamples: { // args
+      vertexChatRoomId?: string | null; // String
+    }
+    getVertexChatRoomMessage: { // args
+      vertexChatRoomId?: string | null; // String
+    }
     node: { // args
       id: string; // ID!
     }
@@ -494,6 +824,30 @@ export interface NexusGenArgTypes {
       last?: number | null; // Int
     }
     userConnection: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    userVertexChatRoomConnection: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    vertexChatRoomConnection: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    vertexChatRoomExampleConnection: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    vertexChatRoomMessageConnection: { // args
       after?: string | null; // String
       before?: string | null; // String
       first?: number | null; // Int

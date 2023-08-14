@@ -1,5 +1,6 @@
 import { Prisma } from '@prisma/client'
-import { generateIv, toPrismaId } from '@skeet-framework/utils'
+import { generateIv } from '@skeet-framework/utils'
+import { toPrismaId } from '@/lib/toPrismaId'
 import { objectType, stringArg } from 'nexus'
 import { User } from 'nexus-prisma'
 

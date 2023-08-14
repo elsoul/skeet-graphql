@@ -1,9 +1,9 @@
-import { extendType, stringArg, intArg, floatArg, booleanArg } from 'nexus'
-import { toPrismaId } from '@/lib/toPrismaId'
+import { extendType, stringArg, intArg, booleanArg } from 'nexus'
 import { ChatRoom } from 'nexus-prisma'
 import { PrismaClient } from '@prisma/client'
 import { CurrentUser } from '@/index'
 import { GraphQLError } from 'graphql'
+import { toPrismaId } from '@/lib/toPrismaId'
 
 export const ChatRoomMutation = extendType({
   type: 'Mutation',
