@@ -16,4 +16,5 @@ export {
   root,
   authOnCreateUser,
   createStreamChatMessage,
+  createVertexMessage,
 } from '@/routings'

@@ -1,7 +1,7 @@
 import { extendType, stringArg } from 'nexus'
 import { connectionFromArray } from 'graphql-relay'
-import { UserChatRoom } from 'nexus-prisma'
 import { toPrismaId } from '@/lib/toPrismaId'
+import { UserChatRoom } from 'nexus-prisma'
 
 export const UserChatRoomsQuery = extendType({
   type: 'Query',

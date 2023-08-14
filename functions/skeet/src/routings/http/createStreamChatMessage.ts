@@ -5,6 +5,7 @@ import { getUserBearerToken } from '@/lib/getUserAuth'
 import { publicHttpOption } from '@/routings'
 import { defineSecret } from 'firebase-functions/params'
 import { skeetGraphql, sleep } from '@skeet-framework/utils'
+
 import {
   CreateChatMessageParams,
   CreateStreamChatMessageParams,
@@ -74,16 +75,16 @@ export const createStreamChatMessage = onRequest(
       console.log(inspect(chatRoom, { depth: null }))
 
       // Create OpenAI
-      // const openAiOptions: OpenAIOptions = {
-      //   organizationKey: organization,
-      //   apiKey,
-      //   model: chatRoom.data.getChatRoom.model,
-      //   maxTokens: chatRoom.data.getChatRoom.maxTokens,
-      //   temperature: chatRoom.data.getChatRoom.temperature,
-      //   stream: true,
-      // }
+      const openAiOptions: OpenAIOptions = {
+        organizationKey: organization,
+        apiKey,
+        model: chatRoom.data.getChatRoom.model,
+        maxTokens: chatRoom.data.getChatRoom.maxTokens,
+        temperature: chatRoom.data.getChatRoom.temperature,
+        stream: true,
+      }
 
-      const openAi = new OpenAI()
+      const openAi = new OpenAI(openAiOptions)
 
       // Create ChatRoomMessage
       const createMessageQueryName = 'createChatRoomMessage'

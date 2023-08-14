@@ -52,14 +52,26 @@ type Mutation {
   createChatRoomMessage(chatRoomId: String, content: String, role: String): ChatRoomMessage
   createUser(email: String, iconUrl: String, uid: String, username: String): User
   createUserChatRoom(chatRoomId: Int, userId: Int): UserChatRoom
+  createUserVertexChatRoom(userId: Int, vertexChatRoomId: Int): UserVertexChatRoom
+  createVertexChatRoom(context: String, isShered: Boolean, maxTokens: Int, model: String, name: String, temperature: Float, title: String, topK: Int, topP: Float): VertexChatRoom
+  createVertexChatRoomExample(input: String, output: String, vertexChatRoomId: String): VertexChatRoomExample
+  createVertexChatRoomMessage(content: String, role: String, vertexChatRoomId: String): VertexChatRoomMessage
   deleteChatRoom(id: String): ChatRoom
   deleteChatRoomMessage(id: String): ChatRoomMessage
   deleteUser(id: String): User
   deleteUserChatRoom(id: String): UserChatRoom
+  deleteUserVertexChatRoom(id: String): UserVertexChatRoom
+  deleteVertexChatRoom(id: String): VertexChatRoom
+  deleteVertexChatRoomExample(id: String): VertexChatRoomExample
+  deleteVertexChatRoomMessage(id: String): VertexChatRoomMessage
   updateChatRoom(id: String, model: String, name: String, stream: Boolean, title: String): ChatRoom
   updateChatRoomMessage(chatRoomId: Int, content: String, id: String, userId: Int): ChatRoomMessage
   updateUser(email: String, iconUrl: String, id: String, uid: String, username: String): User
   updateUserChatRoom(chatRoomId: Int, id: String): UserChatRoom
+  updateUserVertexChatRoom(id: String): UserVertexChatRoom
+  updateVertexChatRoom(id: String, title: String): VertexChatRoom
+  updateVertexChatRoomExample(id: String): VertexChatRoomExample
+  updateVertexChatRoomMessage(id: String): VertexChatRoomMessage
 }
 
 """An object with a global ID"""
@@ -125,6 +137,10 @@ type Query {
   getChatRoomMessages(chatRoomId: String): [ChatRoomMessage]
   getUser(id: String): User
   getUserChatRoom(id: String): UserChatRoom
+  getUserVertexChatRoom(id: String!): UserVertexChatRoom
+  getVertexChatRoom(id: String): VertexChatRoom
+  getVertexChatRoomExamples(vertexChatRoomId: String): [VertexChatRoomExample]
+  getVertexChatRoomMessage(vertexChatRoomId: String): VertexChatRoomMessage
   me: User
 
   """Fetches an object given its global ID"""
@@ -165,6 +181,58 @@ type Query {
     """Returns the last n elements from the list."""
     last: Int
   ): QueryUserConnection_Connection
+  userVertexChatRoomConnection(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): QueryUserVertexChatRoomConnection_Connection
+  vertexChatRoomConnection(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): QueryVertexChatRoomConnection_Connection
+  vertexChatRoomExampleConnection(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): QueryVertexChatRoomExampleConnection_Connection
+  vertexChatRoomMessageConnection(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): QueryVertexChatRoomMessageConnection_Connection
 }
 
 type QueryChatRoomConnection_Connection {
@@ -231,6 +299,70 @@ type QueryUserConnection_Connection {
   totalCount: Int
 }
 
+type QueryUserVertexChatRoomConnection_Connection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [UserVertexChatRoomEdge]
+
+  """Flattened list of UserVertexChatRoom type"""
+  nodes: [UserVertexChatRoom]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type QueryVertexChatRoomConnection_Connection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [VertexChatRoomEdge]
+
+  """Flattened list of VertexChatRoom type"""
+  nodes: [VertexChatRoom]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type QueryVertexChatRoomExampleConnection_Connection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [VertexChatRoomExampleEdge]
+
+  """Flattened list of VertexChatRoomExample type"""
+  nodes: [VertexChatRoomExample]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type QueryVertexChatRoomMessageConnection_Connection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [VertexChatRoomMessageEdge]
+
+  """Flattened list of VertexChatRoomMessage type"""
+  nodes: [VertexChatRoomMessage]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
 enum Role {
   ADMIN
   MASTER
@@ -271,4 +403,80 @@ type UserEdge {
 
   """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
   node: User
+}
+
+type UserVertexChatRoom {
+  createdAt: DateTime!
+  id: ID
+  updatedAt: DateTime!
+  userId: Int!
+  vertexChatRoomId: Int!
+}
+
+type UserVertexChatRoomEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String!
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: UserVertexChatRoom
+}
+
+type VertexChatRoom {
+  UserVertexChatRoom: [UserVertexChatRoom!]!
+  VertexChatRoomExample: [VertexChatRoomExample!]!
+  VertexChatRoomMessage: [VertexChatRoomMessage!]!
+  context: String!
+  createdAt: DateTime!
+  id: ID
+  isShered: Boolean!
+  maxTokens: Int!
+  model: String!
+  name: String
+  temperature: Float!
+  title: String
+  topK: Int!
+  topP: Float!
+  updatedAt: DateTime!
+}
+
+type VertexChatRoomEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String!
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: VertexChatRoom
+}
+
+type VertexChatRoomExample {
+  createdAt: DateTime!
+  id: ID
+  input: String!
+  output: String!
+  updatedAt: DateTime!
+  vertexChatRoomId: ID
+}
+
+type VertexChatRoomExampleEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String!
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: VertexChatRoomExample
+}
+
+type VertexChatRoomMessage {
+  content: String!
+  createdAt: DateTime!
+  id: ID
+  role: String!
+  updatedAt: DateTime!
+  vertexChatRoomId: Int!
+}
+
+type VertexChatRoomMessageEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String!
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: VertexChatRoomMessage
 }

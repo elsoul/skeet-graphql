@@ -6,7 +6,6 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth'
 import dotenv from 'dotenv'
-import { User } from '@/models'
 import firebaseConfig from '@/lib/firebaseConfig'
 dotenv.config()
 
