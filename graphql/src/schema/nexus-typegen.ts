@@ -179,7 +179,7 @@ export interface NexusGenObjects {
   VertexChatRoom: { // root type
     context: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
-    isShered: boolean; // Boolean!
+    isShared: boolean; // Boolean!
     maxTokens: number; // Int!
     model: string; // String!
     name?: string | null; // String
@@ -209,6 +209,12 @@ export interface NexusGenObjects {
     role: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     vertexChatRoomId: number; // Int!
+  }
+  VertexChatRoomMessageConnection: { // root type
+    edges?: Array<NexusGenRootTypes['VertexChatRoomMessageEdge'] | null> | null; // [VertexChatRoomMessageEdge]
+    nodes?: Array<NexusGenRootTypes['VertexChatRoomMessage'] | null> | null; // [VertexChatRoomMessage]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount?: number | null; // Int
   }
   VertexChatRoomMessageEdge: { // root type
     cursor: string; // String!
@@ -302,7 +308,7 @@ export interface NexusGenFieldTypes {
     getUserVertexChatRoom: NexusGenRootTypes['UserVertexChatRoom'] | null; // UserVertexChatRoom
     getVertexChatRoom: NexusGenRootTypes['VertexChatRoom'] | null; // VertexChatRoom
     getVertexChatRoomExamples: Array<NexusGenRootTypes['VertexChatRoomExample'] | null> | null; // [VertexChatRoomExample]
-    getVertexChatRoomMessage: NexusGenRootTypes['VertexChatRoomMessage'] | null; // VertexChatRoomMessage
+    getVertexChatRoomMessages: NexusGenRootTypes['VertexChatRoomMessageConnection'] | null; // VertexChatRoomMessageConnection
     me: NexusGenRootTypes['User'] | null; // User
     node: NexusGenRootTypes['Node'] | null; // Node
     nodes: Array<NexusGenRootTypes['Node'] | null>; // [Node]!
@@ -406,7 +412,7 @@ export interface NexusGenFieldTypes {
     context: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string | null; // ID
-    isShered: boolean; // Boolean!
+    isShared: boolean; // Boolean!
     maxTokens: number; // Int!
     model: string; // String!
     name: string | null; // String
@@ -439,6 +445,12 @@ export interface NexusGenFieldTypes {
     role: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     vertexChatRoomId: number; // Int!
+  }
+  VertexChatRoomMessageConnection: { // field return type
+    edges: Array<NexusGenRootTypes['VertexChatRoomMessageEdge'] | null> | null; // [VertexChatRoomMessageEdge]
+    nodes: Array<NexusGenRootTypes['VertexChatRoomMessage'] | null> | null; // [VertexChatRoomMessage]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount: number | null; // Int
   }
   VertexChatRoomMessageEdge: { // field return type
     cursor: string; // String!
@@ -524,7 +536,7 @@ export interface NexusGenFieldTypeNames {
     getUserVertexChatRoom: 'UserVertexChatRoom'
     getVertexChatRoom: 'VertexChatRoom'
     getVertexChatRoomExamples: 'VertexChatRoomExample'
-    getVertexChatRoomMessage: 'VertexChatRoomMessage'
+    getVertexChatRoomMessages: 'VertexChatRoomMessageConnection'
     me: 'User'
     node: 'Node'
     nodes: 'Node'
@@ -628,7 +640,7 @@ export interface NexusGenFieldTypeNames {
     context: 'String'
     createdAt: 'DateTime'
     id: 'ID'
-    isShered: 'Boolean'
+    isShared: 'Boolean'
     maxTokens: 'Int'
     model: 'String'
     name: 'String'
@@ -661,6 +673,12 @@ export interface NexusGenFieldTypeNames {
     role: 'String'
     updatedAt: 'DateTime'
     vertexChatRoomId: 'Int'
+  }
+  VertexChatRoomMessageConnection: { // field return type name
+    edges: 'VertexChatRoomMessageEdge'
+    nodes: 'VertexChatRoomMessage'
+    pageInfo: 'PageInfo'
+    totalCount: 'Int'
   }
   VertexChatRoomMessageEdge: { // field return type name
     cursor: 'String'
@@ -703,7 +721,7 @@ export interface NexusGenArgTypes {
     }
     createVertexChatRoom: { // args
       context?: string | null; // String
-      isShered?: boolean | null; // Boolean
+      isShared?: boolean | null; // Boolean
       maxTokens?: number | null; // Int
       model?: string | null; // String
       name?: string | null; // String
@@ -825,7 +843,11 @@ export interface NexusGenArgTypes {
     getVertexChatRoomExamples: { // args
       vertexChatRoomId?: string | null; // String
     }
-    getVertexChatRoomMessage: { // args
+    getVertexChatRoomMessages: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
       vertexChatRoomId?: string | null; // String
     }
     node: { // args

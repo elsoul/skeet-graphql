@@ -9,7 +9,7 @@ CREATE TABLE "VertexChatRoom" (
     "topP" DOUBLE PRECISION NOT NULL DEFAULT 0.95,
     "topK" INTEGER NOT NULL DEFAULT 40,
     "context" TEXT NOT NULL DEFAULT 'You are a developer who is knowledgeable about the Skeet framework, a framework for building web applications.',
-    "isShered" BOOLEAN NOT NULL DEFAULT false,
+    "isShared" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

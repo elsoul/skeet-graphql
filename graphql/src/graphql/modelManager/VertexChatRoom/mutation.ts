@@ -19,7 +19,7 @@ export const VertexChatRoomMutation = extendType({
         topP: floatArg(),
         topK: intArg(),
         context: stringArg(),
-        isShered: booleanArg(),
+        isShared: booleanArg(),
       },
       async resolve(_, args, ctx) {
         try {
@@ -38,7 +38,7 @@ export const VertexChatRoomMutation = extendType({
               temperature: args.temperature || 0.2,
               topP: args.topP || 0.95,
               topK: args.topK || 40,
-              isShered: args.isShered || false,
+              isShared: args.isShared || false,
             }
             // ChatRoomを作成
             const vertexChatRoom = await tx.vertexChatRoom.create({
