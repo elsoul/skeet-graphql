@@ -43,6 +43,17 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  VertexChatRoomExampleInput: { // input type
+    input?: string | null; // String
+    output?: string | null; // String
+    vertexChatRoomId?: string | null; // String
+  }
+  VertexChatRoomExampleUpsertInput: { // input type
+    id?: string | null; // String
+    input?: string | null; // String
+    output?: string | null; // String
+    vertexChatRoomId?: string | null; // String
+  }
 }
 
 export interface NexusGenEnums {
@@ -255,6 +266,7 @@ export interface NexusGenFieldTypes {
     createUserVertexChatRoom: NexusGenRootTypes['UserVertexChatRoom'] | null; // UserVertexChatRoom
     createVertexChatRoom: NexusGenRootTypes['VertexChatRoom'] | null; // VertexChatRoom
     createVertexChatRoomExample: NexusGenRootTypes['VertexChatRoomExample'] | null; // VertexChatRoomExample
+    createVertexChatRoomExamples: boolean | null; // Boolean
     createVertexChatRoomMessage: NexusGenRootTypes['VertexChatRoomMessage'] | null; // VertexChatRoomMessage
     deleteChatRoom: NexusGenRootTypes['ChatRoom'] | null; // ChatRoom
     deleteChatRoomMessage: NexusGenRootTypes['ChatRoomMessage'] | null; // ChatRoomMessage
@@ -272,6 +284,7 @@ export interface NexusGenFieldTypes {
     updateVertexChatRoom: NexusGenRootTypes['VertexChatRoom'] | null; // VertexChatRoom
     updateVertexChatRoomExample: NexusGenRootTypes['VertexChatRoomExample'] | null; // VertexChatRoomExample
     updateVertexChatRoomMessage: NexusGenRootTypes['VertexChatRoomMessage'] | null; // VertexChatRoomMessage
+    upsertVertexChatRoomExamples: Array<NexusGenRootTypes['VertexChatRoomExample'] | null> | null; // [VertexChatRoomExample]
   }
   PageInfo: { // field return type
     endCursor: string | null; // String
@@ -475,6 +488,7 @@ export interface NexusGenFieldTypeNames {
     createUserVertexChatRoom: 'UserVertexChatRoom'
     createVertexChatRoom: 'VertexChatRoom'
     createVertexChatRoomExample: 'VertexChatRoomExample'
+    createVertexChatRoomExamples: 'Boolean'
     createVertexChatRoomMessage: 'VertexChatRoomMessage'
     deleteChatRoom: 'ChatRoom'
     deleteChatRoomMessage: 'ChatRoomMessage'
@@ -492,6 +506,7 @@ export interface NexusGenFieldTypeNames {
     updateVertexChatRoom: 'VertexChatRoom'
     updateVertexChatRoomExample: 'VertexChatRoomExample'
     updateVertexChatRoomMessage: 'VertexChatRoomMessage'
+    upsertVertexChatRoomExamples: 'VertexChatRoomExample'
   }
   PageInfo: { // field return type name
     endCursor: 'String'
@@ -702,6 +717,9 @@ export interface NexusGenArgTypes {
       output?: string | null; // String
       vertexChatRoomId?: string | null; // String
     }
+    createVertexChatRoomExamples: { // args
+      data?: Array<NexusGenInputs['VertexChatRoomExampleInput'] | null> | null; // [VertexChatRoomExampleInput]
+    }
     createVertexChatRoomMessage: { // args
       content?: string | null; // String
       role?: string | null; // String
@@ -767,6 +785,9 @@ export interface NexusGenArgTypes {
     }
     updateVertexChatRoomMessage: { // args
       id?: string | null; // String
+    }
+    upsertVertexChatRoomExamples: { // args
+      data?: Array<NexusGenInputs['VertexChatRoomExampleUpsertInput'] | null> | null; // [VertexChatRoomExampleUpsertInput]
     }
   }
   Query: {
@@ -864,7 +885,7 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = keyof NexusGenEnums;
 

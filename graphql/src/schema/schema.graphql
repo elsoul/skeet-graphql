@@ -55,6 +55,7 @@ type Mutation {
   createUserVertexChatRoom(userId: Int, vertexChatRoomId: Int): UserVertexChatRoom
   createVertexChatRoom(context: String, isShered: Boolean, maxTokens: Int, model: String, name: String, temperature: Float, title: String, topK: Int, topP: Float): VertexChatRoom
   createVertexChatRoomExample(input: String, output: String, vertexChatRoomId: String): VertexChatRoomExample
+  createVertexChatRoomExamples(data: [VertexChatRoomExampleInput]): Boolean
   createVertexChatRoomMessage(content: String, role: String, vertexChatRoomId: String): VertexChatRoomMessage
   deleteChatRoom(id: String): ChatRoom
   deleteChatRoomMessage(id: String): ChatRoomMessage
@@ -72,6 +73,7 @@ type Mutation {
   updateVertexChatRoom(id: String, title: String): VertexChatRoom
   updateVertexChatRoomExample(id: String): VertexChatRoomExample
   updateVertexChatRoomMessage(id: String): VertexChatRoomMessage
+  upsertVertexChatRoomExamples(data: [VertexChatRoomExampleUpsertInput]): [VertexChatRoomExample]
 }
 
 """An object with a global ID"""
@@ -462,6 +464,19 @@ type VertexChatRoomExampleEdge {
 
   """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
   node: VertexChatRoomExample
+}
+
+input VertexChatRoomExampleInput {
+  input: String
+  output: String
+  vertexChatRoomId: String
+}
+
+input VertexChatRoomExampleUpsertInput {
+  id: String
+  input: String
+  output: String
+  vertexChatRoomId: String
 }
 
 type VertexChatRoomMessage {
