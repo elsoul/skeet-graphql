@@ -53,8 +53,9 @@ type Mutation {
   createUser(email: String, iconUrl: String, uid: String, username: String): User
   createUserChatRoom(chatRoomId: Int, userId: Int): UserChatRoom
   createUserVertexChatRoom(userId: Int, vertexChatRoomId: Int): UserVertexChatRoom
-  createVertexChatRoom(context: String, isShered: Boolean, maxTokens: Int, model: String, name: String, temperature: Float, title: String, topK: Int, topP: Float): VertexChatRoom
+  createVertexChatRoom(context: String, isShared: Boolean, maxTokens: Int, model: String, name: String, temperature: Float, title: String, topK: Int, topP: Float): VertexChatRoom
   createVertexChatRoomExample(input: String, output: String, vertexChatRoomId: String): VertexChatRoomExample
+  createVertexChatRoomExamples(data: [VertexChatRoomExampleInput]): Boolean
   createVertexChatRoomMessage(content: String, role: String, vertexChatRoomId: String): VertexChatRoomMessage
   deleteChatRoom(id: String): ChatRoom
   deleteChatRoomMessage(id: String): ChatRoomMessage
@@ -72,6 +73,7 @@ type Mutation {
   updateVertexChatRoom(id: String, title: String): VertexChatRoom
   updateVertexChatRoomExample(id: String): VertexChatRoomExample
   updateVertexChatRoomMessage(id: String): VertexChatRoomMessage
+  upsertVertexChatRoomExamples(data: [VertexChatRoomExampleUpsertInput]): [VertexChatRoomExample]
 }
 
 """An object with a global ID"""
@@ -140,7 +142,20 @@ type Query {
   getUserVertexChatRoom(id: String!): UserVertexChatRoom
   getVertexChatRoom(id: String): VertexChatRoom
   getVertexChatRoomExamples(vertexChatRoomId: String): [VertexChatRoomExample]
-  getVertexChatRoomMessage(vertexChatRoomId: String): VertexChatRoomMessage
+  getVertexChatRoomMessages(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+    vertexChatRoomId: String
+  ): VertexChatRoomMessageConnection
   me: User
 
   """Fetches an object given its global ID"""
@@ -428,7 +443,7 @@ type VertexChatRoom {
   context: String!
   createdAt: DateTime!
   id: ID
-  isShered: Boolean!
+  isShared: Boolean!
   maxTokens: Int!
   model: String!
   name: String
@@ -464,6 +479,19 @@ type VertexChatRoomExampleEdge {
   node: VertexChatRoomExample
 }
 
+input VertexChatRoomExampleInput {
+  input: String
+  output: String
+  vertexChatRoomId: String
+}
+
+input VertexChatRoomExampleUpsertInput {
+  id: String
+  input: String
+  output: String
+  vertexChatRoomId: String
+}
+
 type VertexChatRoomMessage {
   content: String!
   createdAt: DateTime!
@@ -471,6 +499,22 @@ type VertexChatRoomMessage {
   role: String!
   updatedAt: DateTime!
   vertexChatRoomId: Int!
+}
+
+type VertexChatRoomMessageConnection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [VertexChatRoomMessageEdge]
+
+  """Flattened list of VertexChatRoomMessage type"""
+  nodes: [VertexChatRoomMessage]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+  totalCount: Int
 }
 
 type VertexChatRoomMessageEdge {

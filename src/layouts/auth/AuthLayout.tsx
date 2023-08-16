@@ -66,7 +66,7 @@ export default function AuthLayout({ children }: Props) {
             iconUrl: user.me.iconUrl ?? '',
             emailVerified: fbUser.emailVerified,
           })
-          router.push('/user/chat')
+          router.push('/user/vertex-ai')
         } else {
           setUser(defaultUser)
           signOut(auth)

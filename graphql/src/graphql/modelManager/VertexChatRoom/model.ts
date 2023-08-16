@@ -14,7 +14,7 @@ export const VertexChatRoomObject = objectType({
     t.field(VertexChatRoom.topP)
     t.field(VertexChatRoom.topK)
     t.field(VertexChatRoom.context)
-    t.field(VertexChatRoom.isShered)
+    t.field(VertexChatRoom.isShared)
     t.field(VertexChatRoom.createdAt)
     t.field(VertexChatRoom.updatedAt)
     t.field(VertexChatRoom.VertexChatRoomExample)

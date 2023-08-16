@@ -22,12 +22,12 @@ export const VertexChatRoomMessagesQuery = extendType({
         })
       },
     })
-    t.field('getVertexChatRoomMessage', {
+    t.connectionField('getVertexChatRoomMessages', {
       type: VertexChatRoomMessage.$name,
-      args: {
+      additionalArgs: {
         vertexChatRoomId: stringArg(),
       },
-      async resolve(_, { vertexChatRoomId }, ctx) {
+      async resolve(_, { vertexChatRoomId, ...args }, ctx, info) {
         if (!vertexChatRoomId) throw new Error('vertexChatRoomId is required')
 
         try {
@@ -37,14 +37,14 @@ export const VertexChatRoomMessagesQuery = extendType({
                 vertexChatRoomId: toPrismaId(vertexChatRoomId),
               },
               orderBy: {
-                createdAt: 'ask',
+                createdAt: 'asc',
               },
             })
 
           console.log('chatRoomMessages', chatRoomMessages)
-          return chatRoomMessages
+          return connectionFromArray(chatRoomMessages, args)
         } catch (error) {
-          throw new Error(`getVertexChatRoomMessage: ${error}`)
+          throw new Error(`getVertexChatRoomMessages: ${error}`)
         }
       },
     })

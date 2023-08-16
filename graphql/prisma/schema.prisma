@@ -81,7 +81,7 @@ model VertexChatRoom {
   topP                  Float                   @default(0.95)
   topK                  Int                     @default(40)
   context               String                  @default("You are a developer who is knowledgeable about the Skeet framework, a framework for building web applications.")
-  isShered              Boolean                 @default(false)
+  isShared              Boolean                 @default(false)
   createdAt             DateTime                @default(now())
   updatedAt             DateTime                @updatedAt
   VertexChatRoomExample VertexChatRoomExample[]
