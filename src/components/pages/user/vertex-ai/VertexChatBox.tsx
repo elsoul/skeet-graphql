@@ -39,6 +39,7 @@ import {
 } from '@/__generated__/VertexChatBoxQuery.graphql'
 import { sleep } from '@/utils/time'
 import { CreateVertexMessageParams } from '@/types/http/skeet/createVertexMessageParams'
+import VertexChatExamples from './VertexChatExamples'
 
 type ChatMessage = {
   id: string
@@ -49,7 +50,13 @@ type ChatMessage = {
 }
 
 export const vertexChatBoxQuery = graphql`
-  query VertexChatBoxQuery($first: Int, $chatRoomId: String) {
+  query VertexChatBoxQuery(
+    $first: Int
+    $after: String
+    $last: Int
+    $before: String
+    $chatRoomId: String
+  ) {
     getVertexChatRoom(id: $chatRoomId) {
       id
       maxTokens
@@ -79,6 +86,7 @@ export const vertexChatBoxQuery = graphql`
         id
       }
     }
+    ...VertexChatExamples_query
   }
 `
 
@@ -345,7 +353,7 @@ export default function ChatBox({
             )}
           >
             <div className={clsx('bg-gray-50 dark:bg-gray-800', 'w-full p-4')}>
-              <div className="mx-auto flex w-full max-w-3xl flex-row items-start justify-center gap-4 p-4 sm:p-6 md:gap-6">
+              <div className="mx-auto flex w-full max-w-3xl flex-row items-start justify-start gap-4 p-4 sm:p-6 md:gap-6">
                 <Image
                   src={
                     'https://storage.googleapis.com/skeet-assets/imgs/bdlc/Bison.png'
@@ -375,6 +383,18 @@ export default function ChatBox({
                       {chatRoom?.context}
                     </p>
                   </div>
+                  <div className="pt-4 xl:hidden">
+                    <VertexChatExamples
+                      currentChatRoomId={currentChatRoomId}
+                      chatBoxData={data}
+                    />
+                  </div>
+                </div>
+                <div className="hidden xl:flex">
+                  <VertexChatExamples
+                    currentChatRoomId={currentChatRoomId}
+                    chatBoxData={data}
+                  />
                 </div>
               </div>
             </div>

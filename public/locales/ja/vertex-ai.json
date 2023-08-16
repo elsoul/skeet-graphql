@@ -21,5 +21,6 @@
   "chatGPTCustom": "カスタム Chat GPT with API",
   "chatMessageSubmit": "送信",
   "pleaseRefetch": "すみません。データ取得に失敗しました。時間をおいて再度取得してください。",
-  "refetchButton": "再取得"
+  "refetchButton": "再取得",
+  "learning": "ラーニング"
 }

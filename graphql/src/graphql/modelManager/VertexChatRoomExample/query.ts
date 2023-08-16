@@ -22,12 +22,12 @@ export const VertexChatRoomExamplesQuery = extendType({
         })
       },
     })
-    t.field('getVertexChatRoomExamples', {
-      type: list(VertexChatRoomExample.$name),
-      args: {
+    t.connectionField('getVertexChatRoomExamples', {
+      type: VertexChatRoomExample.$name,
+      additionalArgs: {
         vertexChatRoomId: stringArg(),
       },
-      async resolve(_, { vertexChatRoomId }, ctx) {
+      async resolve(_, { vertexChatRoomId, ...args }, ctx) {
         if (!vertexChatRoomId) throw new Error('id is required')
 
         try {
@@ -44,7 +44,7 @@ export const VertexChatRoomExamplesQuery = extendType({
               output: example.output,
             })
           }
-          return chatRoomMessages
+          return connectionFromArray(chatRoomMessages, args)
         } catch (error) {
           throw new Error(`getVertexChatRoomExamples: ${error}`)
         }

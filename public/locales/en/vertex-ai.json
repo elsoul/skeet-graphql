@@ -21,5 +21,6 @@
   "chatGPTCustom": "Chat GPT Custom with API",
   "chatMessageSubmit": "Submit",
   "pleaseRefetch": "Excuse me. Failed to get data. Please try again later.",
-  "refetchButton": "Retry"
+  "refetchButton": "Retry",
+  "learning": "Learning"
 }
