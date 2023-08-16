@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<83d9995e5fbfd92120713a19e3374448>>
+ * @generated SignedSource<<e903c28b3df747cbfc3bb414d6d76565>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -114,7 +114,7 @@ return {
         "args": (v1/*: any*/),
         "concreteType": "VertexChatRoomExampleConnection",
         "kind": "LinkedField",
-        "name": "getVertexChatRoomExamples",
+        "name": "getVertexChatRoomExampleConnection",
         "plural": false,
         "selections": [
           {
@@ -243,23 +243,23 @@ return {
           "vertexChatRoomId"
         ],
         "handle": "connection",
-        "key": "VertexChatExamples_getVertexChatRoomExamples",
+        "key": "VertexChatExamples_getVertexChatRoomExampleConnection",
         "kind": "LinkedHandle",
-        "name": "getVertexChatRoomExamples"
+        "name": "getVertexChatRoomExampleConnection"
       }
     ]
   },
   "params": {
-    "cacheID": "0f33a4a961441e3ffe18412264493341",
+    "cacheID": "e39c169e3f54d3f51318e02f0457cf10",
     "id": null,
     "metadata": {},
     "name": "VertexChatExamplesQuery",
     "operationKind": "query",
-    "text": "query VertexChatExamplesQuery(\n  $after: String\n  $before: String\n  $chatRoomId: String\n  $first: Int\n  $last: Int\n) {\n  ...VertexChatExamples_query\n}\n\nfragment VertexChatExamples_query on Query {\n  getVertexChatRoomExamples(first: $first, after: $after, last: $last, before: $before, vertexChatRoomId: $chatRoomId) {\n    edges {\n      node {\n        id\n        input\n        output\n        createdAt\n        updatedAt\n        __typename\n      }\n      cursor\n    }\n    nodes {\n      id\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n"
+    "text": "query VertexChatExamplesQuery(\n  $after: String\n  $before: String\n  $chatRoomId: String\n  $first: Int\n  $last: Int\n) {\n  ...VertexChatExamples_query\n}\n\nfragment VertexChatExamples_query on Query {\n  getVertexChatRoomExampleConnection(first: $first, after: $after, last: $last, before: $before, vertexChatRoomId: $chatRoomId) {\n    edges {\n      node {\n        id\n        input\n        output\n        createdAt\n        updatedAt\n        __typename\n      }\n      cursor\n    }\n    nodes {\n      id\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "58cb5b0c8a702f8eeff713e247609321";
+(node as any).hash = "13861d7d2549d26208567e196794d20c";
 
 export default node;

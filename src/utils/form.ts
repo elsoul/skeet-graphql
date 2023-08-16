@@ -29,6 +29,7 @@ export const vertexTopPSchema = z.number().min(0).max(1)
 
 export const vertexExampleInputOutputPairSchema = z.object({
   id: z.string(),
+  vertexChatRoomId: z.string(),
   input: z.string().min(0).max(1000),
   output: z.string().min(0).max(1000),
 })

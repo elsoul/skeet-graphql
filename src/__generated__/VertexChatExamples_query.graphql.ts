@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ef24dcbb1809e78735eefd7f094e80bd>>
+ * @generated SignedSource<<4df8153c9e8cd781a061e70f6f51ccd4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,7 +11,7 @@
 import { ReaderFragment, RefetchableFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type VertexChatExamples_query$data = {
-  readonly getVertexChatRoomExamples: {
+  readonly getVertexChatRoomExampleConnection: {
     readonly edges: ReadonlyArray<{
       readonly node: {
         readonly createdAt: any;
@@ -40,7 +40,7 @@ export type VertexChatExamples_query$key = {
 
 const node: ReaderFragment = (function(){
 var v0 = [
-  "getVertexChatRoomExamples"
+  "getVertexChatRoomExampleConnection"
 ],
 v1 = {
   "alias": null,
@@ -101,7 +101,7 @@ return {
   "name": "VertexChatExamples_query",
   "selections": [
     {
-      "alias": "getVertexChatRoomExamples",
+      "alias": "getVertexChatRoomExampleConnection",
       "args": [
         {
           "kind": "Variable",
@@ -111,7 +111,7 @@ return {
       ],
       "concreteType": "VertexChatRoomExampleConnection",
       "kind": "LinkedField",
-      "name": "__VertexChatExamples_getVertexChatRoomExamples_connection",
+      "name": "__VertexChatExamples_getVertexChatRoomExampleConnection_connection",
       "plural": false,
       "selections": [
         {
@@ -239,6 +239,6 @@ return {
 };
 })();
 
-(node as any).hash = "58cb5b0c8a702f8eeff713e247609321";
+(node as any).hash = "13861d7d2549d26208567e196794d20c";
 
 export default node;

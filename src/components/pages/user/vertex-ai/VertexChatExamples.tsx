@@ -1,5 +1,10 @@
+import {
+  VertexChatExamplesMutation,
+  VertexChatExamplesMutation$data,
+} from '@/__generated__/VertexChatExamplesMutation.graphql'
 import { VertexChatExamples_query$key } from '@/__generated__/VertexChatExamples_query.graphql'
 import LogoHorizontal from '@/components/common/atoms/LogoHorizontal'
+import useToastMessage from '@/hooks/useToastMessage'
 import { vertexExampleFormSchema } from '@/utils/form'
 import { Dialog, Transition } from '@headlessui/react'
 import {
@@ -19,13 +24,16 @@ import { z } from 'zod'
 const vertexChatExamplesQuery = graphql`
   fragment VertexChatExamples_query on Query
   @refetchable(queryName: "VertexChatExamplesQuery") {
-    getVertexChatRoomExamples(
+    getVertexChatRoomExampleConnection(
       first: $first
       after: $after
       last: $last
       before: $before
       vertexChatRoomId: $chatRoomId
-    ) @connection(key: "VertexChatExamples_getVertexChatRoomExamples") {
+    )
+      @connection(
+        key: "VertexChatExamples_getVertexChatRoomExampleConnection"
+      ) {
       edges {
         node {
           id
@@ -48,6 +56,16 @@ const vertexChatExamplesQuery = graphql`
   }
 `
 
+const vertexChatExamplesMutation = graphql`
+  mutation VertexChatExamplesMutation(
+    $input: [VertexChatRoomExampleUpsertInput]
+  ) {
+    upsertVertexChatRoomExamples(data: $input) {
+      id
+    }
+  }
+`
+
 type Inputs = z.infer<typeof vertexExampleFormSchema>
 
 type Props = {
@@ -62,10 +80,14 @@ export default function VertexChatExamples({
   const { t } = useTranslation()
   const [isExamplesModalOpen, setExamplesModalOpen] = useState(false)
   const [isSending, setSending] = useState(false)
+  const addToast = useToastMessage()
 
   const { data, refetch } = usePaginationFragment(
     vertexChatExamplesQuery,
     chatBoxData
+  )
+  const [commit] = useMutation<VertexChatExamplesMutation>(
+    vertexChatExamplesMutation
   )
 
   const {
@@ -75,22 +97,25 @@ export default function VertexChatExamples({
   } = useForm<Inputs>({
     defaultValues: {
       inputOutputPairs:
-        data.getVertexChatRoomExamples?.edges &&
-        data.getVertexChatRoomExamples?.edges.length > 0
-          ? data.getVertexChatRoomExamples?.edges.map((edge) => ({
+        data.getVertexChatRoomExampleConnection?.edges &&
+        data.getVertexChatRoomExampleConnection?.edges.length > 0
+          ? data.getVertexChatRoomExampleConnection?.edges.map((edge) => ({
               id: edge?.node?.id ?? '',
+              vertexChatRoomId: currentChatRoomId,
               input: edge?.node?.input,
               output: edge?.node?.output,
             }))
           : [
               {
                 id: '',
+                vertexChatRoomId: currentChatRoomId,
                 input: 'What is Skeet?',
                 output:
                   'Open-Source Serverless Framework for full-stack apps on GCP (Google Cloud) and Firebase.',
               },
               {
                 id: '',
+                vertexChatRoomId: currentChatRoomId,
                 input: 'What is Epics?',
                 output:
                   "Epics is a blockchain game (BCG) for Social Contribution. Let's realize a sustainable Open-Source software development environment for a better society.",
@@ -106,13 +131,51 @@ export default function VertexChatExamples({
   })
 
   const isDisabled = useMemo(() => {
-    return isSending
-  }, [isSending])
-  console.log(data)
+    return isSending || !!errors.inputOutputPairs
+  }, [isSending, errors.inputOutputPairs])
 
-  const onSubmit = useCallback((data: Inputs) => {
-    console.log(data)
-  }, [])
+  const onSubmit = useCallback(
+    (data: Inputs) => {
+      try {
+        setSending(true)
+        commit({
+          variables: {
+            input: data.inputOutputPairs,
+          },
+          onCompleted: (result: VertexChatExamplesMutation$data) => {
+            addToast({
+              type: 'success',
+              title: t('vertex-ai:submitSuccessTitle'),
+              description: t('vertex-ai:submitSuccessBody'),
+            })
+            refetch({ first: 100 })
+            setExamplesModalOpen(false)
+          },
+          onError: (err) => {
+            console.error(err.message)
+            addToast({
+              type: 'error',
+              title: t('errorTitle'),
+              description: t('errorBody'),
+            })
+          },
+          updater: (store) => {
+            store.invalidateStore()
+          },
+        })
+      } catch (err) {
+        console.error(err)
+        addToast({
+          type: 'error',
+          title: t('errorTitle'),
+          description: t('errorBody'),
+        })
+      } finally {
+        setSending(false)
+      }
+    },
+    [commit, setSending, addToast, t, refetch]
+  )
 
   return (
     <>
@@ -229,7 +292,14 @@ export default function VertexChatExamples({
                 <div className="my-8 flex w-full justify-end gap-4 pr-9">
                   <button
                     type="button"
-                    onClick={() => append({ id: '', input: '', output: '' })}
+                    onClick={() =>
+                      append({
+                        id: '',
+                        input: '',
+                        output: '',
+                        vertexChatRoomId: currentChatRoomId,
+                      })
+                    }
                     className="flex items-center gap-2 border border-gray-600 px-2 text-gray-900 hover:border-gray-400 hover:text-gray-600 dark:border-gray-300 dark:text-gray-50 dark:hover:border-gray-400 dark:hover:text-gray-300"
                   >
                     <PlusCircleIcon className="h-5 w-5 text-gray-900 hover:text-gray-600 dark:text-gray-50 dark:hover:text-gray-300" />
@@ -237,7 +307,13 @@ export default function VertexChatExamples({
                   </button>
                   <button
                     type="submit"
-                    className="bg-gray-900 px-4 py-2 text-white hover:bg-gray-600 dark:bg-gray-300 dark:hover:bg-gray-600"
+                    disabled={isDisabled}
+                    className={clsx(
+                      isDisabled
+                        ? 'bg-gray-300 dark:bg-gray-500 dark:text-gray-600'
+                        : 'bg-gray-900 hover:bg-gray-600 dark:bg-gray-300 dark:hover:bg-gray-600',
+                      'px-4 py-2 text-white'
+                    )}
                   >
                     {t('vertex-ai:submit')}
                   </button>

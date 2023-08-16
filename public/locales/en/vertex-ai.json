@@ -30,5 +30,7 @@
   "outputErrorText": "Please enter correct output setting in 1000 characters.",
   "inputOutputMax": "Max 100 inputs/outputs pairs",
   "addInputOutputPair": "Add a pair",
-  "submit": "Submit"
+  "submit": "Submit",
+  "submitSuccessTitle": "Learning succeeded",
+  "submitSuccessBody": "Updated the data!"
 }

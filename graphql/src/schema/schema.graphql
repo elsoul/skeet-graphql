@@ -141,7 +141,7 @@ type Query {
   getUserChatRoom(id: String): UserChatRoom
   getUserVertexChatRoom(id: String!): UserVertexChatRoom
   getVertexChatRoom(id: String): VertexChatRoom
-  getVertexChatRoomExamples(
+  getVertexChatRoomExampleConnection(
     """Returns the elements in the list that come after the specified cursor"""
     after: String
 
@@ -155,6 +155,7 @@ type Query {
     last: Int
     vertexChatRoomId: String
   ): VertexChatRoomExampleConnection
+  getVertexChatRoomExamples(vertexChatRoomId: String): [VertexChatRoomExample]
   getVertexChatRoomMessages(
     """Returns the elements in the list that come after the specified cursor"""
     after: String

@@ -22,7 +22,35 @@ export const VertexChatRoomExamplesQuery = extendType({
         })
       },
     })
-    t.connectionField('getVertexChatRoomExamples', {
+    t.field('getVertexChatRoomExamples', {
+      type: list(VertexChatRoomExample.$name),
+      args: {
+        vertexChatRoomId: stringArg(),
+      },
+      async resolve(_, { vertexChatRoomId, ...args }, ctx) {
+        if (!vertexChatRoomId) throw new Error('id is required')
+
+        try {
+          const chatRoomMessages =
+            await ctx.prisma.vertexChatRoomExample.findMany({
+              where: {
+                vertexChatRoomId: toPrismaId(vertexChatRoomId),
+              },
+            })
+          const examples = []
+          for await (const example of chatRoomMessages) {
+            examples.push({
+              input: example.input,
+              output: example.output,
+            })
+          }
+          return chatRoomMessages
+        } catch (error) {
+          throw new Error(`getVertexChatRoomExamples: ${error}`)
+        }
+      },
+    })
+    t.connectionField('getVertexChatRoomExampleConnection', {
       type: VertexChatRoomExample.$name,
       additionalArgs: {
         vertexChatRoomId: stringArg(),

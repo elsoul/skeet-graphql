@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9541939a5b5c69607c0a1bf6d66e20b3>>
+ * @generated SignedSource<<dd8be95db6b0374dd1ec54e5566cbacc>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -327,7 +327,7 @@ return {
         "args": (v14/*: any*/),
         "concreteType": "VertexChatRoomExampleConnection",
         "kind": "LinkedField",
-        "name": "getVertexChatRoomExamples",
+        "name": "getVertexChatRoomExampleConnection",
         "plural": false,
         "selections": [
           {
@@ -436,19 +436,19 @@ return {
           "vertexChatRoomId"
         ],
         "handle": "connection",
-        "key": "VertexChatExamples_getVertexChatRoomExamples",
+        "key": "VertexChatExamples_getVertexChatRoomExampleConnection",
         "kind": "LinkedHandle",
-        "name": "getVertexChatRoomExamples"
+        "name": "getVertexChatRoomExampleConnection"
       }
     ]
   },
   "params": {
-    "cacheID": "1f7e48fc50fcc85e3e87d79125b878f9",
+    "cacheID": "cd18eeb73e242c2d49df332babb3c5a7",
     "id": null,
     "metadata": {},
     "name": "VertexChatBoxQuery",
     "operationKind": "query",
-    "text": "query VertexChatBoxQuery(\n  $first: Int\n  $after: String\n  $last: Int\n  $before: String\n  $chatRoomId: String\n) {\n  getVertexChatRoom(id: $chatRoomId) {\n    id\n    maxTokens\n    title\n    model\n    temperature\n    context\n    topP\n    topK\n    createdAt\n    updatedAt\n  }\n  getVertexChatRoomMessages(first: $first, vertexChatRoomId: $chatRoomId) {\n    edges {\n      node {\n        id\n        role\n        content\n        createdAt\n        updatedAt\n      }\n    }\n    pageInfo {\n      hasNextPage\n    }\n    nodes {\n      id\n    }\n  }\n  ...VertexChatExamples_query\n}\n\nfragment VertexChatExamples_query on Query {\n  getVertexChatRoomExamples(first: $first, after: $after, last: $last, before: $before, vertexChatRoomId: $chatRoomId) {\n    edges {\n      node {\n        id\n        input\n        output\n        createdAt\n        updatedAt\n        __typename\n      }\n      cursor\n    }\n    nodes {\n      id\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n"
+    "text": "query VertexChatBoxQuery(\n  $first: Int\n  $after: String\n  $last: Int\n  $before: String\n  $chatRoomId: String\n) {\n  getVertexChatRoom(id: $chatRoomId) {\n    id\n    maxTokens\n    title\n    model\n    temperature\n    context\n    topP\n    topK\n    createdAt\n    updatedAt\n  }\n  getVertexChatRoomMessages(first: $first, vertexChatRoomId: $chatRoomId) {\n    edges {\n      node {\n        id\n        role\n        content\n        createdAt\n        updatedAt\n      }\n    }\n    pageInfo {\n      hasNextPage\n    }\n    nodes {\n      id\n    }\n  }\n  ...VertexChatExamples_query\n}\n\nfragment VertexChatExamples_query on Query {\n  getVertexChatRoomExampleConnection(first: $first, after: $after, last: $last, before: $before, vertexChatRoomId: $chatRoomId) {\n    edges {\n      node {\n        id\n        input\n        output\n        createdAt\n        updatedAt\n        __typename\n      }\n      cursor\n    }\n    nodes {\n      id\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n"
   }
 };
 })();

@@ -316,7 +316,8 @@ export interface NexusGenFieldTypes {
     getUserChatRoom: NexusGenRootTypes['UserChatRoom'] | null; // UserChatRoom
     getUserVertexChatRoom: NexusGenRootTypes['UserVertexChatRoom'] | null; // UserVertexChatRoom
     getVertexChatRoom: NexusGenRootTypes['VertexChatRoom'] | null; // VertexChatRoom
-    getVertexChatRoomExamples: NexusGenRootTypes['VertexChatRoomExampleConnection'] | null; // VertexChatRoomExampleConnection
+    getVertexChatRoomExampleConnection: NexusGenRootTypes['VertexChatRoomExampleConnection'] | null; // VertexChatRoomExampleConnection
+    getVertexChatRoomExamples: Array<NexusGenRootTypes['VertexChatRoomExample'] | null> | null; // [VertexChatRoomExample]
     getVertexChatRoomMessages: NexusGenRootTypes['VertexChatRoomMessageConnection'] | null; // VertexChatRoomMessageConnection
     me: NexusGenRootTypes['User'] | null; // User
     node: NexusGenRootTypes['Node'] | null; // Node
@@ -550,7 +551,8 @@ export interface NexusGenFieldTypeNames {
     getUserChatRoom: 'UserChatRoom'
     getUserVertexChatRoom: 'UserVertexChatRoom'
     getVertexChatRoom: 'VertexChatRoom'
-    getVertexChatRoomExamples: 'VertexChatRoomExampleConnection'
+    getVertexChatRoomExampleConnection: 'VertexChatRoomExampleConnection'
+    getVertexChatRoomExamples: 'VertexChatRoomExample'
     getVertexChatRoomMessages: 'VertexChatRoomMessageConnection'
     me: 'User'
     node: 'Node'
@@ -861,11 +863,14 @@ export interface NexusGenArgTypes {
     getVertexChatRoom: { // args
       id?: string | null; // String
     }
-    getVertexChatRoomExamples: { // args
+    getVertexChatRoomExampleConnection: { // args
       after?: string | null; // String
       before?: string | null; // String
       first?: number | null; // Int
       last?: number | null; // Int
+      vertexChatRoomId?: string | null; // String
+    }
+    getVertexChatRoomExamples: { // args
       vertexChatRoomId?: string | null; // String
     }
     getVertexChatRoomMessages: { // args

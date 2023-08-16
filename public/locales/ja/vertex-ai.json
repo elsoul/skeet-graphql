@@ -30,5 +30,7 @@
   "outputErrorText": "正しいアウトプットを入力してください。(1000文字まで)",
   "inputOutputMax": "最大100ペアまで登録できます。",
   "addInputOutputPair": "ペアの追加",
-  "submit": "更新"
+  "submit": "更新",
+  "submitSuccessTitle": "ラーニング完了",
+  "submitSuccessBody": "使用するデータを書き換えました！"
 }
