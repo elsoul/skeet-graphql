@@ -26,3 +26,13 @@ export const vertexMaxTokensSchema = z.number().int().min(1).max(1024)
 export const vertexTemperatureSchema = z.number().min(0).max(1)
 export const vertexTopKSchema = z.number().min(1).max(40)
 export const vertexTopPSchema = z.number().min(0).max(1)
+
+export const vertexExampleInputOutputPairSchema = z.object({
+  id: z.string(),
+  input: z.string().min(0).max(1000),
+  output: z.string().min(0).max(1000),
+})
+
+export const vertexExampleFormSchema = z.object({
+  inputOutputPairs: z.array(vertexExampleInputOutputPairSchema).min(1).max(100),
+})
