@@ -12,7 +12,7 @@ import {
 import { useRecoilValue } from 'recoil'
 import { userState } from '@/store/user'
 
-import { GPTModel, VertexModel, chatContentSchema } from '@/utils/form'
+import { VertexModel, chatContentSchema } from '@/utils/form'
 import { fetchSkeetFunctions } from '@/lib/skeet'
 import Image from 'next/image'
 import { ChatRoom } from './VertexChatMenu'
@@ -134,8 +134,6 @@ export default function ChatBox({
   const chatContentLines = useMemo(() => {
     return (chatContent.match(/\n/g) || []).length + 1
   }, [chatContent])
-  console.log(chatMessages)
-  console.log(chatRoom)
 
   const data = usePreloadedQuery(vertexChatBoxQuery, chatBoxQueryReference)
 
