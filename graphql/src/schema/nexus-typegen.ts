@@ -177,6 +177,9 @@ export interface NexusGenObjects {
     node?: NexusGenRootTypes['UserVertexChatRoom'] | null; // UserVertexChatRoom
   }
   VertexChatRoom: { // root type
+    UserVertexChatRoom?: Array<NexusGenRootTypes['UserVertexChatRoom'] | null> | null; // [UserVertexChatRoom]
+    VertexChatRoomExample?: Array<NexusGenRootTypes['VertexChatRoomExample'] | null> | null; // [VertexChatRoomExample]
+    VertexChatRoomMessage?: Array<NexusGenRootTypes['VertexChatRoomMessage'] | null> | null; // [VertexChatRoomMessage]
     context: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     isShared: boolean; // Boolean!
@@ -406,9 +409,9 @@ export interface NexusGenFieldTypes {
     node: NexusGenRootTypes['UserVertexChatRoom'] | null; // UserVertexChatRoom
   }
   VertexChatRoom: { // field return type
-    UserVertexChatRoom: NexusGenRootTypes['UserVertexChatRoom'][]; // [UserVertexChatRoom!]!
-    VertexChatRoomExample: NexusGenRootTypes['VertexChatRoomExample'][]; // [VertexChatRoomExample!]!
-    VertexChatRoomMessage: NexusGenRootTypes['VertexChatRoomMessage'][]; // [VertexChatRoomMessage!]!
+    UserVertexChatRoom: Array<NexusGenRootTypes['UserVertexChatRoom'] | null> | null; // [UserVertexChatRoom]
+    VertexChatRoomExample: Array<NexusGenRootTypes['VertexChatRoomExample'] | null> | null; // [VertexChatRoomExample]
+    VertexChatRoomMessage: Array<NexusGenRootTypes['VertexChatRoomMessage'] | null> | null; // [VertexChatRoomMessage]
     context: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string | null; // ID
