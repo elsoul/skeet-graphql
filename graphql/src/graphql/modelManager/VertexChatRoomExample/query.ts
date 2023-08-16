@@ -27,7 +27,7 @@ export const VertexChatRoomExamplesQuery = extendType({
       args: {
         vertexChatRoomId: stringArg(),
       },
-      async resolve(_, { vertexChatRoomId }, ctx) {
+      async resolve(_, { vertexChatRoomId, ...args }, ctx) {
         if (!vertexChatRoomId) throw new Error('id is required')
 
         try {
@@ -45,6 +45,34 @@ export const VertexChatRoomExamplesQuery = extendType({
             })
           }
           return chatRoomMessages
+        } catch (error) {
+          throw new Error(`getVertexChatRoomExamples: ${error}`)
+        }
+      },
+    })
+    t.connectionField('getVertexChatRoomExampleConnection', {
+      type: VertexChatRoomExample.$name,
+      additionalArgs: {
+        vertexChatRoomId: stringArg(),
+      },
+      async resolve(_, { vertexChatRoomId, ...args }, ctx) {
+        if (!vertexChatRoomId) throw new Error('id is required')
+
+        try {
+          const chatRoomMessages =
+            await ctx.prisma.vertexChatRoomExample.findMany({
+              where: {
+                vertexChatRoomId: toPrismaId(vertexChatRoomId),
+              },
+            })
+          const examples = []
+          for await (const example of chatRoomMessages) {
+            examples.push({
+              input: example.input,
+              output: example.output,
+            })
+          }
+          return connectionFromArray(chatRoomMessages, args)
         } catch (error) {
           throw new Error(`getVertexChatRoomExamples: ${error}`)
         }

@@ -21,5 +21,16 @@
   "chatGPTCustom": "Chat GPT Custom with API",
   "chatMessageSubmit": "Submit",
   "pleaseRefetch": "Excuse me. Failed to get data. Please try again later.",
-  "refetchButton": "Retry"
+  "refetchButton": "Retry",
+  "learning": "Learning",
+  "learningExplain": "AI chat models can be enhanced and customized by teaching outputs for specific inputs.",
+  "input": "Input",
+  "inputErrorText": "Please enter correct input in 1000 characters.",
+  "output": "Output",
+  "outputErrorText": "Please enter correct output setting in 1000 characters.",
+  "inputOutputMax": "Max 100 inputs/outputs pairs",
+  "addInputOutputPair": "Add a pair",
+  "submit": "Submit",
+  "submitSuccessTitle": "Learning succeeded",
+  "submitSuccessBody": "Updated the data!"
 }

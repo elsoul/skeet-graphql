@@ -141,6 +141,20 @@ type Query {
   getUserChatRoom(id: String): UserChatRoom
   getUserVertexChatRoom(id: String!): UserVertexChatRoom
   getVertexChatRoom(id: String): VertexChatRoom
+  getVertexChatRoomExampleConnection(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+    vertexChatRoomId: String
+  ): VertexChatRoomExampleConnection
   getVertexChatRoomExamples(vertexChatRoomId: String): [VertexChatRoomExample]
   getVertexChatRoomMessages(
     """Returns the elements in the list that come after the specified cursor"""
@@ -469,6 +483,22 @@ type VertexChatRoomExample {
   output: String!
   updatedAt: DateTime!
   vertexChatRoomId: ID
+}
+
+type VertexChatRoomExampleConnection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [VertexChatRoomExampleEdge]
+
+  """Flattened list of VertexChatRoomExample type"""
+  nodes: [VertexChatRoomExample]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+  totalCount: Int
 }
 
 type VertexChatRoomExampleEdge {
