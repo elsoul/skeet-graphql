@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f30bc4715a7456ca6f7f7e5d751e2acc>>
+ * @generated SignedSource<<3c1363141f7e80927f618167e2980487>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,6 +15,7 @@ export type VertexChatBoxQuery$variables = {
 };
 export type VertexChatBoxQuery$data = {
   readonly getVertexChatRoom: {
+    readonly context: string;
     readonly createdAt: any;
     readonly id: string | null;
     readonly maxTokens: number;
@@ -122,6 +123,13 @@ v5 = [
         "args": null,
         "kind": "ScalarField",
         "name": "temperature",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "context",
         "storageKey": null
       },
       {
@@ -259,16 +267,16 @@ return {
     "selections": (v5/*: any*/)
   },
   "params": {
-    "cacheID": "34a546720e8f3b71442f3893e13d890e",
+    "cacheID": "ae88ca0d059ca9bea4f3c177785b752a",
     "id": null,
     "metadata": {},
     "name": "VertexChatBoxQuery",
     "operationKind": "query",
-    "text": "query VertexChatBoxQuery(\n  $first: Int\n  $chatRoomId: String\n) {\n  getVertexChatRoom(id: $chatRoomId) {\n    id\n    maxTokens\n    title\n    model\n    temperature\n    topP\n    topK\n    createdAt\n    updatedAt\n  }\n  getVertexChatRoomMessages(first: $first, vertexChatRoomId: $chatRoomId) {\n    edges {\n      node {\n        id\n        role\n        content\n        createdAt\n        updatedAt\n      }\n    }\n    pageInfo {\n      hasNextPage\n    }\n    nodes {\n      id\n    }\n  }\n}\n"
+    "text": "query VertexChatBoxQuery(\n  $first: Int\n  $chatRoomId: String\n) {\n  getVertexChatRoom(id: $chatRoomId) {\n    id\n    maxTokens\n    title\n    model\n    temperature\n    context\n    topP\n    topK\n    createdAt\n    updatedAt\n  }\n  getVertexChatRoomMessages(first: $first, vertexChatRoomId: $chatRoomId) {\n    edges {\n      node {\n        id\n        role\n        content\n        createdAt\n        updatedAt\n      }\n    }\n    pageInfo {\n      hasNextPage\n    }\n    nodes {\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "12ef20634cbc9437085e556da8f1f26f";
+(node as any).hash = "f01aa14a3b7a35a285ab18d15be492b9";
 
 export default node;

@@ -16,7 +16,6 @@ import { GPTModel, VertexModel, chatContentSchema } from '@/utils/form'
 import { fetchSkeetFunctions } from '@/lib/skeet'
 import Image from 'next/image'
 import { ChatRoom } from './VertexChatMenu'
-import { CreateStreamChatMessageParams } from '@/types/http/skeet/createStreamChatMessageParams'
 import { z } from 'zod'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -39,6 +38,7 @@ import {
   VertexChatBoxQuery$variables,
 } from '@/__generated__/VertexChatBoxQuery.graphql'
 import { sleep } from '@/utils/time'
+import { CreateVertexMessageParams } from '@/types/http/skeet/createVertexMessageParams'
 
 type ChatMessage = {
   id: string
@@ -56,6 +56,7 @@ export const vertexChatBoxQuery = graphql`
       title
       model
       temperature
+      context
       topP
       topK
       createdAt
@@ -134,6 +135,7 @@ export default function ChatBox({
     return (chatContent.match(/\n/g) || []).length + 1
   }, [chatContent])
   console.log(chatMessages)
+  console.log(chatRoom)
 
   const data = usePreloadedQuery(vertexChatBoxQuery, chatBoxQueryReference)
 
@@ -146,6 +148,7 @@ export default function ChatBox({
         title: chatRoomData.title ?? '',
         model: chatRoomData.model as VertexModel,
         temperature: chatRoomData.temperature,
+        context: chatRoomData.context,
         createdAt: chatRoomData.createdAt,
         updatedAt: chatRoomData.updatedAt,
         topK: chatRoomData.topK,
@@ -231,11 +234,11 @@ export default function ChatBox({
               },
             ]
           })
-          const res = await fetchSkeetFunctions<CreateStreamChatMessageParams>(
+          const res = await fetchSkeetFunctions<CreateVertexMessageParams>(
             'skeet',
-            'createStreamChatMessage',
+            'createVertexMessage',
             {
-              chatRoomId: currentChatRoomId,
+              vertexChatRoomId: currentChatRoomId,
               content: inputs.chatContent,
             }
           )
@@ -250,7 +253,7 @@ export default function ChatBox({
               if (dataString != 'Stream done') {
                 const data = JSON.parse(dataString)
                 setChatMessages((prev) => {
-                  const chunkSize = data.text.length
+                  const chunkSize = data?.text?.length
                   if (prev[prev.length - 1].content.length === 0) {
                     prev[prev.length - 1].content =
                       prev[prev.length - 1].content + data.text
@@ -343,6 +346,40 @@ export default function ChatBox({
               'w-full overflow-y-auto pb-24'
             )}
           >
+            <div className={clsx('bg-gray-50 dark:bg-gray-800', 'w-full p-4')}>
+              <div className="mx-auto flex w-full max-w-3xl flex-row items-start justify-center gap-4 p-4 sm:p-6 md:gap-6">
+                <Image
+                  src={
+                    'https://storage.googleapis.com/skeet-assets/imgs/bdlc/Bison.png'
+                  }
+                  alt="Bison icon"
+                  className="my-3 aspect-square h-6 w-6 rounded-full sm:h-10 sm:w-10"
+                  unoptimized
+                  width={40}
+                  height={40}
+                />
+
+                <div className="flex w-full flex-col">
+                  <div className="pb-2">
+                    <p className="text-base font-bold text-gray-900 dark:text-white">
+                      {chatRoom?.title ? chatRoom?.title : t('noTitle')}
+                    </p>
+                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                      {chatRoom?.model}: {chatRoom?.maxTokens} {t('tokens')}
+                    </p>
+                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                      {'Temperature'}: {chatRoom?.temperature}, {'Top-p'}:{' '}
+                      {chatRoom?.topP}, {'Top-k'}: {chatRoom?.topK}
+                    </p>
+                  </div>
+                  <div className="prose w-full max-w-none dark:prose-invert lg:prose-lg">
+                    <p className="text-base font-medium text-gray-800 dark:text-gray-50">
+                      {chatRoom?.context}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
             {chatMessages.map((chatMessage) => (
               <div
                 key={chatMessage.id}
@@ -367,32 +404,19 @@ export default function ChatBox({
                   )}
                   {(chatMessage.role === 'assistant' ||
                     chatMessage.role === 'system') &&
-                    chatRoom?.model === 'gpt-3.5-turbo' && (
+                    chatRoom?.model === 'chat-bison@001' && (
                       <Image
                         src={
-                          'https://storage.googleapis.com/epics-bucket/BuidlersCollective/Jake.png'
+                          'https://storage.googleapis.com/skeet-assets/imgs/bdlc/Bison.png'
                         }
-                        alt="Jake icon"
+                        alt="Bison icon"
                         className="my-3 aspect-square h-6 w-6 rounded-full sm:h-10 sm:w-10"
                         unoptimized
                         width={40}
                         height={40}
                       />
                     )}
-                  {(chatMessage.role === 'assistant' ||
-                    chatMessage.role === 'system') &&
-                    chatRoom?.model === 'gpt-4' && (
-                      <Image
-                        src={
-                          'https://storage.googleapis.com/epics-bucket/BuidlersCollective/Legend.png'
-                        }
-                        alt="Legend icon"
-                        className="my-3 aspect-square h-6 w-6 rounded-full sm:h-10 sm:w-10"
-                        unoptimized
-                        width={40}
-                        height={40}
-                      />
-                    )}
+
                   <div className="flex w-full flex-col">
                     {chatMessage.role === 'system' && (
                       <div className="pb-2">

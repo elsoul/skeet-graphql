@@ -46,6 +46,7 @@ export type ChatRoom = {
   createdAt: string
   updatedAt: string
   model: VertexModel
+  context: string
   maxTokens: number
   temperature: number
   topP: number
