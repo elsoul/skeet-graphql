@@ -68,6 +68,13 @@ export const vertexChatBoxQuery = graphql`
       topK
       createdAt
       updatedAt
+      VertexChatRoomMessage {
+        id
+        content
+      }
+      VertexChatRoomExample {
+        id
+      }
     }
     getVertexChatRoomMessages(first: $first, vertexChatRoomId: $chatRoomId) {
       edges {
@@ -144,7 +151,6 @@ export default function ChatBox({
   }, [chatContent])
 
   const data = usePreloadedQuery(vertexChatBoxQuery, chatBoxQueryReference)
-
   const getChatRoom = useCallback(() => {
     const chatRoomData = data.getVertexChatRoom
     if (chatRoomData) {
@@ -161,7 +167,7 @@ export default function ChatBox({
         topP: chatRoomData.topP,
       })
     } else {
-      console.log('No such document!')
+      console.warn('No such document!')
     }
   }, [currentChatRoomId, data.getVertexChatRoom])
 
@@ -277,7 +283,7 @@ export default function ChatBox({
                 })
               }
             } catch (e) {
-              console.log(e)
+              console.warn(e)
             }
           }
 

@@ -289,7 +289,7 @@ export default function VertexChatExamples({
                     </button>
                   </div>
                 ))}
-                <div className="my-8 flex w-full justify-end gap-4 pr-9">
+                <div className="my-8 flex w-full justify-end gap-4 sm:pr-9">
                   <button
                     type="button"
                     onClick={() =>

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<dd8be95db6b0374dd1ec54e5566cbacc>>
+ * @generated SignedSource<<dcb05d40e102723b806e5f0ef77f92ae>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -19,6 +19,13 @@ export type VertexChatBoxQuery$variables = {
 };
 export type VertexChatBoxQuery$data = {
   readonly getVertexChatRoom: {
+    readonly VertexChatRoomExample: ReadonlyArray<{
+      readonly id: string | null;
+    } | null> | null;
+    readonly VertexChatRoomMessage: ReadonlyArray<{
+      readonly content: string;
+      readonly id: string | null;
+    } | null> | null;
     readonly context: string;
     readonly createdAt: any;
     readonly id: string | null;
@@ -103,6 +110,16 @@ v7 = {
 },
 v8 = {
   "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "content",
+  "storageKey": null
+},
+v9 = [
+  (v5/*: any*/)
+],
+v10 = {
+  "alias": null,
   "args": [
     {
       "kind": "Variable",
@@ -166,35 +183,55 @@ v8 = {
       "storageKey": null
     },
     (v6/*: any*/),
-    (v7/*: any*/)
+    (v7/*: any*/),
+    {
+      "alias": null,
+      "args": null,
+      "concreteType": "VertexChatRoomMessage",
+      "kind": "LinkedField",
+      "name": "VertexChatRoomMessage",
+      "plural": true,
+      "selections": [
+        (v5/*: any*/),
+        (v8/*: any*/)
+      ],
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "concreteType": "VertexChatRoomExample",
+      "kind": "LinkedField",
+      "name": "VertexChatRoomExample",
+      "plural": true,
+      "selections": (v9/*: any*/),
+      "storageKey": null
+    }
   ],
   "storageKey": null
 },
-v9 = {
+v11 = {
   "kind": "Variable",
   "name": "first",
   "variableName": "first"
 },
-v10 = {
+v12 = {
   "kind": "Variable",
   "name": "vertexChatRoomId",
   "variableName": "chatRoomId"
 },
-v11 = {
+v13 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "hasNextPage",
   "storageKey": null
 },
-v12 = [
-  (v5/*: any*/)
-],
-v13 = {
+v14 = {
   "alias": null,
   "args": [
-    (v9/*: any*/),
-    (v10/*: any*/)
+    (v11/*: any*/),
+    (v12/*: any*/)
   ],
   "concreteType": "VertexChatRoomMessageConnection",
   "kind": "LinkedField",
@@ -225,13 +262,7 @@ v13 = {
               "name": "role",
               "storageKey": null
             },
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "content",
-              "storageKey": null
-            },
+            (v8/*: any*/),
             (v6/*: any*/),
             (v7/*: any*/)
           ],
@@ -248,7 +279,7 @@ v13 = {
       "name": "pageInfo",
       "plural": false,
       "selections": [
-        (v11/*: any*/)
+        (v13/*: any*/)
       ],
       "storageKey": null
     },
@@ -259,13 +290,13 @@ v13 = {
       "kind": "LinkedField",
       "name": "nodes",
       "plural": true,
-      "selections": (v12/*: any*/),
+      "selections": (v9/*: any*/),
       "storageKey": null
     }
   ],
   "storageKey": null
 },
-v14 = [
+v15 = [
   {
     "kind": "Variable",
     "name": "after",
@@ -276,13 +307,13 @@ v14 = [
     "name": "before",
     "variableName": "before"
   },
-  (v9/*: any*/),
+  (v11/*: any*/),
   {
     "kind": "Variable",
     "name": "last",
     "variableName": "last"
   },
-  (v10/*: any*/)
+  (v12/*: any*/)
 ];
 return {
   "fragment": {
@@ -297,8 +328,8 @@ return {
     "metadata": null,
     "name": "VertexChatBoxQuery",
     "selections": [
-      (v8/*: any*/),
-      (v13/*: any*/),
+      (v10/*: any*/),
+      (v14/*: any*/),
       {
         "args": null,
         "kind": "FragmentSpread",
@@ -320,11 +351,11 @@ return {
     "kind": "Operation",
     "name": "VertexChatBoxQuery",
     "selections": [
-      (v8/*: any*/),
-      (v13/*: any*/),
+      (v10/*: any*/),
+      (v14/*: any*/),
       {
         "alias": null,
-        "args": (v14/*: any*/),
+        "args": (v15/*: any*/),
         "concreteType": "VertexChatRoomExampleConnection",
         "kind": "LinkedField",
         "name": "getVertexChatRoomExampleConnection",
@@ -390,7 +421,7 @@ return {
             "kind": "LinkedField",
             "name": "nodes",
             "plural": true,
-            "selections": (v12/*: any*/),
+            "selections": (v9/*: any*/),
             "storageKey": null
           },
           {
@@ -408,7 +439,7 @@ return {
                 "name": "endCursor",
                 "storageKey": null
               },
-              (v11/*: any*/),
+              (v13/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -431,7 +462,7 @@ return {
       },
       {
         "alias": null,
-        "args": (v14/*: any*/),
+        "args": (v15/*: any*/),
         "filters": [
           "vertexChatRoomId"
         ],
@@ -443,16 +474,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "cd18eeb73e242c2d49df332babb3c5a7",
+    "cacheID": "eec68096707f521cfe3a1d53f5f13528",
     "id": null,
     "metadata": {},
     "name": "VertexChatBoxQuery",
     "operationKind": "query",
-    "text": "query VertexChatBoxQuery(\n  $first: Int\n  $after: String\n  $last: Int\n  $before: String\n  $chatRoomId: String\n) {\n  getVertexChatRoom(id: $chatRoomId) {\n    id\n    maxTokens\n    title\n    model\n    temperature\n    context\n    topP\n    topK\n    createdAt\n    updatedAt\n  }\n  getVertexChatRoomMessages(first: $first, vertexChatRoomId: $chatRoomId) {\n    edges {\n      node {\n        id\n        role\n        content\n        createdAt\n        updatedAt\n      }\n    }\n    pageInfo {\n      hasNextPage\n    }\n    nodes {\n      id\n    }\n  }\n  ...VertexChatExamples_query\n}\n\nfragment VertexChatExamples_query on Query {\n  getVertexChatRoomExampleConnection(first: $first, after: $after, last: $last, before: $before, vertexChatRoomId: $chatRoomId) {\n    edges {\n      node {\n        id\n        input\n        output\n        createdAt\n        updatedAt\n        __typename\n      }\n      cursor\n    }\n    nodes {\n      id\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n"
+    "text": "query VertexChatBoxQuery(\n  $first: Int\n  $after: String\n  $last: Int\n  $before: String\n  $chatRoomId: String\n) {\n  getVertexChatRoom(id: $chatRoomId) {\n    id\n    maxTokens\n    title\n    model\n    temperature\n    context\n    topP\n    topK\n    createdAt\n    updatedAt\n    VertexChatRoomMessage {\n      id\n      content\n    }\n    VertexChatRoomExample {\n      id\n    }\n  }\n  getVertexChatRoomMessages(first: $first, vertexChatRoomId: $chatRoomId) {\n    edges {\n      node {\n        id\n        role\n        content\n        createdAt\n        updatedAt\n      }\n    }\n    pageInfo {\n      hasNextPage\n    }\n    nodes {\n      id\n    }\n  }\n  ...VertexChatExamples_query\n}\n\nfragment VertexChatExamples_query on Query {\n  getVertexChatRoomExampleConnection(first: $first, after: $after, last: $last, before: $before, vertexChatRoomId: $chatRoomId) {\n    edges {\n      node {\n        id\n        input\n        output\n        createdAt\n        updatedAt\n        __typename\n      }\n      cursor\n    }\n    nodes {\n      id\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "37b4c68f426be23fbe40dd918892c1f4";
+(node as any).hash = "a0507105142ff70240f2f763e4b2e9e0";
 
 export default node;
