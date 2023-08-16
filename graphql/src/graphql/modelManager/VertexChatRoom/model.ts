@@ -1,5 +1,5 @@
 import { objectType } from 'nexus'
-import { VertexChatRoom } from 'nexus-prisma'
+import { VertexChatRoom, VertexChatRoomExample } from 'nexus-prisma'
 
 export const VertexChatRoomObject = objectType({
   name: VertexChatRoom.$name,
@@ -17,8 +17,14 @@ export const VertexChatRoomObject = objectType({
     t.field(VertexChatRoom.isShared)
     t.field(VertexChatRoom.createdAt)
     t.field(VertexChatRoom.updatedAt)
-    t.field(VertexChatRoom.VertexChatRoomExample)
-    t.field(VertexChatRoom.VertexChatRoomMessage)
-    t.field(VertexChatRoom.UserVertexChatRoom)
+    t.list.field('VertexChatRoomExample', {
+      type: 'VertexChatRoomExample',
+    })
+    t.list.field('VertexChatRoomMessage', {
+      type: 'VertexChatRoomMessage',
+    })
+    t.list.field('UserVertexChatRoom', {
+      type: 'UserVertexChatRoom',
+    })
   },
 })

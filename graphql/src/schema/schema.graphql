@@ -450,9 +450,9 @@ type UserVertexChatRoomEdge {
 }
 
 type VertexChatRoom {
-  UserVertexChatRoom: [UserVertexChatRoom!]!
-  VertexChatRoomExample: [VertexChatRoomExample!]!
-  VertexChatRoomMessage: [VertexChatRoomMessage!]!
+  UserVertexChatRoom: [UserVertexChatRoom]
+  VertexChatRoomExample: [VertexChatRoomExample]
+  VertexChatRoomMessage: [VertexChatRoomMessage]
   context: String!
   createdAt: DateTime!
   id: ID

@@ -29,12 +29,17 @@ export const VertexChatRoomsQuery = extendType({
       },
       async resolve(_, { id }, ctx) {
         if (!id) throw new Error('id is required')
-
-        return await ctx.prisma.vertexChatRoom.findUnique({
+        const chatRoomData = await ctx.prisma.vertexChatRoom.findUnique({
           where: {
             id: toPrismaId(id),
           },
+          include: {
+            VertexChatRoomExample: true,
+            VertexChatRoomMessage: true,
+            UserVertexChatRoom: true,
+          },
         })
+        return chatRoomData
       },
     })
   },
