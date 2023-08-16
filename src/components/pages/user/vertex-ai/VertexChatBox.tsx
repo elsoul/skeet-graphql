@@ -389,18 +389,12 @@ export default function ChatBox({
                       {chatRoom?.context}
                     </p>
                   </div>
-                  <div className="pt-4 xl:hidden">
+                  <div className="pt-4">
                     <VertexChatExamples
                       currentChatRoomId={currentChatRoomId}
                       chatBoxData={data}
                     />
                   </div>
-                </div>
-                <div className="hidden xl:flex">
-                  <VertexChatExamples
-                    currentChatRoomId={currentChatRoomId}
-                    chatBoxData={data}
-                  />
                 </div>
               </div>
             </div>
