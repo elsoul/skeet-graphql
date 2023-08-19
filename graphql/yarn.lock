@@ -1649,10 +1649,10 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
-"@skeet-framework/utils@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@skeet-framework/utils/-/utils-1.0.0.tgz#f0225590b30ed7582b195009c15c6182d7237d5a"
-  integrity sha512-dY8uzVr6HL5vHegCt7MAbKet5/nGNU+oh5vsdbmrsUHcJdmo8aX6/NfBATUYbFXP3UCx825N6gxoQdrffQtobQ==
+"@skeet-framework/utils@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@skeet-framework/utils/-/utils-1.1.0.tgz#521f3a7d320686ef3da3a48013b5ceb1a9227eae"
+  integrity sha512-4YYPuzpr3w397tEBaYZ908KGSRfFXOfOC0TXGrEKXvijb6jM7tyLwXDFfynDrvEcs6anY1U2aVQwWIyxYWqEaA==
   dependencies:
     date-fns "2.30.0"
     date-fns-tz "2.0.0"

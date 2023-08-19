@@ -1,37 +1,22 @@
 import { onRequest } from 'firebase-functions/v2/https'
 import { OpenAI, OpenAIMessage, OpenAIOptions } from '@skeet-framework/ai'
-import { TypedRequestBody } from '@/index'
+import { TypedRequestBody } from '@/types'
 import { getUserBearerToken } from '@/lib/getUserAuth'
 import { publicHttpOption } from '@/routings'
 import { defineSecret } from 'firebase-functions/params'
 import { skeetGraphql, sleep } from '@skeet-framework/utils'
-
-import {
-  CreateChatMessageParams,
-  CreateStreamChatMessageParams,
-  GetChatMessagesParams,
-  GetChatRoomParams,
-  UpdateChatRoomTitleParams,
-} from '@/types/http/createStreamChatMessageParams'
+import { CreateStreamChatMessageParams } from '@/types'
 import { inspect } from 'util'
+import {
+  GetChatRoomMessagesQuery,
+  GetUserChatRoomQuery,
+  UpdateChatRoomQuery,
+} from '@/queries'
+import { ChatRoom, ChatRoomMessage } from '@/models'
+import { CreateChatRoomMessageQuery } from '@/queries'
 const chatGptOrg = defineSecret('CHAT_GPT_ORG')
 const chatGptKey = defineSecret('CHAT_GPT_KEY')
 const SKEET_GRAPHQL_ENDPOINT_URL = defineSecret('SKEET_GRAPHQL_ENDPOINT_URL')
-type ChatRoomParams = {
-  model: string
-  maxTokens: number
-  temperature: number
-  stream: boolean
-  title: string
-}
-
-type ChatRoomMessage = {
-  id: string
-  role: string
-  content: string
-}
-
-type ChatMessagesParams = ChatRoomMessage[]
 
 export const createStreamChatMessage = onRequest(
   {
@@ -56,21 +41,17 @@ export const createStreamChatMessage = onRequest(
 
     // Get User Info from Firebase Auth
     const token = await getUserBearerToken(req)
-    const getChatRoomBody: GetChatRoomParams = {
-      id: body.chatRoomId,
-    }
 
     try {
       // Get ChatRoom Info from GraphQL
-      const queryType = 'query'
-      const queryName = 'getChatRoom'
-      const chatRoom = await skeetGraphql<GetChatRoomParams, ChatRoomParams>(
+      const variables = {
+        getChatRoomId: body.chatRoomId,
+      }
+      const chatRoom = await skeetGraphql<{ data: { getChatRoom: ChatRoom } }>(
         token,
         SKEET_GRAPHQL_ENDPOINT_URL.value(),
-        queryType,
-        queryName,
-        getChatRoomBody,
-        ['model', 'maxTokens', 'temperature', 'stream', 'title']
+        GetUserChatRoomQuery,
+        variables
       )
       console.log(inspect(chatRoom, { depth: null }))
 
@@ -87,37 +68,31 @@ export const createStreamChatMessage = onRequest(
       const openAi = new OpenAI(openAiOptions)
 
       // Create ChatRoomMessage
-      const createMessageQueryName = 'createChatRoomMessage'
-      const params: CreateChatMessageParams = {
-        chatRoomId: body.chatRoomId,
-        role: 'user',
-        content: body.content,
+      const variables2 = {
+        createChatRoomMessageChatRoomId: body.chatRoomId,
+        createChatRoomMessageRole: 'user',
+        createChatRoomMessageContent: body.content,
       }
-
-      const result = await skeetGraphql(
+      const result = await skeetGraphql<{
+        data: { createChatRoomMessage: ChatRoomMessage }
+      }>(
         token,
         SKEET_GRAPHQL_ENDPOINT_URL.value(),
-        'mutation',
-        createMessageQueryName,
-        params,
-        ['id', 'role', 'content']
+        CreateChatRoomMessageQuery,
+        variables2
       )
       console.log(inspect(result, { depth: null }))
 
-      const queryName2 = 'getChatRoomMessages'
-      const params2 = {
-        chatRoomId: body.chatRoomId,
+      const variables3 = {
+        getChatRoomMessagesChatRoomId: body.chatRoomId,
       }
-      const chatMessages = await skeetGraphql<
-        GetChatMessagesParams,
-        ChatMessagesParams
-      >(
+      const chatMessages = await skeetGraphql<{
+        data: { getChatRoomMessages: ChatRoomMessage[] }
+      }>(
         token,
         SKEET_GRAPHQL_ENDPOINT_URL.value(),
-        queryType,
-        queryName2,
-        params2,
-        ['role', 'content']
+        GetChatRoomMessagesQuery,
+        variables3
       )
       console.log(inspect(chatMessages, { depth: null }))
 
@@ -129,17 +104,15 @@ export const createStreamChatMessage = onRequest(
         const title = await openAi.generateTitle(body.content)
 
         if (title) {
-          const params: UpdateChatRoomTitleParams = {
+          const variables4 = {
             id: body.chatRoomId,
             title,
           }
           await skeetGraphql(
             token,
             SKEET_GRAPHQL_ENDPOINT_URL.value(),
-            'mutation',
-            'updateChatRoom',
-            params,
-            ['id', 'title']
+            UpdateChatRoomQuery,
+            variables4
           )
         }
       }
@@ -197,20 +170,16 @@ export const createStreamChatMessage = onRequest(
       stream.on('end', async () => {
         const message = messageResults.join('')
         // Send Message to Client
-
-        const params: CreateChatMessageParams = {
-          chatRoomId: body.chatRoomId,
-          role: 'assistant',
-          content: message,
+        const variables5 = {
+          createChatRoomMessageChatRoomId: body.chatRoomId,
+          createChatRoomMessageRole: 'assistant',
+          createChatRoomMessageContent: message,
         }
-
         const result = await skeetGraphql(
           token,
           SKEET_GRAPHQL_ENDPOINT_URL.value(),
-          'mutation',
-          createMessageQueryName,
-          params,
-          ['id', 'role', 'content']
+          CreateChatRoomMessageQuery,
+          variables5
         )
         console.log('got result')
         console.log(inspect(result, { depth: null }))

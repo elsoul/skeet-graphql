@@ -6,14 +6,13 @@ import {
   skeetGraphql,
 } from '@skeet-framework/utils'
 import skeetConfig from '../../../skeetOptions.json'
-import { User } from '@/models'
 import { defineSecret } from 'firebase-functions/params'
 import { inspect } from 'util'
+import { CreateUserQuery } from './createUserQuery'
 const DISCORD_WEBHOOK_URL = defineSecret('DISCORD_WEBHOOK_URL')
 const SKEET_GRAPHQL_ENDPOINT_URL = defineSecret('SKEET_GRAPHQL_ENDPOINT_URL')
 
 const { region } = skeetConfig
-const queryName = 'createUser'
 
 export const authOnCreateUser = functions
   .runWith({
@@ -26,24 +25,21 @@ export const authOnCreateUser = functions
     try {
       if (!user.email) throw new Error(`no email`)
       const { uid, email, displayName, photoURL } = user
-      const userParams: User = {
-        uid,
-        email: email,
-        username: displayName || email?.split('@')[0],
-        iconUrl:
+      const accessToken = 'skeet-access-token'
+      const variables = {
+        createUserUid: uid,
+        createUserEmail: email,
+        createUserUsername: displayName || email?.split('@')[0],
+        createUserIconUrl:
           photoURL == '' || !photoURL
             ? gravatarIconUrl(email ?? 'info@skeet.dev')
             : photoURL,
       }
-
-      console.log({ userParams })
-      const accessToken = 'skeet-access-token'
       const createUserResponse = await skeetGraphql(
         accessToken,
         SKEET_GRAPHQL_ENDPOINT_URL.value(),
-        'mutation',
-        queryName,
-        userParams
+        CreateUserQuery,
+        variables
       )
 
       console.log(
@@ -51,7 +47,7 @@ export const authOnCreateUser = functions
       )
 
       // Send Discord message when new user is created
-      const content = `Skeet APP New user: ${userParams.username} \nemail: ${userParams.email}\niconUrl: ${userParams.iconUrl}`
+      const content = `Skeet APP New user: ${variables.createUserUsername} \nemail: ${variables.createUserEmail}\niconUrl: ${variables.createUserIconUrl}`
       if (process.env.NODE_ENV === 'production') {
         await sendDiscord(content)
       }

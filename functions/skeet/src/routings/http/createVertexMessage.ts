@@ -1,7 +1,6 @@
 import { onRequest } from 'firebase-functions/v2/https'
 import { publicHttpOption } from '@/routings/options'
-import { TypedRequestBody } from '@/index'
-import { CreateVertexMessageParams } from '@/types/http/createVertexMessageParams'
+import { TypedRequestBody, CreateVertexMessageParams } from '@/types'
 import { getUserBearerToken } from '@/lib/getUserAuth'
 import { skeetGraphql } from '@skeet-framework/utils'
 import skeetOptions from '../../../skeetOptions.json'
@@ -12,27 +11,15 @@ import {
   VertexAiOptions,
   VertexPromptParams,
 } from '@skeet-framework/ai'
-import * as dotenv from 'dotenv'
 import { ChunkedStream } from '@/lib/chunk'
-dotenv.config()
+import {
+  CreateVertexChatRoomMessageQuery,
+  GetVertexChatRoomExamplesQuery,
+  GetVertexChatRoomQuery,
+  UpdateVertexChatRoomQuery,
+} from '@/queries'
+import { VertexChatRoom, VertexChatRoomExample } from '@/models'
 
-type ChatRoomParams = {
-  model: string
-  maxTokens: number
-  temperature: number
-  topP: number
-  topK: number
-  context: string
-  title: string
-}
-
-type GetVertexChatRoomParams = {
-  id: string
-}
-
-type GetVertexChatRoomExamplesParams = {
-  vertexChatRoomId: string
-}
 const SKEET_GRAPHQL_ENDPOINT_URL = defineSecret('SKEET_GRAPHQL_ENDPOINT_URL')
 
 export const createVertexMessage = onRequest(
@@ -47,27 +34,9 @@ export const createVertexMessage = onRequest(
     }
     try {
       const token = await getUserBearerToken(req)
-      const queryType = 'query'
-      const queryName = 'getVertexChatRoom'
-      const chatRoom = await skeetGraphql<
-        GetVertexChatRoomParams,
-        ChatRoomParams
-      >(
-        token,
-        SKEET_GRAPHQL_ENDPOINT_URL.value(),
-        queryType,
-        queryName,
-        { id: body.id },
-        [
-          'model',
-          'maxTokens',
-          'temperature',
-          'topP',
-          'topK',
-          'context',
-          'title',
-        ]
-      )
+      const chatRoom = await skeetGraphql<{
+        data: { getVertexChatRoom: VertexChatRoom }
+      }>(token, SKEET_GRAPHQL_ENDPOINT_URL.value(), GetVertexChatRoomQuery)
       if (!chatRoom) throw new Error('ChatRoom not found')
 
       console.log(inspect(chatRoom, { depth: null }))
@@ -83,18 +52,16 @@ export const createVertexMessage = onRequest(
         projectId: skeetOptions.projectId,
       }
       const vertexAi = new VertexAI(vertexAiOptions)
-      const userMessage = {
-        vertexChatRoomId: body.id,
-        role: 'user',
-        content: body.content,
+      const variables = {
+        createVertexChatRoomMessageVertexChatRoomId: body.id,
+        createVertexChatRoomMessageRole: 'user',
+        createVertexChatRoomMessageContent: body.content,
       }
       const saveUserMessageResult = await skeetGraphql(
         token,
         SKEET_GRAPHQL_ENDPOINT_URL.value(),
-        'mutation',
-        'createVertexChatRoomMessage',
-        userMessage,
-        ['id', 'role', 'content']
+        CreateVertexChatRoomMessageQuery,
+        variables
       )
       console.log(inspect(saveUserMessageResult, { depth: null }))
 
@@ -107,34 +74,29 @@ export const createVertexMessage = onRequest(
         const titlePrompt = await vertexAi.generateTitlePrompt(body.content)
         const title = await vertexAi.prompt(titlePrompt)
 
-        const updateTitleParams = {
-          id: body.id,
-          title,
+        const variables2 = {
+          updateVertexChatRoomId: body.id,
+          updateVertexChatRoomTitle: title,
         }
-        console.log(inspect(updateTitleParams, { depth: null }))
-
         const updateTitleResult = await skeetGraphql(
           token,
           SKEET_GRAPHQL_ENDPOINT_URL.value(),
-          'mutation',
-          'updateVertexChatRoom',
-          updateTitleParams,
-          ['id', 'title']
+          UpdateVertexChatRoomQuery,
+          variables2
         )
         console.log(inspect({ updateTitleResult }, { depth: null }))
       }
-
+      const variables3 = {
+        vertexChatRoomId: body.id,
+      }
       // Get VertexAI ChatRoom Examples
-      const examples = await skeetGraphql<
-        GetVertexChatRoomExamplesParams,
-        { input: string; output: string }[]
-      >(
+      const examples = await skeetGraphql<{
+        data: { getVertexChatRoomExamples: VertexChatRoomExample[] }
+      }>(
         token,
         SKEET_GRAPHQL_ENDPOINT_URL.value(),
-        'query',
-        'getVertexChatRoomExamples',
-        { vertexChatRoomId: body.id },
-        ['input', 'output']
+        GetVertexChatRoomExamplesQuery,
+        variables3
       )
       console.log(inspect({ examples }, { depth: null }))
       // Send Request to VertexAI
@@ -166,18 +128,16 @@ export const createVertexMessage = onRequest(
       })
       stream.on('end', async () => {
         // Save VertexAI Response
-        const vertexAiMessage = {
-          vertexChatRoomId: body.id,
-          role: 'assistant',
-          content: vertexAiResponse,
+        const variables4 = {
+          createVertexChatRoomMessageVertexChatRoomId: body.id,
+          createVertexChatRoomMessageRole: 'assistant',
+          createVertexChatRoomMessageContent: vertexAiResponse,
         }
         const saveVertexAiMessageResult = await skeetGraphql(
           token,
           SKEET_GRAPHQL_ENDPOINT_URL.value(),
-          'mutation',
-          'createVertexChatRoomMessage',
-          vertexAiMessage,
-          ['id', 'role', 'content']
+          CreateVertexChatRoomMessageQuery,
+          variables4
         )
         console.log(inspect(saveVertexAiMessageResult, { depth: null }))
         res.end()
