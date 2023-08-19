@@ -20,7 +20,7 @@
   "dependencies": {
     "@skeet-framework/ai": "^1.2.0",
     "@skeet-framework/pubsub": "0.1.2",
-    "@skeet-framework/utils": "^1.0.1",
+    "@skeet-framework/utils": "1.1.1",
     "date-fns": "2.29.3",
     "date-fns-tz": "2.0.0",
     "dotenv": "16.3.1",
