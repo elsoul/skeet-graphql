@@ -1370,7 +1370,7 @@
     jest "29.6.1"
     node-fetch "2.6.9"
 
-"@skeet-framework/utils@^1.1.1":
+"@skeet-framework/utils@1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@skeet-framework/utils/-/utils-1.1.1.tgz#03d35a84bb5a9509e4d084db33a47249149bb5bd"
   integrity sha512-WxWaebuysqY97DS3YCLLDpE/HQWlZbPYPvmffKXPaBHfqwh18FeQNxvZPxc2qPP/BKxSa1tmKs/YJlI5wJkaaA==
