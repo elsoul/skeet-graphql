@@ -37,6 +37,7 @@ export const createStreamChatMessage = onRequest(
       chatRoomId: req.body.chatRoomId || '',
       content: req.body.content,
     }
+    console.log({ text: 'this is body', body })
     if (body.chatRoomId === '') throw new Error('chatRoomId is empty')
 
     // Get User Info from Firebase Auth
@@ -47,6 +48,7 @@ export const createStreamChatMessage = onRequest(
       const variables = {
         getChatRoomId: body.chatRoomId,
       }
+
       const chatRoom = await skeetGraphql<{ data: { getChatRoom: ChatRoom } }>(
         token,
         SKEET_GRAPHQL_ENDPOINT_URL.value(),
@@ -69,9 +71,9 @@ export const createStreamChatMessage = onRequest(
 
       // Create ChatRoomMessage
       const variables2 = {
-        createChatRoomMessageChatRoomId: body.chatRoomId,
-        createChatRoomMessageRole: 'user',
-        createChatRoomMessageContent: body.content,
+        chatRoomId: body.chatRoomId,
+        role: 'user',
+        content: body.content,
       }
       const result = await skeetGraphql<{
         data: { createChatRoomMessage: ChatRoomMessage }
@@ -84,7 +86,7 @@ export const createStreamChatMessage = onRequest(
       console.log(inspect(result, { depth: null }))
 
       const variables3 = {
-        getChatRoomMessagesChatRoomId: body.chatRoomId,
+        chatRoomId: body.chatRoomId,
       }
       const chatMessages = await skeetGraphql<{
         data: { getChatRoomMessages: ChatRoomMessage[] }
@@ -143,9 +145,9 @@ export const createStreamChatMessage = onRequest(
 
       const message = messageResults.join('')
       const variables5 = {
-        createChatRoomMessageChatRoomId: body.chatRoomId,
-        createChatRoomMessageRole: 'assistant',
-        createChatRoomMessageContent: message,
+        chatRoomId: body.chatRoomId,
+        role: 'assistant',
+        content: message,
       }
       await skeetGraphql(
         token,
