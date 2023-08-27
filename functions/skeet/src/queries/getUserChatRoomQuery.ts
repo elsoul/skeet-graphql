@@ -1,5 +1,5 @@
-export const GetUserChatRoomQuery = `query Query($getChatRoomId: String) {
-  getChatRoom(id: $getChatRoomId) {
+export const GetUserChatRoomQuery = `query Query($chatRoomId: String) {
+  getChatRoom(id: $chatRoomId) {
     id
     rawId
     name

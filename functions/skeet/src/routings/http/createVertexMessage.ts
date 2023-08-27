@@ -36,7 +36,9 @@ export const createVertexMessage = onRequest(
       const token = await getUserBearerToken(req)
       const chatRoom = await skeetGraphql<{
         data: { getVertexChatRoom: VertexChatRoom }
-      }>(token, SKEET_GRAPHQL_ENDPOINT_URL.value(), GetVertexChatRoomQuery)
+      }>(token, SKEET_GRAPHQL_ENDPOINT_URL.value(), GetVertexChatRoomQuery, {
+        id: body.id,
+      })
       if (!chatRoom) throw new Error('ChatRoom not found')
 
       console.log(inspect(chatRoom, { depth: null }))
@@ -53,9 +55,9 @@ export const createVertexMessage = onRequest(
       }
       const vertexAi = new VertexAI(vertexAiOptions)
       const variables = {
-        createVertexChatRoomMessageVertexChatRoomId: body.id,
-        createVertexChatRoomMessageRole: 'user',
-        createVertexChatRoomMessageContent: body.content,
+        vertexChatRoomId: body.id,
+        role: 'user',
+        content: body.content,
       }
       const saveUserMessageResult = await skeetGraphql(
         token,
@@ -75,8 +77,8 @@ export const createVertexMessage = onRequest(
         const title = await vertexAi.prompt(titlePrompt)
 
         const variables2 = {
-          updateVertexChatRoomId: body.id,
-          updateVertexChatRoomTitle: title,
+          id: body.id,
+          title,
         }
         const updateTitleResult = await skeetGraphql(
           token,
@@ -129,9 +131,9 @@ export const createVertexMessage = onRequest(
       stream.on('end', async () => {
         // Save VertexAI Response
         const variables4 = {
-          createVertexChatRoomMessageVertexChatRoomId: body.id,
-          createVertexChatRoomMessageRole: 'assistant',
-          createVertexChatRoomMessageContent: vertexAiResponse,
+          vertexChatRoomId: body.id,
+          role: 'assistant',
+          content: vertexAiResponse,
         }
         const saveVertexAiMessageResult = await skeetGraphql(
           token,

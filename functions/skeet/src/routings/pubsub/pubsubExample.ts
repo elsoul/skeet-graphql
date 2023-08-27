@@ -1,7 +1,7 @@
 import { onMessagePublished } from 'firebase-functions/v2/pubsub'
 import { pubsubDefaultOption } from '@/routings/options'
-import { parsePubSubMessage } from '@skeet-framework/pubsub'
 import { PubsubExampleParams } from '@/types/pubsub/pubsubExampleParams'
+import { parsePubSubMessage } from './parsePubSubMessage'
 
 export const pubsubTopic = 'pubsubExample'
 
