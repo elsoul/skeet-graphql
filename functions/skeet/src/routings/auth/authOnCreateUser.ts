@@ -27,10 +27,10 @@ export const authOnCreateUser = functions
       const { uid, email, displayName, photoURL } = user
       const accessToken = 'skeet-access-token'
       const variables = {
-        createUserUid: uid,
-        createUserEmail: email,
-        createUserUsername: displayName || email?.split('@')[0],
-        createUserIconUrl:
+        uid: uid,
+        email: email,
+        username: displayName || email?.split('@')[0],
+        iconUrl:
           photoURL == '' || !photoURL
             ? gravatarIconUrl(email ?? 'info@skeet.dev')
             : photoURL,
@@ -47,7 +47,7 @@ export const authOnCreateUser = functions
       )
 
       // Send Discord message when new user is created
-      const content = `Skeet APP New user: ${variables.createUserUsername} \nemail: ${variables.createUserEmail}\niconUrl: ${variables.createUserIconUrl}`
+      const content = `Skeet APP New user: ${variables.username} \nemail: ${variables.email}\niconUrl: ${variables.iconUrl}`
       if (process.env.NODE_ENV === 'production') {
         await sendDiscord(content)
       }

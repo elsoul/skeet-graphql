@@ -1,5 +1,5 @@
-export const GetVertexChatRoomQuery = `query GetVertexChatRoom($getVertexChatRoomId: String) {
-  getVertexChatRoom(id: $getVertexChatRoomId) {
+export const GetVertexChatRoomQuery = `query GetVertexChatRoom($id: String) {
+  getVertexChatRoom(id: $id) {
     title
     model
     maxTokens

@@ -1,12 +1,12 @@
 export const CreateVertexChatRoomMessageQuery = `mutation CreateChatRoomMessage(
   $role: String
   $content: String
-  $chatRoomId: String
+  $vertexChatRoomId: String
 ) {
-  createChatRoomMessage(
+  createVertexChatRoomMessage(
     role: $role
     content: $content
-    chatRoomId: $chatRoomId
+    vertexChatRoomId: $vertexChatRoomId
   ) {
     id
     role

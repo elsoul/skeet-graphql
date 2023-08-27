@@ -1,5 +1,5 @@
-export const UpdateChatRoomQuery = `mutation UpdateChatRoom($updateChatRoomId: String, $title: String) {
-  updateChatRoom(id: $updateChatRoomId, title: $title) {
+export const UpdateChatRoomQuery = `mutation UpdateChatRoom($id: String, $title: String) {
+  updateChatRoom(id: $id, title: $title) {
     name
     title
   }

@@ -37,7 +37,7 @@ export const createStreamChatMessage = onRequest(
       chatRoomId: req.body.chatRoomId || '',
       content: req.body.content,
     }
-    console.log({ text: 'this is body', body })
+
     if (body.chatRoomId === '') throw new Error('chatRoomId is empty')
 
     // Get User Info from Firebase Auth
@@ -46,7 +46,7 @@ export const createStreamChatMessage = onRequest(
     try {
       // Get ChatRoom Info from GraphQL
       const variables = {
-        getChatRoomId: body.chatRoomId,
+        chatRoomId: body.chatRoomId,
       }
 
       const chatRoom = await skeetGraphql<{ data: { getChatRoom: ChatRoom } }>(

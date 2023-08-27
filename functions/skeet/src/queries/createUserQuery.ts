@@ -1,14 +1,14 @@
 export const CreateUserQuery = `mutation CreateUser(
-  $createUserUid: String
-  $createUserEmail: String
-  $createUserUsername: String
-  $createUserIconUrl: String
+  $uid: String
+  $email: String
+  $username: String
+  $iconUrl: String
 ) {
   createUser(
-    uid: $createUserUid
-    email: $createUserEmail
-    username: $createUserUsername
-    iconUrl: $createUserIconUrl
+    uid: $uid
+    email: $email
+    username: $username
+    iconUrl: $iconUrl
   ) {
     id
     rawId
