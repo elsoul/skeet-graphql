@@ -8,7 +8,7 @@ import {
 import skeetConfig from '../../../skeetOptions.json'
 import { defineSecret } from 'firebase-functions/params'
 import { inspect } from 'util'
-import { CreateUserQuery } from './createUserQuery'
+import { CreateUserQuery } from '@/queries'
 const DISCORD_WEBHOOK_URL = defineSecret('DISCORD_WEBHOOK_URL')
 const SKEET_GRAPHQL_ENDPOINT_URL = defineSecret('SKEET_GRAPHQL_ENDPOINT_URL')
 
