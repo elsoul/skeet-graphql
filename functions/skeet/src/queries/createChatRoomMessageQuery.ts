@@ -1,3 +1,5 @@
+import { ChatRoomMessage } from '@/models'
+
 export const CreateChatRoomMessageQuery = `mutation CreateChatRoomMessage(
   $role: String
   $content: String
@@ -13,3 +15,13 @@ export const CreateChatRoomMessageQuery = `mutation CreateChatRoomMessage(
     content
   }
 }`
+
+export type CreateChatRoomMessageResponse = {
+  data: { createChatRoomMessage: ChatRoomMessage }
+}
+
+export type CreateChatRoomMessageVariables = {
+  role: string
+  content: string
+  chatRoomId: string
+}
