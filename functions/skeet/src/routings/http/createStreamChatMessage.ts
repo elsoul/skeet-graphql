@@ -8,11 +8,16 @@ import { skeetGraphql } from '@skeet-framework/utils'
 import { CreateStreamChatMessageParams } from '@/types'
 import { inspect } from 'util'
 import {
+  CreateChatRoomMessageResponse,
+  CreateChatRoomMessageVariables,
   GetChatRoomMessagesQuery,
+  GetChatRoomMessagesResponse,
+  GetChatRoomMessagesVariables,
+  GetChatRoomResponse,
+  GetChatRoomVariables,
   GetUserChatRoomQuery,
   UpdateChatRoomQuery,
 } from '@/queries'
-import { ChatRoom, ChatRoomMessage } from '@/models'
 import { CreateChatRoomMessageQuery } from '@/queries'
 const chatGptOrg = defineSecret('CHAT_GPT_ORG')
 const chatGptKey = defineSecret('CHAT_GPT_KEY')
@@ -45,11 +50,14 @@ export const createStreamChatMessage = onRequest(
 
     try {
       // Get ChatRoom Info from GraphQL
-      const variables = {
+      const variables: GetChatRoomVariables = {
         chatRoomId: body.chatRoomId,
       }
 
-      const chatRoom = await skeetGraphql<{ data: { getChatRoom: ChatRoom } }>(
+      const chatRoom = await skeetGraphql<
+        GetChatRoomResponse,
+        GetChatRoomVariables
+      >(
         token,
         SKEET_GRAPHQL_ENDPOINT_URL.value(),
         GetUserChatRoomQuery,
@@ -70,14 +78,15 @@ export const createStreamChatMessage = onRequest(
       const openAi = new OpenAI(openAiOptions)
 
       // Create ChatRoomMessage
-      const variables2 = {
+      const variables2: CreateChatRoomMessageVariables = {
         chatRoomId: body.chatRoomId,
         role: 'user',
         content: body.content,
       }
-      const result = await skeetGraphql<{
-        data: { createChatRoomMessage: ChatRoomMessage }
-      }>(
+      const result = await skeetGraphql<
+        CreateChatRoomMessageResponse,
+        CreateChatRoomMessageVariables
+      >(
         token,
         SKEET_GRAPHQL_ENDPOINT_URL.value(),
         CreateChatRoomMessageQuery,
@@ -85,12 +94,13 @@ export const createStreamChatMessage = onRequest(
       )
       console.log(inspect(result, { depth: null }))
 
-      const variables3 = {
+      const variables3: GetChatRoomMessagesVariables = {
         chatRoomId: body.chatRoomId,
       }
-      const chatMessages = await skeetGraphql<{
-        data: { getChatRoomMessages: ChatRoomMessage[] }
-      }>(
+      const chatMessages = await skeetGraphql<
+        GetChatRoomMessagesResponse,
+        GetChatRoomMessagesVariables
+      >(
         token,
         SKEET_GRAPHQL_ENDPOINT_URL.value(),
         GetChatRoomMessagesQuery,

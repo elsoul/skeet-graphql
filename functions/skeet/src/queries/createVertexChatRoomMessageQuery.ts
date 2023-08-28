@@ -1,3 +1,5 @@
+import { VertexChatRoomMessage } from '@/models'
+
 export const CreateVertexChatRoomMessageQuery = `mutation CreateChatRoomMessage(
   $role: String
   $content: String
@@ -13,3 +15,13 @@ export const CreateVertexChatRoomMessageQuery = `mutation CreateChatRoomMessage(
     content
   }
 }`
+
+export type CreateVertexChatRoomMessageResponse = {
+  data: { createVertexChatRoomMessage: VertexChatRoomMessage }
+}
+
+export type CreateVertexChatRoomMessageVariables = {
+  role: string
+  content: string
+  vertexChatRoomId: string
+}
