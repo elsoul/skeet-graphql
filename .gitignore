@@ -43,7 +43,7 @@ keyfile.json
 .firebase
 firebase-debug.log
 firestore.json
-tmp/data
+
 
 graphql/.env*
 *.log
@@ -60,3 +60,6 @@ graphql/.env*
 **/public/workbox-*.js.map
 **/public/worker-*.js.map
 **/public/fallback-*.js
+
+# tmp
+tmp/
