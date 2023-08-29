@@ -26,7 +26,6 @@ import {
   UpdateVertexChatRoomResponse,
   UpdateVertexChatRoomVariables,
 } from '@/queries'
-import { VertexChatRoom, VertexChatRoomExample } from '@/models'
 
 const SKEET_GRAPHQL_ENDPOINT_URL = defineSecret('SKEET_GRAPHQL_ENDPOINT_URL')
 
