@@ -18,7 +18,7 @@
   "defaultSystemContent": "This is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.",
   "systemContent": "AI Character Setting",
   "systemContentErrorText": "Please enter AI character setting in 1000 characters.",
-  "chatGPTCustom": "Chat GPT Custom with API",
+  "vertexAICustom": "Vertex AI (PaLM2) Custom",
   "chatMessageSubmit": "Submit",
   "pleaseRefetch": "Excuse me. Failed to get data. Please try again later.",
   "refetchButton": "Retry",
