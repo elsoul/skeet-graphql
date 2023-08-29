@@ -165,6 +165,7 @@ export const createStreamChatMessage = onRequest(
         CreateChatRoomMessageQuery,
         variables5
       )
+      res.end()
     } catch (error) {
       res.status(500).json({ status: 'error', message: String(error) })
     }

@@ -18,7 +18,7 @@
   "defaultSystemContent": "これはAIアシスタントとの会話です。アシスタントは親切で、創造的で、賢くて、とてもフレンドリーです。",
   "systemContent": "AIのキャラ設定",
   "systemContentErrorText": "AIのキャラ設定を入力してください。(1000文字まで)",
-  "chatGPTCustom": "カスタム Chat GPT with API",
+  "vertexAICustom": "Vertex AI (PaLM2) カスタム",
   "chatMessageSubmit": "送信",
   "pleaseRefetch": "すみません。データ取得に失敗しました。時間をおいて再度取得してください。",
   "refetchButton": "再取得",
