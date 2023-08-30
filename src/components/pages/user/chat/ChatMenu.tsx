@@ -442,7 +442,7 @@ export default function ChatMenu({
                                   render={({ field }) => (
                                     <select
                                       {...field}
-                                      className="w-full border-2 border-gray-900 p-3 text-lg font-bold text-gray-900 dark:border-gray-50 dark:text-white sm:leading-6"
+                                      className="w-full border-2 border-gray-900 p-3 text-lg font-bold text-gray-900 dark:border-gray-50 dark:bg-gray-800 dark:text-white sm:leading-6"
                                     >
                                       {allowedGPTModel.map((model) => (
                                         <option key={model} value={model}>
@@ -471,7 +471,7 @@ export default function ChatMenu({
                                   render={({ field }) => (
                                     <input
                                       {...field}
-                                      className="w-full border-2 border-gray-900 p-3 text-lg font-bold text-gray-900 dark:border-gray-50 dark:text-white sm:leading-6"
+                                      className="w-full border-2 border-gray-900 p-3 text-lg font-bold text-gray-900 dark:border-gray-50 dark:bg-gray-800 dark:text-white sm:leading-6"
                                       type="number"
                                       inputMode="numeric"
                                       onChange={(e) =>
@@ -505,7 +505,7 @@ export default function ChatMenu({
                                       {...field}
                                       type="number"
                                       inputMode="decimal"
-                                      className="w-full border-2 border-gray-900 p-3 text-lg font-bold text-gray-900 dark:border-gray-50 dark:text-white sm:leading-6"
+                                      className="w-full border-2 border-gray-900 p-3 text-lg font-bold text-gray-900 dark:border-gray-50 dark:bg-gray-800 dark:text-white sm:leading-6"
                                       onChange={(e) =>
                                         field.onChange(
                                           e.target.value
@@ -537,7 +537,7 @@ export default function ChatMenu({
                                     <textarea
                                       {...field}
                                       onKeyDown={onKeyDown}
-                                      className="w-full border-2 border-gray-900 p-3 text-lg font-bold text-gray-900 dark:border-gray-50 dark:text-white sm:leading-6"
+                                      className="w-full border-2 border-gray-900 p-3 text-lg font-bold text-gray-900 dark:border-gray-50 dark:bg-gray-800 dark:text-white sm:leading-6"
                                     />
                                   )}
                                 />
