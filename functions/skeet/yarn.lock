@@ -754,10 +754,10 @@
     node-fetch "2.6.9"
     openai "4.2.0"
 
-"@skeet-framework/utils@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@skeet-framework/utils/-/utils-1.2.0.tgz#5de41945b8bee99c69546a3b361eee99657ec876"
-  integrity sha512-jTPpqQlgtD3F2gw9PNb9TejRuJ2wOIB+TRyAElI/lK4bKbvW869awz4ouaaDez/hDKwoj1V0/VyTHKQMtvkzmA==
+"@skeet-framework/utils@1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@skeet-framework/utils/-/utils-1.2.1.tgz#32cf60ac2263ba81622748c862c8938391488a2e"
+  integrity sha512-SMYtt3yyphHo4PCvhdHM6wzI56ULeghrNZtudZ3iGDfOsguNIksIZcSaw10zJTQqX0yqPPAfY/2/UArPg+vCcA==
   dependencies:
     date-fns "2.30.0"
     date-fns-tz "2.0.0"
@@ -1398,11 +1398,6 @@ date-fns-tz@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/date-fns-tz/-/date-fns-tz-2.0.0.tgz#1b14c386cb8bc16fc56fe333d4fc34ae1d1099d5"
   integrity sha512-OAtcLdB9vxSXTWHdT8b398ARImVwQMyjfYGkKD2zaGpHseG2UPHbHjXELReErZFxWdSLph3c2zOaaTyHfOhERQ==
-
-date-fns@2.29.3:
-  version "2.29.3"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.29.3.tgz#27402d2fc67eb442b511b70bbdf98e6411cd68a8"
-  integrity sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==
 
 date-fns@2.30.0:
   version "2.30.0"

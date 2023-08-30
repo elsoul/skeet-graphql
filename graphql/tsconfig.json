@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "CommonJS",
+    "module": "NodeNext",
     "outDir": "./dist",
     "rootDir": ".",
     "strict": true,
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
     "baseUrl": ".",
     "esModuleInterop": true,
     "experimentalDecorators": true,
