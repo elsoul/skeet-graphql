@@ -1,5 +1,5 @@
 import * as functions from 'firebase-functions/v1'
-import { authPublicOption } from '@/routings'
+import { authPublicOption } from '@/routings/options'
 import {
   gravatarIconUrl,
   sendDiscord,
