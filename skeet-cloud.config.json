@@ -8,7 +8,6 @@
     "appDomain": "skeet.dev",
     "nsDomain": "skeet.dev",
     "lbDomain": "sql.skeet.dev",
-    "functionsDomain": "sql.skeet.dev",
     "hasLoadBalancer": true
   },
   "cloudRun": {
