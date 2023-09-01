@@ -9,6 +9,7 @@
     "shell": "yarn build && firebase functions:shell",
     "start": "node dist/index.js",
     "deploy": "firebase deploy --only functions",
+    "nodemon": "npx ts-node devBuild.ts && node ./dist/index.js",
     "logs": "firebase functions:log",
     "update:packages": "ncu -u && yarn"
   },
