@@ -63,3 +63,4 @@ graphql/.env*
 
 # tmp
 tmp/
+firebase-export-*
