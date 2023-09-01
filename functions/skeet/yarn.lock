@@ -917,10 +917,10 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-5.6.0.tgz#41dd6093d34652cddb5d5bdeee04eafc33826668"
   integrity sha512-TV7t8GKYaJWsn00tFDqBw8+Uqmr8A0fRU1tvTQhyZzGv0sJCGRQL3JGMI3ucuKo3XIZdUP+Lx7/gh2t3lewy7g==
 
-"@skeet-framework/ai@1.4.11":
-  version "1.4.11"
-  resolved "https://registry.yarnpkg.com/@skeet-framework/ai/-/ai-1.4.11.tgz#4a3db1e7072b6108b9cc922e265830abba9b7823"
-  integrity sha512-U8xEu6wcgUhhkV8aHPOVa6dweg9vDa0uSgO6yrj5UVx2RnJWyi1DuayvFUbK/WULictAzhwQMGlrSeuBKdF5Wg==
+"@skeet-framework/ai@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@skeet-framework/ai/-/ai-1.5.0.tgz#f404177b405288ffa2d9207023b8b312f6f15b78"
+  integrity sha512-YFG3wADRCgdamzNM/NO+Ss26fyXFN8Fhy55VvpqTfAxBynUv9FW6kV5sVHJ5sT6+c+sBZfatMZ/q23XDOAZaHQ==
   dependencies:
     "@google-cloud/aiplatform" "2.17.0"
     "@google-cloud/translate" "7.2.2"
