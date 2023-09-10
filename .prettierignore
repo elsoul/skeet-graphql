@@ -7,3 +7,4 @@ src/__generated__
 src/schema.graphql
 web-build
 tmp
+nexus-typegen.ts
