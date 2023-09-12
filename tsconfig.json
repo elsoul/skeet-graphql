@@ -26,7 +26,13 @@
       "module": "NodeNext"
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "build.ts",
+    "devBuild.ts"
+  ],
   "exclude": [
     "node_modules",
     "out",

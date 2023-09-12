@@ -17,7 +17,7 @@ if (SkeetEnv === 'development')
 
 export const loginSeed = async (
   email = 'elsoul-labo@example.com',
-  password = 'password'
+  password = 'password',
 ) => {
   let loginUserCredential: any
   try {
@@ -25,13 +25,13 @@ export const loginSeed = async (
     loginUserCredential = await signInWithEmailAndPassword(
       auth,
       email,
-      password
+      password,
     )
   } catch (error) {
     loginUserCredential = await signInWithEmailAndPassword(
       auth,
       email,
-      password
+      password,
     )
   }
 
@@ -51,4 +51,4 @@ const run = async () => {
   await loginSeed()
 }
 
-run()
+void run()

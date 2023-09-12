@@ -289,9 +289,9 @@ export default function VertexChatMenu({
   )
 
   const onKeyDown = useCallback(
-    (event: KeyboardEvent) => {
+    async (event: KeyboardEvent) => {
       if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
-        handleSubmit(onSubmit)()
+        await handleSubmit(onSubmit)()
       }
     },
     [handleSubmit, onSubmit]

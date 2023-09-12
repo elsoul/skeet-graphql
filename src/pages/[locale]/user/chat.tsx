@@ -36,7 +36,7 @@ export default function Chat() {
     useQueryLoader<ChatScreenQuery>(chatScreenQuery)
 
   useEffect(() => {
-    ;(async () => {
+    void (async () => {
       await sleep(250)
       loadQuery({
         first: 15,

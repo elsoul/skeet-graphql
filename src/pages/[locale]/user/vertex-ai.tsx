@@ -37,7 +37,7 @@ export default function VertexAi() {
   )
 
   useEffect(() => {
-    ;(async () => {
+    void (async () => {
       await sleep(250)
       loadQuery({
         first: 15,
