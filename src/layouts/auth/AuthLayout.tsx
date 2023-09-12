@@ -39,10 +39,14 @@ export default function AuthLayout({ children }: Props) {
     }
   }, [])
   useEffect(() => {
-    ;(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 100))
-      if (!router.asPath.includes('#')) {
-        resetWindowScrollPosition()
+    void (async () => {
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 100))
+        if (!router.asPath.includes('#')) {
+          resetWindowScrollPosition()
+        }
+      } catch (e) {
+        console.error(e)
       }
     })()
   }, [router.asPath, resetWindowScrollPosition])
@@ -66,10 +70,10 @@ export default function AuthLayout({ children }: Props) {
             iconUrl: user.me.iconUrl ?? '',
             emailVerified: fbUser.emailVerified,
           })
-          router.push('/user/vertex-ai')
+          await router.push('/user/vertex-ai')
         } else {
           setUser(defaultUser)
-          signOut(auth)
+          await signOut(auth)
         }
       } else {
         setUser(defaultUser)

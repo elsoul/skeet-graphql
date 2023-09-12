@@ -30,7 +30,13 @@
       "module": "NodeNext"
     }
   },
-  "include": ["src/**/*", "prisma/**/*", "test/**/*"],
+  "include": [
+    "src/**/*",
+    "prisma/**/*",
+    "tests/**/*",
+    "build.ts",
+    "devBuild.ts"
+  ],
   "exclude": ["node_modules"],
   "compileOnSave": true
 }
