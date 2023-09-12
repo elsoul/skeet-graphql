@@ -39,7 +39,7 @@ declare global {
 
 
 declare global {
-  type NexusGen = NexusGenTypes
+  interface NexusGen extends NexusGenTypes {}
 }
 
 export interface NexusGenInputs {
