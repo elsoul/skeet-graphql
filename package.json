@@ -27,7 +27,10 @@
     "deploy": "yarn build && npx firebase deploy --only hosting",
     "deploy:rules": "npx firebase deploy --only firestore:rules,storage",
     "check:webapp": "npx serve web-build",
-    "send:sitemap": "npx ts-node -r tsconfig-paths/register --transpile-only ./scripts/sendSitemap.ts"
+    "send:sitemap": "npx ts-node -r tsconfig-paths/register --transpile-only ./scripts/sendSitemap.ts",
+    "docker:build": "cd ./graphql && docker build -f Dockerfile.dev -t skeet-graphql .",
+    "docker:run": "docker run -p 3000:3000 --env-file ./graphql/.env -d --rm --name skeet-graphql skeet-graphql",
+    "docker:rm": "docker rm -f skeet-graphql"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "6.4.0",

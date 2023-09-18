@@ -11,6 +11,7 @@
     "test": "jest --coverage=false --detectOpenHandles --maxWorkers=1",
     "update:packages": "ncu -u && yarn",
     "build": "npx ts-node build.ts",
+    "devBuild": "npx ts-node devBuild.ts",
     "publish": "npm publish",
     "s": "npx ts-node -r tsconfig-paths/register --transpile-only src/index.ts hey",
     "nodemon": "yarn s && npx ts-node devBuild.ts && node ./dist/index.js",
