@@ -47,7 +47,7 @@
         "prettier"
       ],
       "parserOptions": {
-        "project": "./functions/skeet/tsconfig.json",
+        "project": "./skeet/tsconfig.json",
         "sourceType": "module",
         "ecmaVersion": "latest"
       },
@@ -84,7 +84,7 @@
         "prettier"
       ],
       "parserOptions": {
-        "project": "./graphql/tsconfig.json",
+        "project": "./tsconfig.json",
         "sourceType": "module",
         "ecmaVersion": "latest"
       },
