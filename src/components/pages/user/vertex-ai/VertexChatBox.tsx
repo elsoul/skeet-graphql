@@ -337,9 +337,9 @@ export default function ChatBox({
   )
 
   const onKeyDown = useCallback(
-    (event: KeyboardEvent) => {
+    async (event: KeyboardEvent) => {
       if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
-        handleSubmit(onSubmit)()
+        await handleSubmit(onSubmit)()
       }
     },
     [handleSubmit, onSubmit]
@@ -366,17 +366,30 @@ export default function ChatBox({
           >
             <div className={clsx('bg-gray-50 dark:bg-gray-800', 'w-full p-4')}>
               <div className="mx-auto flex w-full max-w-3xl flex-row items-start justify-start gap-4 p-4 sm:p-6 md:gap-6">
-                <Image
-                  src={
-                    'https://storage.googleapis.com/skeet-assets/imgs/bdlc/Bison.png'
-                  }
-                  alt="Bison icon"
-                  className="my-3 aspect-square h-6 w-6 rounded-full sm:h-10 sm:w-10"
-                  unoptimized
-                  width={40}
-                  height={40}
-                />
-
+                {chatRoom?.model === 'chat-bison@001' && (
+                  <Image
+                    src={
+                      'https://storage.googleapis.com/skeet-assets/imgs/bdlc/Bison.png'
+                    }
+                    alt="Bison icon"
+                    className="my-3 aspect-square h-6 w-6 rounded-full sm:h-10 sm:w-10"
+                    unoptimized
+                    width={40}
+                    height={40}
+                  />
+                )}
+                {chatRoom?.model === 'chat-bison-32k' && (
+                  <Image
+                    src={
+                      'https://storage.googleapis.com/skeet-assets/imgs/bdlc/Bison32k.png'
+                    }
+                    alt="Bison icon"
+                    className="my-3 aspect-square h-6 w-6 rounded-full sm:h-10 sm:w-10"
+                    unoptimized
+                    width={40}
+                    height={40}
+                  />
+                )}
                 <div className="flex w-full flex-col">
                   <div className="pb-2">
                     <p className="text-base font-bold text-gray-900 dark:text-white">
@@ -426,12 +439,26 @@ export default function ChatBox({
                       height={40}
                     />
                   )}
-                  {(chatMessage.role === 'assistant' ||
+                  {(chatMessage.role === 'ai' ||
                     chatMessage.role === 'system') &&
                     chatRoom?.model === 'chat-bison@001' && (
                       <Image
                         src={
                           'https://storage.googleapis.com/skeet-assets/imgs/bdlc/Bison.png'
+                        }
+                        alt="Bison icon"
+                        className="my-3 aspect-square h-6 w-6 rounded-full sm:h-10 sm:w-10"
+                        unoptimized
+                        width={40}
+                        height={40}
+                      />
+                    )}
+                  {(chatMessage.role === 'ai' ||
+                    chatMessage.role === 'system') &&
+                    chatRoom?.model === 'chat-bison-32k' && (
+                      <Image
+                        src={
+                          'https://storage.googleapis.com/skeet-assets/imgs/bdlc/Bison32k.png'
                         }
                         alt="Bison icon"
                         className="my-3 aspect-square h-6 w-6 rounded-full sm:h-10 sm:w-10"
