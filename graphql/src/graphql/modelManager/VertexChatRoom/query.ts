@@ -2,6 +2,8 @@ import { extendType, nonNull, stringArg } from 'nexus'
 import { connectionFromArray } from 'graphql-relay'
 import { VertexChatRoom } from 'nexus-prisma'
 import { toPrismaId } from '@/lib/toPrismaId'
+import { CurrentUser } from '@/index'
+import { UserVertexChatRoom } from '@prisma/client'
 
 export const VertexChatRoomsQuery = extendType({
   type: 'Query',
@@ -9,9 +11,27 @@ export const VertexChatRoomsQuery = extendType({
     t.connectionField('vertexChatRoomConnection', {
       type: VertexChatRoom.$name,
       async resolve(_, args, ctx, info) {
+        const user: CurrentUser = ctx.user
+        const userChatRooms = await ctx.prisma.userVertexChatRoom.findMany({
+          where: {
+            userId: toPrismaId(user.id),
+          },
+        })
+        const chatRoomIds = userChatRooms.map(
+          (userChatRoom: UserVertexChatRoom) => userChatRoom.vertexChatRoomId,
+        )
         return connectionFromArray(
-          await ctx.prisma.vertexChatRoom.findMany(),
-          args
+          await ctx.prisma.vertexChatRoom.findMany({
+            where: {
+              id: {
+                in: chatRoomIds,
+              },
+            },
+            orderBy: {
+              createdAt: 'desc',
+            },
+          }),
+          args,
         )
       },
       extendConnection(t) {

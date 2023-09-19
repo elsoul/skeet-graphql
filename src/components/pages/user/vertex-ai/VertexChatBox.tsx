@@ -174,6 +174,7 @@ export default function ChatBox({
   useEffect(() => {
     getChatRoom()
   }, [getChatRoom])
+  console.log(data)
 
   const [isSending, setSending] = useState(false)
 
@@ -440,7 +441,8 @@ export default function ChatBox({
                     />
                   )}
                   {(chatMessage.role === 'ai' ||
-                    chatMessage.role === 'system') &&
+                    chatMessage.role === 'system' ||
+                    chatMessage.role === 'assistant') &&
                     chatRoom?.model === 'chat-bison@001' && (
                       <Image
                         src={
@@ -454,7 +456,8 @@ export default function ChatBox({
                       />
                     )}
                   {(chatMessage.role === 'ai' ||
-                    chatMessage.role === 'system') &&
+                    chatMessage.role === 'system' ||
+                    chatMessage.role === 'assistant') &&
                     chatRoom?.model === 'chat-bison-32k' && (
                       <Image
                         src={
