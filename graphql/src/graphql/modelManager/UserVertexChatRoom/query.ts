@@ -11,7 +11,7 @@ export const UserVertexChatRoomsQuery = extendType({
       async resolve(_, args, ctx, info) {
         return connectionFromArray(
           await ctx.prisma.userVertexChatRoom.findMany(),
-          args
+          args,
         )
       },
       extendConnection(t) {
