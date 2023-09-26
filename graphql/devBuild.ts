@@ -4,12 +4,19 @@ void (async () => {
     entryPoints: ['./src/index.ts'],
     bundle: true,
     minify: true,
+    keepNames: true,
+    sourcemap: 'inline',
+    sourcesContent: true,
     outfile: './dist/index.js',
     platform: 'node',
+    format: 'cjs',
     define: {
       'process.env.NODE_ENV': `"development"`,
     },
-    format: 'cjs',
+    metafile: true,
+    alias: {
+      '@': './src',
+    },
     external: ['graphql', '@prisma/client'],
   })
 })()
