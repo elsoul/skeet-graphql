@@ -925,10 +925,10 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-5.6.0.tgz#41dd6093d34652cddb5d5bdeee04eafc33826668"
   integrity sha512-TV7t8GKYaJWsn00tFDqBw8+Uqmr8A0fRU1tvTQhyZzGv0sJCGRQL3JGMI3ucuKo3XIZdUP+Lx7/gh2t3lewy7g==
 
-"@skeet-framework/ai@1.7.1":
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/@skeet-framework/ai/-/ai-1.7.1.tgz#00d079b7718d388777c3daee9baf56e9ccf03e3a"
-  integrity sha512-vEeBAbVP2yT2up4VVHBpy4MeFmJtb4cpolxUOaP9yIvvMGNxSgXKwxhJbptoabrzRBs+hKhzKh8D7PcBOO8s4A==
+"@skeet-framework/ai@1.7.2":
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/@skeet-framework/ai/-/ai-1.7.2.tgz#f08187ef4aa034e5d0d45e56a7d6a36455b89299"
+  integrity sha512-zACVbqP9jythCbJ1/UrBoSG+Rsf7Mwa4f6Xj9VHeGjR4YFvVI1iBi9331faX4v8hnbywMrq/t9YS+g+VM8aNFw==
   dependencies:
     "@google-cloud/aiplatform" "2.17.0"
     "@google-cloud/translate" "7.2.2"
@@ -938,7 +938,7 @@
     openai "4.2.0"
     pako "2.1.0"
 
-"@skeet-framework/utils@1.2.1":
+"@skeet-framework/utils@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@skeet-framework/utils/-/utils-1.2.1.tgz#32cf60ac2263ba81622748c862c8938391488a2e"
   integrity sha512-SMYtt3yyphHo4PCvhdHM6wzI56ULeghrNZtudZ3iGDfOsguNIksIZcSaw10zJTQqX0yqPPAfY/2/UArPg+vCcA==
