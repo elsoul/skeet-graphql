@@ -966,6 +966,13 @@
   dependencies:
     regenerator-runtime "^0.13.11"
 
+"@babel/runtime@^7.18.9":
+  version "7.23.1"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.1.tgz#72741dc4d413338a91dcb044a86f3c0bc402646d"
+  integrity sha512-hC2v6p8ZSI/W0HUzh3V8C5g+NwSKzKPtJwSpTjwl0o297GP9+ZLQSkdvHz46CM3LqyoXxq+5G9komY+eSqSO0g==
+  dependencies:
+    regenerator-runtime "^0.14.0"
+
 "@babel/template@^7.22.5", "@babel/template@^7.3.3":
   version "7.22.5"
   resolved "https://registry.npmjs.org/@babel/template/-/template-7.22.5.tgz"
@@ -2193,6 +2200,19 @@
   resolved "https://registry.npmjs.org/@protobufjs/utf8/-/utf8-1.1.0.tgz"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
+"@remark-embedder/core@3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@remark-embedder/core/-/core-3.0.2.tgz#a969e4515132fdce3c5954f2dc000256848547f5"
+  integrity sha512-E+nmYJHh5yRptPH6MFzxyzKoeAuG12rjAl+x0sIcyDxy8L9Dymec8QZoX75J1aaigKyStURhtW7trZwFtHoN0Q==
+  dependencies:
+    "@babel/runtime" "^7.18.9"
+    "@types/hast" "^2.3.4"
+    "@types/mdast" "^3.0.10"
+    hast-util-from-parse5 "^7.1.0"
+    parse5 "^7.0.0"
+    unified "^10.1.2"
+    unist-util-visit "^4.1.0"
+
 "@rollup/plugin-babel@^5.2.0":
   version "5.3.1"
   resolved "https://registry.npmjs.org/@rollup/plugin-babel/-/plugin-babel-5.3.1.tgz"
@@ -2440,6 +2460,13 @@
   dependencies:
     "@types/unist" "^2"
 
+"@types/hast@^2.3.4":
+  version "2.3.6"
+  resolved "https://registry.yarnpkg.com/@types/hast/-/hast-2.3.6.tgz#bb8b05602112a26d22868acb70c4b20984ec7086"
+  integrity sha512-47rJE80oqPmFdVDCD7IheXBrVdwuBgsYwoczFvKmwfo2Mzsnt+V9OONsYauFmICb6lQPpCuXYJWejBNs4pDJRg==
+  dependencies:
+    "@types/unist" "^2"
+
 "@types/hoist-non-react-statics@^3.3.1":
   version "3.3.1"
   resolved "https://registry.npmjs.org/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz"
@@ -2512,6 +2539,13 @@
   version "3.0.12"
   resolved "https://registry.npmjs.org/@types/mdast/-/mdast-3.0.12.tgz"
   integrity sha512-DT+iNIRNX884cx0/Q1ja7NyUPpZuv0KPyL5rGNxm1WC1OtHstl7n4Jb7nk+xacNShQMbczJjt8uFzznpp6kYBg==
+  dependencies:
+    "@types/unist" "^2"
+
+"@types/mdast@^3.0.10":
+  version "3.0.13"
+  resolved "https://registry.yarnpkg.com/@types/mdast/-/mdast-3.0.13.tgz#b7ba6e52d0faeb9c493e32c205f3831022be4e1b"
+  integrity sha512-HjiGiWedR0DVFkeNljpa6Lv4/IZU1+30VY5d747K7lBudFc3R0Ibr6yJ9lN3BE28VnZyDfLF/VB1Ql1ZIbKrmg==
   dependencies:
     "@types/unist" "^2"
 
@@ -4661,7 +4695,7 @@ enhanced-resolve@^5.0.0, enhanced-resolve@^5.12.0:
     graceful-fs "^4.2.4"
     tapable "^2.2.0"
 
-entities@^4.2.0:
+entities@^4.2.0, entities@^4.4.0:
   version "4.5.0"
   resolved "https://registry.npmjs.org/entities/-/entities-4.5.0.tgz"
   integrity sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==
@@ -6236,7 +6270,7 @@ hast-util-embedded@^2.0.0:
   dependencies:
     hast-util-is-element "^2.0.0"
 
-hast-util-from-parse5@^7.0.0:
+hast-util-from-parse5@^7.0.0, hast-util-from-parse5@^7.1.0:
   version "7.1.2"
   resolved "https://registry.npmjs.org/hast-util-from-parse5/-/hast-util-from-parse5-7.1.2.tgz"
   integrity sha512-Nz7FfPBuljzsN3tCQ4kCBKqdNhQE2l0Tn+X1ubgKBPRoiDIu1mL08Cfw4k7q71+Duyaw7DXDN+VTAp4Vh3oCOw==
@@ -9661,6 +9695,13 @@ parse5@^6.0.0:
   resolved "https://registry.npmjs.org/parse5/-/parse5-6.0.1.tgz"
   integrity sha512-Ofn/CTFzRGTTxwpNEs9PP93gXShHcTq255nzRYSKe8AkVpZY7e1fpmTfOyoIvjP5HG7Z2ZM7VS9PPhQGW2pOpw==
 
+parse5@^7.0.0:
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/parse5/-/parse5-7.1.2.tgz#0736bebbfd77793823240a23b7fc5e010b7f8e32"
+  integrity sha512-Czj1WaSVpaoj0wbhMzLmWD69anp2WH7FXMB9n1Sy8/ZFF9jolSQVMu1Ij5WIyGmcBmhk7EOndpO4mIpihVqAXw==
+  dependencies:
+    entities "^4.4.0"
+
 parseurl@~1.3.3:
   version "1.3.3"
   resolved "https://registry.npmjs.org/parseurl/-/parseurl-1.3.3.tgz"
@@ -10599,6 +10640,11 @@ regenerator-runtime@0.13.11, regenerator-runtime@^0.13.11, regenerator-runtime@^
   version "0.13.11"
   resolved "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.13.11.tgz"
   integrity sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==
+
+regenerator-runtime@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.14.0.tgz#5e19d68eb12d486f797e15a3c6a918f7cec5eb45"
+  integrity sha512-srw17NI0TUWHuGa5CFGGmhfNIeja30WMBfbslPNhf6JrqQlLN5gcrvig1oqPxiVaXb0oW0XRKtH6Nngs5lKCIA==
 
 regenerator-transform@^0.15.1:
   version "0.15.1"
@@ -12260,7 +12306,7 @@ unicode-property-aliases-ecmascript@^2.0.0:
   resolved "https://registry.npmjs.org/unicode-property-aliases-ecmascript/-/unicode-property-aliases-ecmascript-2.1.0.tgz"
   integrity sha512-6t3foTQI9qne+OZoVQB/8x8rk2k1eVy1gRXhV3oFQ5T6R1dqQ1xtin3XqSlx3+ATBkliTaR/hHyJBm+LVPNM8w==
 
-unified@10.1.2, unified@^10.0.0:
+unified@10.1.2, unified@^10.0.0, unified@^10.1.2:
   version "10.1.2"
   resolved "https://registry.npmjs.org/unified/-/unified-10.1.2.tgz"
   integrity sha512-pUSWAi/RAnVy1Pif2kAoeWNBa3JVrx0MId2LASj8G+7AiHWoKZNTomq6LG326T68U7/e263X6fTdcXIy7XnF7Q==
@@ -12343,7 +12389,7 @@ unist-util-visit-parents@^5.0.0, unist-util-visit-parents@^5.1.1, unist-util-vis
     "@types/unist" "^2.0.0"
     unist-util-is "^5.0.0"
 
-unist-util-visit@^4.0.0, unist-util-visit@~4.1.2:
+unist-util-visit@^4.0.0, unist-util-visit@^4.1.0, unist-util-visit@~4.1.2:
   version "4.1.2"
   resolved "https://registry.npmjs.org/unist-util-visit/-/unist-util-visit-4.1.2.tgz"
   integrity sha512-MSd8OUGISqHdVvfY9TPhyK2VdUrPgxkUtWSuMHF6XAAFuL4LokseigBnZtPnJMu+FbynTkFNnFlyjxpVKujMRg==
