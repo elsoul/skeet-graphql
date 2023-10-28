@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<48fdb0e9e010524374d4787d4151630b>>
+ * @generated SignedSource<<cd3050d38e32d5f16ef590334c7d5ba6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,13 +10,13 @@
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type EditUserIconUrlMutation$variables = {
-  iconUrl?: string | null;
-  id?: string | null;
+  iconUrl?: string | null | undefined;
+  id?: string | null | undefined;
 };
 export type EditUserIconUrlMutation$data = {
   readonly updateUser: {
-    readonly iconUrl: string | null;
-  } | null;
+    readonly iconUrl: string | null | undefined;
+  } | null | undefined;
 };
 export type EditUserIconUrlMutation = {
   response: EditUserIconUrlMutation$data;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<dcb05d40e102723b806e5f0ef77f92ae>>
+ * @generated SignedSource<<8ce1a5f3029461f90e4fdffbb0cfc7b8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,49 +11,49 @@
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type VertexChatBoxQuery$variables = {
-  after?: string | null;
-  before?: string | null;
-  chatRoomId?: string | null;
-  first?: number | null;
-  last?: number | null;
+  after?: string | null | undefined;
+  before?: string | null | undefined;
+  chatRoomId?: string | null | undefined;
+  first?: number | null | undefined;
+  last?: number | null | undefined;
 };
 export type VertexChatBoxQuery$data = {
   readonly getVertexChatRoom: {
     readonly VertexChatRoomExample: ReadonlyArray<{
-      readonly id: string | null;
-    } | null> | null;
+      readonly id: string | null | undefined;
+    } | null | undefined> | null | undefined;
     readonly VertexChatRoomMessage: ReadonlyArray<{
       readonly content: string;
-      readonly id: string | null;
-    } | null> | null;
+      readonly id: string | null | undefined;
+    } | null | undefined> | null | undefined;
     readonly context: string;
     readonly createdAt: any;
-    readonly id: string | null;
+    readonly id: string | null | undefined;
     readonly maxTokens: number;
     readonly model: string;
     readonly temperature: number;
-    readonly title: string | null;
+    readonly title: string | null | undefined;
     readonly topK: number;
     readonly topP: number;
     readonly updatedAt: any;
-  } | null;
+  } | null | undefined;
   readonly getVertexChatRoomMessages: {
     readonly edges: ReadonlyArray<{
       readonly node: {
         readonly content: string;
         readonly createdAt: any;
-        readonly id: string | null;
+        readonly id: string | null | undefined;
         readonly role: string;
         readonly updatedAt: any;
-      } | null;
-    } | null> | null;
+      } | null | undefined;
+    } | null | undefined> | null | undefined;
     readonly nodes: ReadonlyArray<{
-      readonly id: string | null;
-    } | null> | null;
+      readonly id: string | null | undefined;
+    } | null | undefined> | null | undefined;
     readonly pageInfo: {
       readonly hasNextPage: boolean;
     };
-  } | null;
+  } | null | undefined;
   readonly " $fragmentSpreads": FragmentRefs<"VertexChatExamples_query">;
 };
 export type VertexChatBoxQuery = {

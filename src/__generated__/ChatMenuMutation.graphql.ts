@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<21fca908d2835069b73d5a77b0860349>>
+ * @generated SignedSource<<c997931b2e77352ce737acb2c0f6647c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,16 +10,16 @@
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type ChatMenuMutation$variables = {
-  maxTokens?: number | null;
-  model?: string | null;
-  stream?: boolean | null;
-  systemContent?: string | null;
-  temperature?: number | null;
+  maxTokens?: number | null | undefined;
+  model?: string | null | undefined;
+  stream?: boolean | null | undefined;
+  systemContent?: string | null | undefined;
+  temperature?: number | null | undefined;
 };
 export type ChatMenuMutation$data = {
   readonly createChatRoom: {
-    readonly id: string | null;
-  } | null;
+    readonly id: string | null | undefined;
+  } | null | undefined;
 };
 export type ChatMenuMutation = {
   response: ChatMenuMutation$data;
