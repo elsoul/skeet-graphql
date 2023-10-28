@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5898c85468e0d567700536aaa73190ba>>
+ * @generated SignedSource<<e310eb19ecec4b1b0586fad5444c4d62>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,18 +10,18 @@
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type VertexChatMenuMutation$variables = {
-  isShared?: boolean | null;
-  maxTokens?: number | null;
-  model?: string | null;
-  systemContent?: string | null;
-  temperature?: number | null;
-  topK?: number | null;
-  topP?: number | null;
+  isShared?: boolean | null | undefined;
+  maxTokens?: number | null | undefined;
+  model?: string | null | undefined;
+  systemContent?: string | null | undefined;
+  temperature?: number | null | undefined;
+  topK?: number | null | undefined;
+  topP?: number | null | undefined;
 };
 export type VertexChatMenuMutation$data = {
   readonly createVertexChatRoom: {
-    readonly id: string | null;
-  } | null;
+    readonly id: string | null | undefined;
+  } | null | undefined;
 };
 export type VertexChatMenuMutation = {
   response: VertexChatMenuMutation$data;

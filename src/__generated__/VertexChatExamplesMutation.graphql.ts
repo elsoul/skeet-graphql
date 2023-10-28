@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<040dcb1345e142d8fe9595388aa3da1a>>
+ * @generated SignedSource<<cbf633d68632cf9f4bfd01df05ace260>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,18 +10,18 @@
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type VertexChatRoomExampleUpsertInput = {
-  id?: string | null;
-  input?: string | null;
-  output?: string | null;
-  vertexChatRoomId?: string | null;
+  id?: string | null | undefined;
+  input?: string | null | undefined;
+  output?: string | null | undefined;
+  vertexChatRoomId?: string | null | undefined;
 };
 export type VertexChatExamplesMutation$variables = {
-  input?: ReadonlyArray<VertexChatRoomExampleUpsertInput | null> | null;
+  input?: ReadonlyArray<VertexChatRoomExampleUpsertInput | null | undefined> | null | undefined;
 };
 export type VertexChatExamplesMutation$data = {
   readonly upsertVertexChatRoomExamples: ReadonlyArray<{
-    readonly id: string | null;
-  } | null> | null;
+    readonly id: string | null | undefined;
+  } | null | undefined> | null | undefined;
 };
 export type VertexChatExamplesMutation = {
   response: VertexChatExamplesMutation$data;

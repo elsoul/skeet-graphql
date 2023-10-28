@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e903c28b3df747cbfc3bb414d6d76565>>
+ * @generated SignedSource<<ed3c57984394fd49c59cb42c824ffd9a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,11 +11,11 @@
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type VertexChatExamplesQuery$variables = {
-  after?: string | null;
-  before?: string | null;
-  chatRoomId?: string | null;
-  first?: number | null;
-  last?: number | null;
+  after?: string | null | undefined;
+  before?: string | null | undefined;
+  chatRoomId?: string | null | undefined;
+  first?: number | null | undefined;
+  last?: number | null | undefined;
 };
 export type VertexChatExamplesQuery$data = {
   readonly " $fragmentSpreads": FragmentRefs<"VertexChatExamples_query">;
