@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<72f1370448f8d370abb02ba09416fadf>>
+ * @generated SignedSource<<98a5897ff2b182f6a2b7734d5c1d41b8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,10 +11,10 @@
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ChatMenuPaginationQuery$variables = {
-  after?: string | null;
-  before?: string | null;
-  first?: number | null;
-  last?: number | null;
+  after?: string | null | undefined;
+  before?: string | null | undefined;
+  first?: number | null | undefined;
+  last?: number | null | undefined;
 };
 export type ChatMenuPaginationQuery$data = {
   readonly " $fragmentSpreads": FragmentRefs<"ChatMenu_query">;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7fb1d1c8f0bce595bbb72c2c69ec059c>>
+ * @generated SignedSource<<ca64f0edfd9f24923f80b8492c52c704>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,26 +15,26 @@ export type VertexChatMenu_query$data = {
     readonly edges: ReadonlyArray<{
       readonly node: {
         readonly createdAt: any;
-        readonly id: string | null;
+        readonly id: string | null | undefined;
         readonly maxTokens: number;
         readonly model: string;
         readonly temperature: number;
-        readonly title: string | null;
+        readonly title: string | null | undefined;
         readonly topK: number;
         readonly topP: number;
         readonly updatedAt: any;
-      } | null;
-    } | null> | null;
+      } | null | undefined;
+    } | null | undefined> | null | undefined;
     readonly nodes: ReadonlyArray<{
-      readonly id: string | null;
-    } | null> | null;
+      readonly id: string | null | undefined;
+    } | null | undefined> | null | undefined;
     readonly pageInfo: {
-      readonly endCursor: string | null;
+      readonly endCursor: string | null | undefined;
       readonly hasNextPage: boolean;
       readonly hasPreviousPage: boolean;
-      readonly startCursor: string | null;
+      readonly startCursor: string | null | undefined;
     };
-  } | null;
+  } | null | undefined;
   readonly " $fragmentType": "VertexChatMenu_query";
 };
 export type VertexChatMenu_query$key = {

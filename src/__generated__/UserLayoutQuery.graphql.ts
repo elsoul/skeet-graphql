@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2fc14e63a558798ffea3c8a2d7ca5914>>
+ * @generated SignedSource<<de516ac6dbc2f3b45bdc176935a9b75b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,13 +9,13 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
-export type UserLayoutQuery$variables = {};
+export type UserLayoutQuery$variables = Record<PropertyKey, never>;
 export type UserLayoutQuery$data = {
   readonly me: {
-    readonly iconUrl: string | null;
-    readonly id: string | null;
-    readonly username: string | null;
-  } | null;
+    readonly iconUrl: string | null | undefined;
+    readonly id: string | null | undefined;
+    readonly username: string | null | undefined;
+  } | null | undefined;
 };
 export type UserLayoutQuery = {
   response: UserLayoutQuery$data;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f179f70740f893f3da4113b5dd14d511>>
+ * @generated SignedSource<<0817d5ad10a5eb049a07ab1b144fdecd>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,13 +10,13 @@
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type EditUserProfileMutation$variables = {
-  id?: string | null;
-  username?: string | null;
+  id?: string | null | undefined;
+  username?: string | null | undefined;
 };
 export type EditUserProfileMutation$data = {
   readonly updateUser: {
-    readonly username: string | null;
-  } | null;
+    readonly username: string | null | undefined;
+  } | null | undefined;
 };
 export type EditUserProfileMutation = {
   response: EditUserProfileMutation$data;

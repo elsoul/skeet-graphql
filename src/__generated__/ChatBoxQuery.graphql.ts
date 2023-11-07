@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7c55be7e9a31b348661fac96664af338>>
+ * @generated SignedSource<<ad05be9de1509df42cd037c477deb81c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,8 +10,8 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type ChatBoxQuery$variables = {
-  chatRoomId?: string | null;
-  first?: number | null;
+  chatRoomId?: string | null | undefined;
+  first?: number | null | undefined;
 };
 export type ChatBoxQuery$data = {
   readonly chatRoomMessageConnection: {
@@ -19,27 +19,27 @@ export type ChatBoxQuery$data = {
       readonly node: {
         readonly content: string;
         readonly createdAt: any;
-        readonly id: string | null;
+        readonly id: string | null | undefined;
         readonly role: string;
         readonly updatedAt: any;
-      } | null;
-    } | null> | null;
+      } | null | undefined;
+    } | null | undefined> | null | undefined;
     readonly nodes: ReadonlyArray<{
-      readonly id: string | null;
-    } | null> | null;
+      readonly id: string | null | undefined;
+    } | null | undefined> | null | undefined;
     readonly pageInfo: {
       readonly hasNextPage: boolean;
     };
-  } | null;
+  } | null | undefined;
   readonly getChatRoom: {
     readonly createdAt: any;
-    readonly id: string | null;
+    readonly id: string | null | undefined;
     readonly maxTokens: number;
     readonly model: string;
     readonly temperature: number;
-    readonly title: string | null;
+    readonly title: string | null | undefined;
     readonly updatedAt: any;
-  } | null;
+  } | null | undefined;
 };
 export type ChatBoxQuery = {
   response: ChatBoxQuery$data;

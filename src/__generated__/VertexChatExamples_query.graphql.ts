@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4df8153c9e8cd781a061e70f6f51ccd4>>
+ * @generated SignedSource<<349469ffacb309baa3464a93225563c7>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,22 +15,22 @@ export type VertexChatExamples_query$data = {
     readonly edges: ReadonlyArray<{
       readonly node: {
         readonly createdAt: any;
-        readonly id: string | null;
+        readonly id: string | null | undefined;
         readonly input: string;
         readonly output: string;
         readonly updatedAt: any;
-      } | null;
-    } | null> | null;
+      } | null | undefined;
+    } | null | undefined> | null | undefined;
     readonly nodes: ReadonlyArray<{
-      readonly id: string | null;
-    } | null> | null;
+      readonly id: string | null | undefined;
+    } | null | undefined> | null | undefined;
     readonly pageInfo: {
-      readonly endCursor: string | null;
+      readonly endCursor: string | null | undefined;
       readonly hasNextPage: boolean;
       readonly hasPreviousPage: boolean;
-      readonly startCursor: string | null;
+      readonly startCursor: string | null | undefined;
     };
-  } | null;
+  } | null | undefined;
   readonly " $fragmentType": "VertexChatExamples_query";
 };
 export type VertexChatExamples_query$key = {

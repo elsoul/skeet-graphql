@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7bb6f82ec9e80fff7daf2c1ccd1e81bd>>
+ * @generated SignedSource<<bdec042b5a34051a0c8de75e476c7b63>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,24 +15,24 @@ export type ChatMenu_query$data = {
     readonly edges: ReadonlyArray<{
       readonly node: {
         readonly createdAt: any;
-        readonly id: string | null;
+        readonly id: string | null | undefined;
         readonly maxTokens: number;
         readonly model: string;
         readonly temperature: number;
-        readonly title: string | null;
+        readonly title: string | null | undefined;
         readonly updatedAt: any;
-      } | null;
-    } | null> | null;
+      } | null | undefined;
+    } | null | undefined> | null | undefined;
     readonly nodes: ReadonlyArray<{
-      readonly id: string | null;
-    } | null> | null;
+      readonly id: string | null | undefined;
+    } | null | undefined> | null | undefined;
     readonly pageInfo: {
-      readonly endCursor: string | null;
+      readonly endCursor: string | null | undefined;
       readonly hasNextPage: boolean;
       readonly hasPreviousPage: boolean;
-      readonly startCursor: string | null;
+      readonly startCursor: string | null | undefined;
     };
-  } | null;
+  } | null | undefined;
   readonly " $fragmentType": "ChatMenu_query";
 };
 export type ChatMenu_query$key = {
