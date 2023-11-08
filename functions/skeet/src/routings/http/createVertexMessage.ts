@@ -1,6 +1,6 @@
 import { onRequest } from 'firebase-functions/v2/https'
 import { publicHttpOption } from '@/routings/options'
-import { TypedRequestBody, CreateVertexMessageParams } from '@/types'
+import { TypedRequestBody } from '@/types'
 import { getUserBearerToken } from '@/lib/getUserAuth'
 import { skeetGraphql } from '@skeet-framework/utils'
 import skeetOptions from '../../../skeetOptions.json'
@@ -26,6 +26,7 @@ import {
   UpdateVertexChatRoomResponse,
   UpdateVertexChatRoomVariables,
 } from '@/queries'
+import { CreateVertexMessageParams } from '@/types/http/createVertexMessageParams'
 
 const SKEET_GRAPHQL_ENDPOINT_URL = defineSecret('SKEET_GRAPHQL_ENDPOINT_URL')
 
