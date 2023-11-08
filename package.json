@@ -26,7 +26,7 @@
     "db:seed": "yarn --cwd ./graphql db:seed",
     "dev": "run-p 'dev:*'",
     "dev:relay": "relay-compiler --watch",
-    "dev:next": "next dev -p 4200 & open http://localhost:4200",
+    "dev:next": "next dev -p 4200",
     "build:production:webapp": "yarn build",
     "build": "relay-compiler && NODE_ENV=production next build",
     "postbuild": "npx ts-node -r tsconfig-paths/register --transpile-only ./scripts/generateSitemap.ts",
