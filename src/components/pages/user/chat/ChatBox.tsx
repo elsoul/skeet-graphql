@@ -12,7 +12,7 @@ import {
 import { useRecoilValue } from 'recoil'
 import { userState } from '@/store/user'
 
-import { GPTModel, chatContentSchema } from '@/utils/form'
+import { GPTModel, chatContentSchema, gptChatRoomName } from '@/utils/form'
 import { fetchSkeetFunctions } from '@/lib/skeet'
 import Image from 'next/image'
 import { ChatRoom } from './ChatMenu'
@@ -249,7 +249,7 @@ export default function ChatBox({
               if (dataString != 'Stream done') {
                 const data = JSON.parse(dataString)
                 setChatMessages((prev) => {
-                  const chunkSize = data.text.length
+                  const chunkSize = data.text?.length
                   if (prev[prev.length - 1].content.length === 0) {
                     prev[prev.length - 1].content =
                       prev[prev.length - 1].content + data.text
@@ -380,7 +380,7 @@ export default function ChatBox({
                     )}
                   {(chatMessage.role === 'assistant' ||
                     chatMessage.role === 'system') &&
-                    chatRoom?.model === 'gpt-4' && (
+                    chatRoom?.model.includes('gpt-4') && (
                       <Image
                         src={
                           'https://storage.googleapis.com/epics-bucket/BuidlersCollective/Legend.png'
@@ -399,7 +399,8 @@ export default function ChatBox({
                           {chatRoom?.title ? chatRoom?.title : t('noTitle')}
                         </p>
                         <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                          {chatRoom?.model}: {chatRoom?.maxTokens} {t('tokens')}
+                          {gptChatRoomName(chatRoom?.model)}:{' '}
+                          {chatRoom?.maxTokens} {t('tokens')}
                         </p>
                       </div>
                     )}
