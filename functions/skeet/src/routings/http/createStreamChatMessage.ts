@@ -5,7 +5,6 @@ import { getUserBearerToken } from '@/lib/getUserAuth'
 import { publicHttpOption } from '@/routings'
 import { defineSecret } from 'firebase-functions/params'
 import { skeetGraphql } from '@skeet-framework/utils'
-import { CreateStreamChatMessageParams } from '@/types'
 import { inspect } from 'util'
 import {
   CreateChatRoomMessageResponse,
@@ -19,6 +18,7 @@ import {
   UpdateChatRoomQuery,
 } from '@/queries'
 import { CreateChatRoomMessageQuery } from '@/queries'
+import { CreateStreamChatMessageParams } from '@/types/http/createStreamChatMessageParams'
 const chatGptOrg = defineSecret('CHAT_GPT_ORG')
 const chatGptKey = defineSecret('CHAT_GPT_KEY')
 const SKEET_GRAPHQL_ENDPOINT_URL = defineSecret('SKEET_GRAPHQL_ENDPOINT_URL')
@@ -33,7 +33,7 @@ export const createStreamChatMessage = onRequest(
     const apiKey = chatGptKey.value()
     if (!organization || !apiKey)
       throw new Error(
-        `ChatGPT organization or apiKey is empty\nPlease run \`skeet add secret CHAT_GPT_ORG/CHAT_GPT_KEY\``
+        `ChatGPT organization or apiKey is empty\nPlease run \`skeet add secret CHAT_GPT_ORG/CHAT_GPT_KEY\``,
       )
 
     // Get Request Body
@@ -61,7 +61,7 @@ export const createStreamChatMessage = onRequest(
         token,
         SKEET_GRAPHQL_ENDPOINT_URL.value(),
         GetUserChatRoomQuery,
-        variables
+        variables,
       )
       console.log(inspect(chatRoom, { depth: null }))
 
@@ -90,7 +90,7 @@ export const createStreamChatMessage = onRequest(
         token,
         SKEET_GRAPHQL_ENDPOINT_URL.value(),
         CreateChatRoomMessageQuery,
-        variables2
+        variables2,
       )
       console.log(inspect(result, { depth: null }))
 
@@ -104,7 +104,7 @@ export const createStreamChatMessage = onRequest(
         token,
         SKEET_GRAPHQL_ENDPOINT_URL.value(),
         GetChatRoomMessagesQuery,
-        variables3
+        variables3,
       )
       console.log(inspect(chatMessages, { depth: null }))
 
@@ -124,7 +124,7 @@ export const createStreamChatMessage = onRequest(
             token,
             SKEET_GRAPHQL_ENDPOINT_URL.value(),
             UpdateChatRoomQuery,
-            variables4
+            variables4,
           )
         }
       }
@@ -143,7 +143,7 @@ export const createStreamChatMessage = onRequest(
       console.log(inspect(prompt, { depth: null }))
 
       // Get OpenAI Stream
-      const stream = await openAi.promptStream(prompt)
+      const stream = await openAi.promptStream(prompt.messages)
       const messageResults: any[] = []
       for await (const part of stream) {
         const message = String(part.choices[0].delta.content)
@@ -163,11 +163,11 @@ export const createStreamChatMessage = onRequest(
         token,
         SKEET_GRAPHQL_ENDPOINT_URL.value(),
         CreateChatRoomMessageQuery,
-        variables5
+        variables5,
       )
       res.end()
     } catch (error) {
       res.status(500).json({ status: 'error', message: String(error) })
     }
-  }
+  },
 )

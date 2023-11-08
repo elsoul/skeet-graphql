@@ -46,5 +46,14 @@
       "minInterval": "1s"
     }
   ],
-  "cloudArmor": []
+  "cloudArmor": [],
+  "ai": {
+    "lang": "ja",
+    "ais": [
+      {
+        "name": "VertexAI",
+        "availableModels": ["chat-bison@001", "chat-bison-32k"]
+      }
+    ]
+  }
 }

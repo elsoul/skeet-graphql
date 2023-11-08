@@ -1,8 +1,8 @@
-import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { auth } from 'firebase-admin'
 import { toGlobalId } from 'graphql-relay'
 import admin from 'firebase-admin'
 import { PrismaClient } from '@prisma/client'
+import { DecodedIdToken } from 'node_modules/firebase-admin/lib/auth/token-verifier'
 admin.initializeApp()
 
 const skeetEnv = process.env.NODE_ENV || 'development'
