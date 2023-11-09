@@ -12,7 +12,7 @@ import {
 import { useRecoilValue } from 'recoil'
 import { userState } from '@/store/user'
 
-import { GPTModel, chatContentSchema, gptChatRoomName } from '@/utils/form'
+import { GPTModel, chatContentSchema, getGptChatModelName } from '@/utils/form'
 import { fetchSkeetFunctions } from '@/lib/skeet'
 import Image from 'next/image'
 import { ChatRoom } from './ChatMenu'
@@ -399,7 +399,7 @@ export default function ChatBox({
                           {chatRoom?.title ? chatRoom?.title : t('noTitle')}
                         </p>
                         <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                          {gptChatRoomName(chatRoom?.model)}:{' '}
+                          {getGptChatModelName(chatRoom?.model)}:{' '}
                           {chatRoom?.maxTokens} {t('tokens')}
                         </p>
                       </div>
