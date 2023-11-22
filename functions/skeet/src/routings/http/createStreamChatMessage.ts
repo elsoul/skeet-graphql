@@ -143,7 +143,7 @@ export const createStreamChatMessage = onRequest(
       console.log(inspect(prompt, { depth: null }))
 
       // Get OpenAI Stream
-      const stream = await openAi.promptStream(prompt)
+      const stream = await openAi.promptStream(messages)
       const messageResults: any[] = []
       for await (const part of stream) {
         const message = String(part.choices[0].delta.content)
