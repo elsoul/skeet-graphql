@@ -34,6 +34,14 @@
     "build.ts",
     "devBuild.ts"
   ],
-  "exclude": ["node_modules", "out", ".next", "build", "dist"],
+  "exclude": [
+    "node_modules",
+    "out",
+    ".next",
+    "build",
+    "dist",
+    "functions",
+    "graphql"
+  ],
   "compileOnSave": false
 }
