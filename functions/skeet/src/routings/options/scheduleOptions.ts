@@ -15,7 +15,6 @@ export const scheduleDefaultOption: ScheduleOptions = {
   maxRetrySeconds: 60,
   minBackoffSeconds: 1,
   maxBackoffSeconds: 10,
-  serviceAccount,
   timeoutSeconds: 540,
   labels: {
     skeet: 'schedule',

@@ -1,7 +1,7 @@
 import { onRequest } from 'firebase-functions/v2/https'
 import { publicHttpOption } from '@/routings/options'
-import { TypedRequestBody } from '@/types'
-import { RootParams } from '@/types/http/rootParams'
+import { TypedRequestBody } from '@common/types'
+import { RootParams } from '@common/types/http/rootParams'
 
 export const root = onRequest(
   publicHttpOption,
@@ -16,5 +16,5 @@ export const root = onRequest(
     } catch (error) {
       res.status(500).json({ status: 'error', message: String(error) })
     }
-  }
+  },
 )

@@ -1,6 +1,6 @@
 import { onRequest } from 'firebase-functions/v2/https'
 import { publicHttpOption } from '@/routings/options'
-import { TypedRequestBody } from '@/types'
+import { TypedRequestBody } from '@common/types'
 import { getUserBearerToken } from '@/lib/getUserAuth'
 import { skeetGraphql } from '@skeet-framework/utils'
 import skeetOptions from '../../../skeetOptions.json'
@@ -26,7 +26,7 @@ import {
   UpdateVertexChatRoomResponse,
   UpdateVertexChatRoomVariables,
 } from '@/queries'
-import { CreateVertexMessageParams } from '@/types/http/createVertexMessageParams'
+import { CreateVertexMessageParams } from '@common/types/http/createVertexMessageParams'
 
 const SKEET_GRAPHQL_ENDPOINT_URL = defineSecret('SKEET_GRAPHQL_ENDPOINT_URL')
 
@@ -52,7 +52,7 @@ export const createVertexMessage = onRequest(
         token,
         SKEET_GRAPHQL_ENDPOINT_URL.value(),
         GetVertexChatRoomQuery,
-        variables
+        variables,
       )
       if (!chatRoom) throw new Error('ChatRoom not found')
 
@@ -81,7 +81,7 @@ export const createVertexMessage = onRequest(
         token,
         SKEET_GRAPHQL_ENDPOINT_URL.value(),
         CreateVertexChatRoomMessageQuery,
-        variables2
+        variables2,
       )
       console.log(inspect(saveUserMessageResult, { depth: null }))
 
@@ -105,7 +105,7 @@ export const createVertexMessage = onRequest(
           token,
           SKEET_GRAPHQL_ENDPOINT_URL.value(),
           UpdateVertexChatRoomQuery,
-          variables3
+          variables3,
         )
         console.log(inspect({ updateTitleResult }, { depth: null }))
       }
@@ -120,7 +120,7 @@ export const createVertexMessage = onRequest(
         token,
         SKEET_GRAPHQL_ENDPOINT_URL.value(),
         GetVertexChatRoomExamplesQuery,
-        variables4
+        variables4,
       )
       console.log(inspect({ examples }, { depth: null }))
       // Send Request to VertexAI
@@ -164,7 +164,7 @@ export const createVertexMessage = onRequest(
           token,
           SKEET_GRAPHQL_ENDPOINT_URL.value(),
           CreateVertexChatRoomMessageQuery,
-          variables5
+          variables5,
         )
         console.log(inspect(saveVertexAiMessageResult, { depth: null }))
         res.end()
@@ -173,5 +173,5 @@ export const createVertexMessage = onRequest(
     } catch (error) {
       res.status(500).json({ status: 'error', message: String(error) })
     }
-  }
+  },
 )
