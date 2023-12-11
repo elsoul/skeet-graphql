@@ -1,6 +1,6 @@
 import { onRequest } from 'firebase-functions/v2/https'
 import { OpenAI, OpenAIMessage, OpenAIOptions } from '@skeet-framework/ai'
-import { TypedRequestBody } from '@/types'
+import { TypedRequestBody } from '@common/types'
 import { getUserBearerToken } from '@/lib/getUserAuth'
 import { publicHttpOption } from '@/routings'
 import { defineSecret } from 'firebase-functions/params'
@@ -18,7 +18,7 @@ import {
   UpdateChatRoomQuery,
 } from '@/queries'
 import { CreateChatRoomMessageQuery } from '@/queries'
-import { CreateStreamChatMessageParams } from '@/types/http/createStreamChatMessageParams'
+import { CreateStreamChatMessageParams } from '@common/types/http/createStreamChatMessageParams'
 const chatGptOrg = defineSecret('CHAT_GPT_ORG')
 const chatGptKey = defineSecret('CHAT_GPT_KEY')
 const SKEET_GRAPHQL_ENDPOINT_URL = defineSecret('SKEET_GRAPHQL_ENDPOINT_URL')
