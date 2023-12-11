@@ -2,7 +2,6 @@ import type { ReactNode } from 'react'
 import { useMemo, useCallback, useEffect, useState, Fragment } from 'react'
 import { Transition, Dialog, Menu } from '@headlessui/react'
 import { XMarkIcon, Bars3BottomLeftIcon } from '@heroicons/react/24/outline'
-import { useRouter } from 'next/router'
 import clsx from 'clsx'
 import { userHeaderNav, userMenuNav } from '@/config/navs'
 import { useTranslation } from 'next-i18next'
@@ -16,6 +15,7 @@ import Image from 'next/image'
 import { fetchQuery, graphql } from 'react-relay'
 import { UserLayoutQuery } from '@/__generated__/UserLayoutQuery.graphql'
 import { createEnvironment } from '@/lib/relayEnvironment'
+import useI18nRouter from '@/hooks/useI18nRouter'
 
 type Props = {
   children: ReactNode
@@ -34,7 +34,7 @@ export const userLayoutQuery = graphql`
 `
 
 export default function UserLayout({ children }: Props) {
-  const router = useRouter()
+  const { router, routerPush } = useI18nRouter()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { t } = useTranslation()
 
@@ -70,7 +70,7 @@ export default function UserLayout({ children }: Props) {
         const user = await fetchQuery<UserLayoutQuery>(
           createEnvironment(),
           userLayoutQuery,
-          {}
+          {},
         ).toPromise()
         if (user?.me?.id) {
           setUser({
@@ -84,14 +84,14 @@ export default function UserLayout({ children }: Props) {
         } else {
           setUser(defaultUser)
           await signOut(auth)
-          await router.push('/auth/login')
+          await routerPush('/auth/login')
         }
       } else {
         setUser(defaultUser)
-        await router.push('/auth/login')
+        await routerPush('/auth/login')
       }
     },
-    [setUser, router]
+    [setUser, routerPush],
   )
 
   useEffect(() => {
@@ -171,7 +171,7 @@ export default function UserLayout({ children }: Props) {
                             asPathWithoutLang === item.href
                               ? 'bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-white'
                               : 'text-gray-700 hover:bg-gray-50 dark:text-gray-50 dark:hover:bg-gray-800',
-                            'group flex items-center px-2 py-2 text-base font-medium'
+                            'group flex items-center px-2 py-2 text-base font-medium',
                           )}
                         >
                           {item.icon && (
@@ -180,7 +180,7 @@ export default function UserLayout({ children }: Props) {
                                 asPathWithoutLang === item.href
                                   ? 'text-gray-900 dark:text-white'
                                   : 'text-gray-700 dark:text-gray-50',
-                                'mr-4 h-6 w-6 flex-shrink-0'
+                                'mr-4 h-6 w-6 flex-shrink-0',
                               )}
                               aria-hidden="true"
                             />
@@ -212,7 +212,7 @@ export default function UserLayout({ children }: Props) {
                       asPathWithoutLang === item.href
                         ? 'bg-gray-50 text-gray-900 dark:bg-gray-700 dark:text-white'
                         : 'text-gray-700 hover:bg-gray-50 dark:text-gray-50 dark:hover:bg-gray-800',
-                      'group flex items-center px-2 py-2 text-sm font-medium'
+                      'group flex items-center px-2 py-2 text-sm font-medium',
                     )}
                   >
                     {item.icon && (
@@ -221,7 +221,7 @@ export default function UserLayout({ children }: Props) {
                           asPathWithoutLang === item.href
                             ? 'text-gray-900  dark:text-white'
                             : 'text-gray-700 dark:text-gray-50',
-                          'mr-3 h-6 w-6 flex-shrink-0'
+                          'mr-3 h-6 w-6 flex-shrink-0',
                         )}
                         aria-hidden="true"
                       />
@@ -285,7 +285,7 @@ export default function UserLayout({ children }: Props) {
                               active
                                 ? 'bg-gray-50 text-gray-900 dark:bg-gray-700 dark:text-white'
                                 : '',
-                              'block px-4 py-2 text-sm text-gray-700 dark:text-gray-50'
+                              'block px-4 py-2 text-sm text-gray-700 dark:text-gray-50',
                             )}
                           >
                             {t(item.name)}
@@ -306,7 +306,7 @@ export default function UserLayout({ children }: Props) {
                             active
                               ? 'bg-gray-50 text-gray-900 dark:bg-gray-700 dark:text-white'
                               : '',
-                            'block px-4 py-2 text-sm text-gray-700 hover:cursor-pointer dark:text-gray-50'
+                            'block px-4 py-2 text-sm text-gray-700 hover:cursor-pointer dark:text-gray-50',
                           )}
                         >
                           {t('logout')}

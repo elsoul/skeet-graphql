@@ -2,16 +2,14 @@ import type { ReactNode } from 'react'
 import { useEffect, useCallback } from 'react'
 import CommonFooter from '@/layouts/common/CommonFooter'
 import { User, signOut } from 'firebase/auth'
-
 import { fetchQuery, graphql } from 'react-relay'
-
-import { useRouter } from 'next/router'
 import AuthHeader from './AuthHeader'
 import { useRecoilState } from 'recoil'
 import { defaultUser, userState } from '@/store/user'
 import { auth } from '@/lib/firebase'
 import { createEnvironment } from '@/lib/relayEnvironment'
 import { AuthLayoutQuery } from '@/__generated__/AuthLayoutQuery.graphql'
+import useI18nRouter from '@/hooks/useI18nRouter'
 
 type Props = {
   children: ReactNode
@@ -30,7 +28,7 @@ export const authLayoutQuery = graphql`
 `
 
 export default function AuthLayout({ children }: Props) {
-  const router = useRouter()
+  const { router, routerPush } = useI18nRouter()
 
   const resetWindowScrollPosition = useCallback(() => {
     const element = document.getElementById(mainContentId)
@@ -59,7 +57,7 @@ export default function AuthLayout({ children }: Props) {
         const user = await fetchQuery<AuthLayoutQuery>(
           createEnvironment(),
           authLayoutQuery,
-          {}
+          {},
         ).toPromise()
         if (user?.me?.id) {
           setUser({
@@ -70,7 +68,7 @@ export default function AuthLayout({ children }: Props) {
             iconUrl: user.me.iconUrl ?? '',
             emailVerified: fbUser.emailVerified,
           })
-          await router.push('/user/vertex-ai')
+          await routerPush('/user/vertex-ai')
         } else {
           setUser(defaultUser)
           await signOut(auth)
@@ -79,7 +77,7 @@ export default function AuthLayout({ children }: Props) {
         setUser(defaultUser)
       }
     },
-    [setUser, router]
+    [setUser, routerPush],
   )
 
   useEffect(() => {

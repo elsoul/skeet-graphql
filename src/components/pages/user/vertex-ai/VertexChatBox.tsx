@@ -174,7 +174,6 @@ export default function ChatBox({
   useEffect(() => {
     getChatRoom()
   }, [getChatRoom])
-  console.log(data)
 
   const [isSending, setSending] = useState(false)
 

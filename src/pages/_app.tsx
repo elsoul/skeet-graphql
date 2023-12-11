@@ -31,6 +31,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
         ))}
       </Head>
       <RecoilRoot>
+        {/* @ts-ignore */}
         <RelayEnvironmentProvider environment={createEnvironment()}>
           <ThemeProvider attribute="class">
             <main className="min-h-screen scroll-smooth font-sans antialiased">
