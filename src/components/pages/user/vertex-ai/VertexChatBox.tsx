@@ -38,7 +38,7 @@ import {
   VertexChatBoxQuery$variables,
 } from '@/__generated__/VertexChatBoxQuery.graphql'
 import { sleep } from '@/utils/time'
-import { CreateVertexMessageParams } from '@common/types/http/skeet/createVertexMessageParams'
+import { CreateVertexMessageParams } from '@common/types/http/createVertexMessageParams'
 import VertexChatExamples from './VertexChatExamples'
 
 type ChatMessage = {
