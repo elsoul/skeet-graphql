@@ -2,13 +2,11 @@ import type { ReactNode } from 'react'
 import { useEffect, useCallback } from 'react'
 import CommonFooter from '@/layouts/common/CommonFooter'
 import { User, signOut } from 'firebase/auth'
-import { fetchQuery, graphql } from 'react-relay'
+import { graphql } from 'react-relay'
 import AuthHeader from './AuthHeader'
 import { useRecoilState } from 'recoil'
 import { defaultUser, userState } from '@/store/user'
 import { auth } from '@/lib/firebase'
-import { createEnvironment } from '@/lib/relayEnvironment'
-import { AuthLayoutQuery } from '@/__generated__/AuthLayoutQuery.graphql'
 import useI18nRouter from '@/hooks/useI18nRouter'
 
 type Props = {
@@ -54,27 +52,13 @@ export default function AuthLayout({ children }: Props) {
   const onAuthStateChanged = useCallback(
     async (fbUser: User | null) => {
       if (auth && fbUser && fbUser.emailVerified) {
-        const user = await fetchQuery<AuthLayoutQuery>(
-          createEnvironment(),
-          authLayoutQuery,
-          {},
-        ).toPromise()
-        if (user?.me?.id) {
-          setUser({
-            id: user.me.id,
-            uid: fbUser.uid,
-            email: fbUser.email ?? '',
-            username: user.me.username ?? '',
-            iconUrl: user.me.iconUrl ?? '',
-            emailVerified: fbUser.emailVerified,
-          })
+        try {
           await routerPush('/user/vertex-ai')
-        } else {
+        } catch (e) {
+          console.error(e)
           setUser(defaultUser)
           await signOut(auth)
         }
-      } else {
-        setUser(defaultUser)
       }
     },
     [setUser, routerPush],
