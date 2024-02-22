@@ -20,6 +20,14 @@
   </a>
 </p>
 
+# 🚧Deprecated🚧 Introducing the New Skeet Framework
+
+We're excited to announce that Skeet Framework is now embracing a serverless architecture, offering simpler, more flexible APIs and support for multiple SQL structures.
+
+Explore the new possibilities with our enhanced framework in our latest repository.
+
+Skeet: https://github.com/elsoul/skeet
+
 ## Skeet GraphQL Boilerplate
 
 - [Prisma - ORM](https://www.prisma.io/)
