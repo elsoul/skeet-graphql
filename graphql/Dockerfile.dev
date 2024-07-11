@@ -1,4 +1,4 @@
-FROM node:20.11-alpine AS build
+FROM node:20.15-alpine AS build
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ RUN yarn install --frozen-lockfile
 RUN npx prisma generate
 RUN yarn devBuild
 
-FROM node:20.11-alpine
+FROM node:20.15-alpine
 
 WORKDIR /app
 
